@@ -1,7 +1,8 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import router from "./routes";
+import { authTokens } from "./controllers/user";
 
 const app : Application = express();
 
@@ -10,6 +11,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // To parse cookies from the HTTP Request
 app.use(cookieParser());
+
+app.use((req : Request, res : Response, next : NextFunction) => {
+    // Get auth token from the cookies
+    let authToken : string = req.cookies['AuthToken'];
+
+    // If token is not in cookie and in header
+    if (!authToken) authToken = req.headers["authorization"] as string;
+
+    // Inject the user to the request
+    req.body.user = authTokens.get(authToken);
+
+    next();
+});
 
 app.get("/", (req : Request, res : Response) => {
     res.send("hello");

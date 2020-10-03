@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from "express";
+import express, { Router, Request, Response, NextFunction } from "express";
 import crypto from "crypto";
 
 interface User {
@@ -23,6 +23,20 @@ function getHashedPassword(password : string) : string {
     const hash = sha256.update(password).digest('base64');
     return hash;
 }
+
+function generateAuthToken() : string {
+    return crypto.randomBytes(30).toString('hex');
+}
+
+export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
+    console.log(authTokens);
+    if (req.body.user) {
+        next();
+    } else {
+        res.send(403);
+    }
+};
+
 
 const router : Router = express.Router();
 
@@ -53,6 +67,38 @@ router.post("/register", (req : Request, res : Response) => {
     } else {
         res.sendStatus(403);
     }
+});
+
+// This will hold the users and authToken related to users
+export const authTokens : Map<String, User> = new Map<String,User>();
+
+router.post('/login', (req : Request, res : Response) => {
+    const { email, password } = req.body;
+    const hashedPassword : string = getHashedPassword(password);
+
+    const user : User | undefined = users.find(u => {
+        return u.email === email && hashedPassword === u.password
+    });
+
+    if (user) {
+        const authToken = generateAuthToken();
+
+        // Store authentication token
+        authTokens.set(authToken, user);
+
+        // Setting the auth token in cookies
+        res.cookie('AuthToken', authToken);
+
+        // Sending the auth token in body as well
+        res.send({"AuthToken": authToken});
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+// Example function that requires authentication
+router.get("/:email", requireAuth, (req : Request, res : Response) => {
+    res.send(req.body.user);
 });
 
 export default router;
