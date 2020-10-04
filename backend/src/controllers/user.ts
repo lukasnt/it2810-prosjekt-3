@@ -41,6 +41,7 @@ export function requireAuth(req : Request, res : Response, next : NextFunction) 
 const router : Router = express.Router();
 
 router.post("/register", (req : Request, res : Response) => {
+    console.log(req.body);
     const { email, firstName, lastName, password, confirmPassword } = req.body;
 
     // Check if the password and confirm password fields match

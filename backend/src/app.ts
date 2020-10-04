@@ -3,14 +3,22 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import router from "./routes";
 import { authTokens } from "./controllers/user";
+import cors from "cors";
 
 const app : Application = express();
 
+
 // To support URL-encoded bodies
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true , type: 'application/x-www-form-urlencoded'}));
+
+// To support JSON-encoded bodies
+app.use(bodyParser.json({ type: 'application/json' }))
 
 // To parse cookies from the HTTP Request
 app.use(cookieParser());
+
+// Enable cors-headers
+app.use(cors());
 
 app.use((req : Request, res : Response, next : NextFunction) => {
     // Get auth token from the cookies
@@ -31,6 +39,6 @@ app.get("/", (req : Request, res : Response) => {
 
 app.use("/api", router);
 
-app.listen(3000, () => {
-    console.log("App listening at http://localhost:3000");
+app.listen(8080, () => {
+    console.log("App listening at http://localhost:8080");
 });
