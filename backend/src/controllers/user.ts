@@ -91,7 +91,12 @@ router.post('/login', (req : Request, res : Response) => {
         res.cookie('AuthToken', authToken);
 
         // Sending the auth token in body as well
-        res.send({"AuthToken": authToken});
+        res.send({
+            "authToken": authToken,
+            "email"    : user.email,
+            "firstName": user.firstName,
+            "lastName" : user.lastName
+        });
     } else {
         res.sendStatus(403);
     }
