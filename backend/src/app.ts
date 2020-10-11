@@ -4,9 +4,14 @@ import cookieParser from "cookie-parser";
 import router from "./routes";
 import { authTokens } from "./controllers/user";
 import cors from "cors";
+import { connect, db } from "./data/database";
+import { addUser } from "./data/user";
+
 
 const app : Application = express();
 
+// Connect to Database
+connect();
 
 // To support URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true , type: 'application/x-www-form-urlencoded'}));

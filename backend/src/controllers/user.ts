@@ -1,12 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import crypto from "crypto";
-
-interface User {
-    firstName : string;
-    lastName : string;
-    email : string;
-    password : string;
-}
+import { addUser, User } from "../data/user";
 
 const users : Array<User> = [
     {
@@ -55,8 +49,8 @@ router.post("/register", (req : Request, res : Response) => {
 
         const hashedPassword : string = getHashedPassword(password);
 
-        // Store user into the database if you are using one
-        users.push({
+        // Store user into the database
+        addUser({
             firstName,
             lastName,
             email,
