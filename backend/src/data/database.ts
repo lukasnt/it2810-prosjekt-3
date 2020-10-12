@@ -6,3 +6,4 @@ export function connect() : void {
 }
 
 export let db : Connection = mongoose.connection;
+
