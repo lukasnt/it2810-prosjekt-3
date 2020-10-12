@@ -35,6 +35,6 @@ const Registration : React.FunctionComponent = () => {
         <Button variant="contained" color="primary" onClick={register}> Register </Button>
       </Paper>
   );
-}
+};
 
 export default Registration;

@@ -29,6 +29,6 @@ const Login : React.FunctionComponent = () => {
             <Button variant="contained" color="primary" onClick={login}> Login </Button>
         </Paper>
     );
-}
+};
 
 export default Login;
