@@ -44,7 +44,7 @@ export async function getAllUsers() : Promise<Array<User>> {
 // UserSchema.index({"$**": "text"}); // Only created once
 export async function searchUsers(query : string) : Promise<Array<User>> {
     return UserModel.find(
-        { $text: { $search: "lukas"} },
+        { $text: { $search: query} },
         { score: { $meta: "textScore" }})
     .sort({score: {$meta: 'textScore'}});
 }

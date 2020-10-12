@@ -11,7 +11,7 @@ const app : Application = express();
 
 // Connect to Database
 connect();
-searchUsers("123").then(docs => console.log(docs));
+searchUsers("lukas").then(docs => console.log(docs));
 
 // To support URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true , type: 'application/x-www-form-urlencoded'}));
