@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Button} from "@material-ui/core";
+import { Link } from "react-router-dom"
 
 /* Modified component supplied by https://material-ui.com/components/app-bar/ */
 
@@ -29,6 +30,7 @@ const NavigationBar : React.FunctionComponent = () => {
                     <Typography variant="h6" className="title">
                         A Movie Database
                     </Typography>
+                    <Link className="link" to="/"><Button color="inherit">Search movies</Button></Link>
                     {auth && (
                         <div>
                             <IconButton
@@ -41,8 +43,8 @@ const NavigationBar : React.FunctionComponent = () => {
                             </IconButton>
                         </div>
                     )}
-                    <Button color="inherit">Register</Button>
-                    <Button color="inherit">Login</Button>
+                    <Link className="link" to="/registration"><Button color="inherit">Register</Button></Link>
+                    <Link className="link" to="/login"><Button color="inherit">Login</Button></Link>
                 </Toolbar>
             </AppBar>
         </div>
