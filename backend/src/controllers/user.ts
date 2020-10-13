@@ -1,12 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import crypto from "crypto";
-
-interface User {
-    firstName : string;
-    lastName : string;
-    email : string;
-    password : string;
-}
+import { addUser, findUser, User } from "../data/user";
 
 const users : Array<User> = [
     {
@@ -57,15 +51,15 @@ router.post("/register", (req : Request, res : Response) => {
     if (password === confirmPassword) {
 
         // Check if user with the same email is also registered
-        if (users.find(user => user.email === email)) {
+        if (findUser(req.body.email)) {
             res.sendStatus(403);
             return;
         }
 
         const hashedPassword : string = getHashedPassword(password);
 
-        // Store user into the database if you are using one
-        users.push({
+        // Store user into the database
+        addUser({
             firstName,
             lastName,
             email,
@@ -82,33 +76,26 @@ router.post("/register", (req : Request, res : Response) => {
 router.post('/login', (req : Request, res : Response) => {
     const { email, password } = req.body;
     const hashedPassword : string = getHashedPassword(password);
-
-    const user : User | undefined = users.find(u => {
-        return u.email === email && hashedPassword === u.password
-    });
-
-    if (user) {
-        // Remove tokens already in use
-        removeTokens(user);
-
-        const authToken = generateAuthToken();
-
-        // Store authentication token
-        authTokens.set(authToken, user);
-
-        // Setting the auth token in cookies
-        res.cookie('AuthToken', authToken);
-
-        // Sending the auth token in body as well
-        res.send({
-            "authToken": authToken,
-            "email"    : user.email,
-            "firstName": user.firstName,
-            "lastName" : user.lastName
-        });
-    } else {
-        res.sendStatus(403);
-    }
+    
+    findUser(email).then(user => {
+        if (user != null && user.password == hashedPassword) {
+            // Remove tokens already in use
+            removeTokens(user);
+            
+            const authToken = generateAuthToken();
+    
+            // Store authentication token
+            authTokens.set(authToken, user);
+    
+            // Setting the auth token in cookies
+            res.cookie('AuthToken', authToken);
+    
+            // Sending the auth token in body as well
+            res.send({"AuthToken": authToken});
+        } else {
+            res.sendStatus(403);
+        }
+    })
 });
 
 router.post('/logout', requireAuth, (req : Request, res : Response) => {
