@@ -1,0 +1,12 @@
+.movie-card {
+    max-width: 275px;
+}
+
+.movie-card-media {
+    height: 200px;
+}
+
+.movie-grid {
+    padding: 10px;
+    margin: 10px;
+}
