@@ -20,5 +20,4 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
         </div>
     );
 };
-
 export default MovieGrid;
