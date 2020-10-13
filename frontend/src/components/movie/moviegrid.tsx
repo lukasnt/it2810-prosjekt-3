@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 import MovieCard, { MovieCardProps } from './moviecard';
 import { Grid } from '@material-ui/core';
 
@@ -14,10 +13,12 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
     }
 
     return (
-        <Grid container spacing={2}>
-            {generateMovieCards()}
-        </Grid>
+        <div className="movieGrid">
+            <Grid container spacing={2}>
+                {generateMovieCards()}
+            </Grid>
+        </div>
     );
-}
+};
 
 export default MovieGrid;

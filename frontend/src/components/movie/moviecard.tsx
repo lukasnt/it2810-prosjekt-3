@@ -1,5 +1,4 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
-import './index.css';
 import React from 'react';
 
 export interface MovieCardProps {
@@ -32,6 +31,6 @@ const MovieCard : React.FunctionComponent<MovieCardProps> = ({ title, imageUrl, 
             </CardActions>
         </Card>
     );
-}
+};
 
 export default MovieCard;

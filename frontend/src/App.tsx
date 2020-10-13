@@ -5,7 +5,7 @@ import MovieGrid from './components/movie/moviegrid';
 import { testMovies } from './components/movie/testmovies';
 import Registration from './components/registration';
 import NavigationBar from "./components/navigation/navigationbar";
-//import FilterList from "./components/search/filterlist";
+import FilterList from "./components/filters/filterlist";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           </Route>
           <Route path="/">
             <div className="movieView">
-              {/*<FilterList name="Genre" filters={["action","comedy","drama"]}/>*/}
+              <FilterList />
               <MovieGrid data={testMovies}/>
             </div>
           </Route>
