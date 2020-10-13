@@ -39,10 +39,25 @@ export interface MovieDocument extends Movie, Document {};
 export const MovieModel = model<MovieDocument>("movies", MovieSchema);
 
 // MovieSchema.index({"$**": "text"}); // Only created once
-export async function searchMovies(query : string) : Promise<Array<Movie>> {
+export async function searchMovies(
+     query : string,
+     page : number = 1,
+     pageSize : number = 50,
+     orderField : string = "relevance",
+     orderDir : number = 1,
+     filters : Array<string> = []) : Promise<Array<Movie>>
+{
     return MovieModel.find(
         { $text: { $search: query} },
         { score: { $meta: "textScore" }})
-    .sort({score: {$meta: 'textScore'}})
-    .limit(50);
+    .sort(getSortOrder(orderField, orderDir))
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+}
+
+function getSortOrder(field : string, dir : number) : any {
+    if (field.toLocaleLowerCase() == "relevance")
+        return { score: { $meta: "textScore" }};
+    else
+        return JSON.parse("{ \"" + field + "\" : " + dir.toString() + "}");
 }
