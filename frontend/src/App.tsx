@@ -4,15 +4,16 @@ import Login from './components/login';
 import MovieGrid from './components/movie/moviegrid';
 import { testMovies } from './components/movie/testmovies';
 import Registration from './components/registration';
+import { Provider } from "react-redux";
+import { store } from "./components/utils/store";
 
 function App() {
   return (
-    <div className="movie-grid">
-      <MovieGrid data={testMovies}/>
-      <Login />
-      <Registration />
-    </div>
-  );
+      <Provider store={store}>
+        <Login />
+        <Registration />
+      </Provider>
+    );
 }
 
 export default App;
