@@ -46,7 +46,9 @@ export function searchParamsReducer(state : SearchParams = {
             break;
     }
     if (updated) {
-        fetch("http://localhost:8080/api/movie/search?query=" + state.query)
+        fetch("http://localhost:8080/api/movie/search?" + 
+            "query=" + state.query + "&" +
+            "filters=" + state.filters)
             .then(res => res.json())
             .then(data => {
                 store.dispatch(setMovies(data))

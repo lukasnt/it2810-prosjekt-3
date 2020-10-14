@@ -43,13 +43,23 @@ export async function searchMovies(
      query : string,
      page : number = 1,
      pageSize : number = 50,
-     orderField : string = "relevance",
+     orderField : string = "primaryTitle",
      orderDir : number = 1,
      filters : Array<string> = []) : Promise<Array<Movie>>
 {
+    let mongoQuery : any = { };
+    let mongoProjection : any = { };
+    if (query != "") {
+        mongoQuery.$text = { $search: query};
+        mongoProjection.score = { $meta: "textScore" };
+    } else {
+        orderField = orderField == "relevance" ? "primaryTitle" : orderField;
+    }
+    if (filters[0] != "") mongoQuery.genres = { $in: getAllFilterPermutations(filters) };
+
     return MovieModel.find(
-        { $text: { $search: query} },
-        { score: { $meta: "textScore" }})
+        mongoQuery,
+        mongoProjection)
     .sort(getSortOrder(orderField, orderDir))
     .skip((page - 1) * pageSize)
     .limit(pageSize);
@@ -60,4 +70,18 @@ function getSortOrder(field : string, dir : number) : any {
         return { score: { $meta: "textScore" }};
     else
         return JSON.parse("{ \"" + field + "\" : " + dir.toString() + "}");
+}
+
+function getAllFilterPermutations(filters : Array<string>) : Array<string> {
+    let result : Array<string> = [];
+    if (filters.length == 1) return filters;
+    for (let i = 0; i < filters.length; i++) {
+        let perms : Array<string> = getAllFilterPermutations(filters.slice(0, i).concat(filters.slice(i + 1, filters.length)));
+
+        for (let j = 0; j < perms.length; j++) {
+            perms[j] = filters[i] + "," + perms[j];
+        }
+        result = result.concat(perms);
+    }
+    return result;
 }
