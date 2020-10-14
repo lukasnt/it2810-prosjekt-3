@@ -8,6 +8,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Button} from "@material-ui/core";
 import { Link } from "react-router-dom"
+import { User } from '../utils/reducers/user';
+import { useSelector } from 'react-redux';
+import { AppState } from '../utils/store';
 
 /* Modified component supplied by https://material-ui.com/components/app-bar/ */
 
@@ -18,7 +21,8 @@ const NavigationBar : React.FunctionComponent = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
      */
-    let auth : boolean = true;
+
+  const user : User | null = useSelector((state : AppState) => state.user);
 
     return (
         <div className="root">
@@ -31,7 +35,7 @@ const NavigationBar : React.FunctionComponent = () => {
                         A Movie Database
                     </Typography>
                     <Link className="link" to="/"><Button color="inherit">Search movies</Button></Link>
-                    {auth && (
+                    {user != null ? (
                         <div>
                             <IconButton
                                 aria-label="account of current user"
@@ -41,10 +45,14 @@ const NavigationBar : React.FunctionComponent = () => {
                             >
                                 <AccountCircle />
                             </IconButton>
+                            <Link className="link" to="/login"><Button color="inherit">Logout</Button></Link>
+                        </div>
+                    ) : (
+                        <div>
+                            <Link className="link" to="/registration"><Button color="inherit">Register</Button></Link>
+                            <Link className="link" to="/login"><Button color="inherit">Login</Button></Link>
                         </div>
                     )}
-                    <Link className="link" to="/registration"><Button color="inherit">Register</Button></Link>
-                    <Link className="link" to="/login"><Button color="inherit">Login</Button></Link>
                 </Toolbar>
             </AppBar>
         </div>

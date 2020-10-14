@@ -8,14 +8,12 @@ import {
     ListSubheader, TextField
 } from "@material-ui/core";
 
-/*
 export interface FilterProps {
     filtertype : string;
     filters : string[];
 }
- */
 
-const FilterList = () => {
+const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters} ) => {
     //State for checkboxes, will probably use redux instead
     const [checked, setChecked] = React.useState([0]);
 
@@ -32,17 +30,13 @@ const FilterList = () => {
         setChecked(newChecked);
     };
 
-    /* Dummy data, to be given by props */
-    const filterType = "Genre";
-    const filterValues =["Action", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Thriller", "Western"];
-
+    
     return (
         <div className="filterList">
-            <TextField id="movietitle-searchfield" label="Search movie" />
-            <List dense subheader={<ListSubheader>{filterType}</ListSubheader>}>
-            {filterValues.map((filter:string) => {
+            <List dense subheader={<ListSubheader>{filtertype}</ListSubheader>}>
+            {filters.map((filter:string) => {
                 const labelId = `checkbox-list-label-${filter}`;
-                const index = filterValues.indexOf(filter);
+                const index = filters.indexOf(filter);
                 return (
                     <ListItem key={index} role={undefined} dense button onClick={handleToggle(index)}>
                         <ListItemIcon>

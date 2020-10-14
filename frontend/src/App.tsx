@@ -7,13 +7,22 @@ import FilterList from "./components/filters/filterlist";
 import MovieGrid from './components/movie/moviegrid';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import { testMovies } from './components/movie/testmovies';
-import { Provider } from "react-redux";
-import { store } from "./components/utils/store";
+import { Provider, useSelector } from "react-redux";
+import { AppState, store } from "./components/utils/store";
+import Search from './components/search';
+import { SearchParams } from './components/utils/reducers/searchparams';
+import { Movie } from './components/utils/reducers/movies';
 
 
 function App() {
+    
+  const movies : Array<Movie> | null = useSelector((state : AppState) => state.movies);
+
+    /* Dummy data, to be given by props */
+    const filterType = "Genre";
+    const filterValues =["Action", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Thriller", "Western"];
+
   return (
-      <Provider store={store}>
           <BrowserRouter>
               <NavigationBar/>
               <Switch>
@@ -24,14 +33,14 @@ function App() {
                       <Registration />
                   </Route>
                   <Route path="/">
+                      <Search />
                       <div className="movieView">
-                          <FilterList />
-                          <MovieGrid data={testMovies}/>
+                          <FilterList filtertype={filterType} filters={filterValues}/>
+                          <MovieGrid data={movies == null ? [] : movies}/>
                       </div>
                   </Route>
               </Switch>
           </BrowserRouter>
-      </Provider>
   );
 }
 

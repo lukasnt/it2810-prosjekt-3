@@ -3,7 +3,9 @@ import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../utils/ajax';
-import { AppState, setUser, User } from '../utils/store';
+import { setUser } from '../utils/actions/users';
+import { User } from '../utils/reducers/user';
+import { AppState } from '../utils/store';
 import './index.css';
 
 const Login : React.FunctionComponent = () => {
