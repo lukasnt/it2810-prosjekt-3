@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 import { User } from '../utils/reducers/user';
 import { useSelector } from 'react-redux';
 import { AppState } from '../utils/store';
+import Logout from '../logout';
 
 /* Modified component supplied by https://material-ui.com/components/app-bar/ */
 
@@ -45,7 +46,7 @@ const NavigationBar : React.FunctionComponent = () => {
                             >
                                 <AccountCircle />
                             </IconButton>
-                            <Link className="link" to="/login"><Button color="inherit">Logout</Button></Link>
+                            <Logout />
                         </div>
                     ) : (
                         <div>

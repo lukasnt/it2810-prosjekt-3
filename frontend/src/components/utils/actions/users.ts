@@ -1,7 +1,7 @@
 import { User } from "../reducers/user";
 
 //Funksjoner som returnerer action-objekter
-export function setUser(user : User) {
+export function setUser(user : User | null) {
     return {
         type: "SET_USER",
         payload: user

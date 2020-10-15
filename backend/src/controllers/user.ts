@@ -27,8 +27,9 @@ function generateAuthToken() : string {
 
 function removeTokens(user : User) {
     for (let token in authTokens.keys()) {
-        if ((authTokens.get(token) as User).email === user.email) authTokens.delete(token);
+        if ((authTokens.get(token) as User).email == user.email) authTokens.delete(token);
     }
+    console.log(authTokens);
 }
 
 export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
@@ -44,18 +45,21 @@ export function requireAuth(req : Request, res : Response, next : NextFunction) 
 const router : Router = express.Router();
 
 router.post("/register", (req : Request, res : Response) => {
-    console.log(req.body);
     const { email, firstName, lastName, password, confirmPassword } = req.body;
 
     // Check if the password and confirm password fields match
     if (password === confirmPassword) {
 
         // Check if user with the same email is also registered
-        if (findUser(req.body.email)) {
-            res.sendStatus(403);
-            return;
-        }
-
+        
+        findUser(req.body.email)
+            .then(user => {
+                if (user) {
+                    res.sendStatus(403);
+                    return;
+                }
+            });
+        
         const hashedPassword : string = getHashedPassword(password);
 
         // Store user into the database
@@ -67,7 +71,6 @@ router.post("/register", (req : Request, res : Response) => {
         });
 
         res.sendStatus(201);
-        console.log(users);
     } else {
         res.sendStatus(403);
     }
@@ -91,7 +94,12 @@ router.post('/login', (req : Request, res : Response) => {
             res.cookie('AuthToken', authToken);
     
             // Sending the auth token in body as well
-            res.send({"AuthToken": authToken});
+            res.send({
+                authToken: authToken,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            });
         } else {
             res.sendStatus(403);
         }
@@ -100,6 +108,7 @@ router.post('/login', (req : Request, res : Response) => {
 
 router.post('/logout', requireAuth, (req : Request, res : Response) => {
     removeTokens(req.body.user);
+    res.sendStatus(200);
 });
 
 // Example function that requires authentication

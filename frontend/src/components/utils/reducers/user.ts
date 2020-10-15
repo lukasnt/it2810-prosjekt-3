@@ -9,20 +9,31 @@ export type User = {
 };
 
 //Reducer-funksjonen, initialiserer store med user
-export function userReducer(state : User | null = null, action: UserActions) {
+export function userReducer(state : User | null = getUserFromLocalStorage(), action: UserActions) {
+    let updated : boolean = true;
     switch (action.type) {
         case "SET_USER":
-            return state = ({ 
-                    email: action.payload.email, 
-                    firstName: action.payload.firstName,
-                    lastName: action.payload.lastName,
-                    token: action.payload.token 
-                });
+            state = action.payload;
+            break;
         case "REMOVE_USER":
-            return state = null;
+            state = null;
+            break;
         default:
-            neverReached(action);
+            updated = false;
     }
+
+    if (updated) {
+        console.log(state);
+        console.log("stringyfy state:" + JSON.stringify(state));
+        localStorage.setItem("user", JSON.stringify(state));
+    }
+
     return state;
 }
+
+function getUserFromLocalStorage() : User | null {
+    let value : string | null = localStorage.getItem("user");
+    return value == null ? value : JSON.parse(value) as User;
+}
+
 function neverReached(never: never) {}

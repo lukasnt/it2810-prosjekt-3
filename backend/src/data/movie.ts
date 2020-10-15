@@ -50,7 +50,7 @@ export async function searchMovies(
     let mongoQuery : any = { };
     let mongoProjection : any = { };
     if (query != "") {
-        mongoQuery.$text = { $search: query};
+        mongoQuery.$text = { $search: query };
         mongoProjection.score = { $meta: "textScore" };
     } else {
         orderField = orderField == "relevance" ? "primaryTitle" : orderField;

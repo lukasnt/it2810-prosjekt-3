@@ -17,3 +17,10 @@ export async function postData(url = '', data = {}, token = "") : Promise<Respon
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
   }
+
+  function handleErrors(response : Response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
