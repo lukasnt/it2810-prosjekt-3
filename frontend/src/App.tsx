@@ -6,11 +6,9 @@ import NavigationBar from "./components/navigation/navigationbar";
 import FilterList from "./components/filters/filterlist";
 import MovieGrid from './components/movie/moviegrid';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import { testMovies } from './components/movie/testmovies';
-import { Provider, useSelector } from "react-redux";
-import { AppState, store } from "./components/utils/store";
+import { useSelector } from "react-redux";
+import { AppState } from "./components/utils/store";
 import Search from './components/search';
-import { SearchParams } from './components/utils/reducers/searchparams';
 import { Movie } from './components/utils/reducers/movies';
 
 

@@ -1,11 +1,31 @@
 .movie-card {
+    width: 275px;
     max-width: 275px;
+    height: 450px;
+    max-height: 450px;
 }
 
 .movie-card-media {
     height: 200px;
 }
 
+.movie-card-content {
+    height: 160px;
+    max-height: 160px;
+}
+
+
+.movie-card-text {
+    height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-card-title {
+    max-height: 65px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .movie-grid {
     padding: 10px;
     margin: 10px;

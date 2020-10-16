@@ -7,13 +7,13 @@ export type Movie = {
     primaryTitle : string;
     originalTitle : string;
     isAdult : string;
-    startYear : string;
+    startYear : number;
     endYear : string;
-    runtimeMinutes : string;
+    runtimeMinutes : number;
     genres : string;
     posterPath : string;
-    voteAverage : string;
-    voteCount : string;
+    voteAverage : number;
+    voteCount : number;
     originalLanguage : string;
     overview : string;
 };

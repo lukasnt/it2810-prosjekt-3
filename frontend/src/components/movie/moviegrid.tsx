@@ -16,6 +16,8 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
                     title={card.primaryTitle}
                     imageUrl={card.posterPath}
                     description={card.overview}
+                    rating={card.voteAverage}
+                    voteCount={card.voteCount}
                  /> 
             </Grid>
         );

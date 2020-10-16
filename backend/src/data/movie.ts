@@ -1,4 +1,5 @@
 import { Document, model, Model, Schema } from "mongoose";
+import { UserSchema } from "./user";
 
 export interface Movie {
     tconst : string;
@@ -33,18 +34,19 @@ export const MovieSchema : Schema = new Schema({
     originalLanguage : String,
     overview : String
 });
+//MovieSchema.index({primaryTitle: 'text', originalTitle: 'text'}); // Only created once
+//MovieSchema.index({"$**": "text"}); // Only created once
 
 export interface MovieDocument extends Movie, Document {};
 
 export const MovieModel = model<MovieDocument>("movies", MovieSchema);
 
-// MovieSchema.index({"$**": "text"}); // Only created once
 export async function searchMovies(
      query : string,
      page : number = 1,
      pageSize : number = 50,
-     orderField : string = "primaryTitle",
-     orderDir : number = 1,
+     orderField : string = "voteCount",
+     orderDir : number = -1,
      filters : Array<string> = []) : Promise<Array<Movie>>
 {
     let mongoQuery : any = { };
@@ -53,7 +55,7 @@ export async function searchMovies(
         mongoQuery.$text = { $search: query };
         mongoProjection.score = { $meta: "textScore" };
     } else {
-        orderField = orderField == "relevance" ? "primaryTitle" : orderField;
+        orderField = orderField == "relevance" ? "voteCount" : orderField;
     }
     if (filters[0] != "") mongoQuery.genres = { $in: getAllFilterPermutations(filters) };
 

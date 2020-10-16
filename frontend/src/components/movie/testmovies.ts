@@ -1,5 +1,5 @@
 import { MovieCardProps } from "./moviecard"
-
+/*
 export let testMovies : Array<MovieCardProps> = [
     {
         title: "Ava",
@@ -38,3 +38,4 @@ export let testMovies : Array<MovieCardProps> = [
     },
     
 ];
+*/
