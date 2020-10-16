@@ -42,9 +42,17 @@ export function setPageSize(pageSize : number) {
     } as const;
 }
 
+export function setLoading(loading : boolean) {
+    return {
+        type: "SET_LOADING",
+        payload: loading
+    } as const;
+}
+
 export type SearchParamsActions = ReturnType<typeof setQuery> |
  ReturnType<typeof setFilters> |
  ReturnType<typeof setOrderField> |
  ReturnType<typeof setOrderDir> |
  ReturnType<typeof setPage> |
- ReturnType<typeof setPageSize>;
+ ReturnType<typeof setPageSize> |
+ ReturnType<typeof setLoading>;

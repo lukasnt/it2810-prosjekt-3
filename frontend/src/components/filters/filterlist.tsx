@@ -8,8 +8,10 @@ import {
     ListSubheader, TextField
 } from "@material-ui/core";
 import { Dispatch } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFilters } from '../utils/actions/searchparams';
+import { SearchParams } from '../utils/reducers/searchparams';
+import { AppState } from '../utils/store';
 
 export interface FilterProps {
     filtertype : string;
@@ -17,11 +19,12 @@ export interface FilterProps {
 }
 
 const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters} ) => {
-   
+    
+    const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
-   
+
     //State for checkboxes, will probably use redux instead
-    const [checked, setChecked] = React.useState([0]);
+    const [checked, setChecked] = React.useState(searchParams.filters.map(name => filters.indexOf(name)));
     
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);

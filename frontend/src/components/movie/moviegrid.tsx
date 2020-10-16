@@ -25,7 +25,11 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
 
     return (
         <div className="movieGrid">
-            <Grid container spacing={2}>
+            <Grid container spacing={2}
+                direction="row"
+                alignItems="center"
+                justify="center"
+            >
                 {generateMovieCards()}
             </Grid>
         </div>

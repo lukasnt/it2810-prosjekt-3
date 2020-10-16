@@ -1,12 +1,9 @@
 import { TextField } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
-import React, { KeyboardEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setMovies } from '../utils/actions/movies';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { setQuery } from '../utils/actions/searchparams';
-import { Movie } from '../utils/reducers/movies';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { AppState } from '../utils/store';
+import "./index.css";
 
 const Search : React.FunctionComponent = () => {
 
@@ -20,7 +17,7 @@ const Search : React.FunctionComponent = () => {
     }
 
     return (
-        <TextField id="movietitle-searchfield" label="Search movie" onKeyPress={searchMovies}/>
+        <TextField className="movietitle-searchfield" label="Search movie" onKeyPress={searchMovies}/>
     );
 };
 export default Search;

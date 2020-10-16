@@ -1,5 +1,5 @@
 import { setMovies } from "../actions/movies";
-import { SearchParamsActions } from "../actions/searchparams";
+import { SearchParamsActions, setLoading } from "../actions/searchparams";
 import { store } from "../store";
 
 //Typene brukt i state
@@ -9,17 +9,19 @@ export type SearchParams = {
     orderField : string;
     orderDir : number;
     page : number;
-    pageSize : number
+    pageSize : number;
+    loading: boolean;
 };
 
 //Reducer-funksjonen, initialiserer store med user
 export function searchParamsReducer(state : SearchParams = {
     query : "",
     filters : [],
-    orderField : "relevance",
+    orderField : "voteCount",
     orderDir : 1,
     page : 1,
-    pageSize : 25
+    pageSize : 25,
+    loading: false
 }, action: SearchParamsActions) {
     let updated :  boolean = true;
     switch (action.type) {
@@ -41,19 +43,29 @@ export function searchParamsReducer(state : SearchParams = {
         case "SET_PAGE_SIZE":
             state.pageSize = action.payload as number;
             break;
+        case "SET_LOADING":
+            state.loading = action.payload as boolean;
+            updated = false;
+            break;
         default:
             updated = false;
             break;
     }
     if (updated) {
-        fetch("http://localhost:8080/api/movie/search?" + 
-            "query=" + state.query + "&" +
-            "filters=" + state.filters)
-            .then(res => res.json())
-            .then(data => {
-                store.dispatch(setMovies(data))
-            });
-        }
+        executeSearch(state);
+    }
     return state;
 }
+
+export async function executeSearch(state : SearchParams) : Promise<void> {
+    return fetch("http://localhost:8080/api/movie/search?" + 
+        "query=" + state.query + "&" +
+        "filters=" + state.filters + "&" +
+        "orderField=" + state.orderField)
+        .then(res => res.json())
+        .then(data => {
+            store.dispatch(setMovies(data));
+        });
+}
+
 function neverReached(never: never) {}

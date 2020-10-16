@@ -3,22 +3,11 @@ import './App.css';
 import Login from './components/login';
 import Registration from './components/registration';
 import NavigationBar from "./components/navigation/navigationbar";
-import FilterList from "./components/filters/filterlist";
-import MovieGrid from './components/movie/moviegrid';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import { useSelector } from "react-redux";
-import { AppState } from "./components/utils/store";
-import Search from './components/search';
-import { Movie } from './components/utils/reducers/movies';
+import MoviePage from './components/movie/moviepage';
 
 
 function App() {
-    
-  const movies : Array<Movie> | null = useSelector((state : AppState) => state.movies);
-
-    /* Dummy data, to be given by props */
-    const filterType = "Genre";
-    const filterValues =["Action", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Thriller", "Western"];
 
   return (
           <BrowserRouter>
@@ -31,11 +20,7 @@ function App() {
                       <Registration />
                   </Route>
                   <Route path="/">
-                      <Search />
-                      <div className="movieView">
-                          <FilterList filtertype={filterType} filters={filterValues}/>
-                          <MovieGrid data={movies == null ? [] : movies}/>
-                      </div>
+                      <MoviePage />
                   </Route>
               </Switch>
           </BrowserRouter>

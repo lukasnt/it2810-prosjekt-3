@@ -1,4 +1,6 @@
 import { MovieActions } from "../actions/movies";
+import { setLoading } from "../actions/searchparams";
+import { store } from "../store";
 
 //Typene brukt i state
 export type Movie = {
