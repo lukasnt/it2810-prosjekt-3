@@ -22,8 +22,8 @@ const MoviePage : React.FunctionComponent = () => {
     const filterType = "Genre";
     const filterValues =["Action", "Adventure", "Comedy", "Documentary", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"];
     
-    const orderLabels = ["Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
-    const orderValues = ["primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
+    const orderLabels = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
+    const orderValues = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
 
     useEffect(() => {
         executeSearch(searchParams);
