@@ -18,7 +18,7 @@ const MovieCard : React.FunctionComponent<MovieCardProps> = ({ title, imageUrl, 
             <CardActionArea>
                 <CardMedia className="movie-card-media"
                     image={imageUrl}
-                    title="Contemplative Reptile"
+                    title={title}
                 />
                 <CardContent className="movie-card-content">
                     <Typography className="movie-card-title" gutterBottom variant="h5" component="h2">

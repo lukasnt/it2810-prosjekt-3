@@ -1,19 +1,19 @@
 import { createStore, combineReducers, Store } from "redux";
-import { Movie, moviesReducer } from "./reducers/movies";
+import { Movie, SearchResult, searchResultReducer } from "./reducers/searchresult";
 import { SearchParams, searchParamsReducer } from "./reducers/searchparams";
 import { User, userReducer } from "./reducers/user";
 
 export type AppState = {
     user: User | null;
-    movies: Array<Movie> | null;
     searchParams: SearchParams;
+    searchResult: SearchResult | null;
 };
 
 //Utility-funksjon for å kombinere flere reducere
 const rootReducer = combineReducers<AppState>({
     user: userReducer,
-    movies: moviesReducer,
-    searchParams : searchParamsReducer
+    searchParams : searchParamsReducer,
+    searchResult: searchResultReducer
 });
 
 function configureStore(): Store<AppState> {

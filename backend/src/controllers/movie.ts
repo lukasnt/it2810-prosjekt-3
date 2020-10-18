@@ -13,9 +13,11 @@ router.get("/search", (req : Request, res : Response) => {
     let orderField : string = req.query.orderField == undefined ? "voteCount" : req.query.orderField as string;
     let orderDir : number = req.query.orderDir == undefined ? -1 : parseInt(req.query.orderDir as string);
     let page : number = req.query.page == undefined ? 1 : parseInt(req.query.page as string);
+    let pageSize : number = req.query.pageSize == undefined ? 25 : parseInt(req.query.pageSize as string);
+    let callID : number = req.query.callID == undefined ? 0 : parseInt(req.query.callID as string);
 
-    searchMovies(query, page, 25, orderField, orderDir, filters).then(docs => {
-        res.send(docs);
+    searchMovies(query, page, pageSize, orderField, orderDir, filters).then(result => {
+        res.send({ result: result, callID: callID });
     })
 });
 

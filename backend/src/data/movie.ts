@@ -1,4 +1,4 @@
-import { Document, model, Model, Schema } from "mongoose";
+import { Document, DocumentQuery, model, Model, Schema } from "mongoose";
 import { UserSchema } from "./user";
 
 export interface Movie {
@@ -39,6 +39,11 @@ export const MovieSchema : Schema = new Schema({
 
 export interface MovieDocument extends Movie, Document {};
 
+export interface SearchResult {
+    movies : Array<Movie>;
+    pages : number;
+}
+
 export const MovieModel = model<MovieDocument>("movies", MovieSchema);
 
 export async function searchMovies(
@@ -47,7 +52,7 @@ export async function searchMovies(
      pageSize : number = 50,
      orderField : string = "voteCount",
      orderDir : number = -1,
-     filters : Array<string> = []) : Promise<Array<Movie>>
+     filters : Array<string> = []) : Promise<SearchResult>
 {
     let mongoQuery : any = { };
     let mongoProjection : any = { };
@@ -64,7 +69,12 @@ export async function searchMovies(
         mongoProjection)
     .sort(getSortOrder(orderField, orderDir))
     .skip((page - 1) * pageSize)
-    .limit(pageSize);
+    .limit(pageSize)
+    .then(movies => {
+        return MovieModel.find(mongoQuery, mongoProjection).countDocuments().then(count => {
+            return { movies: movies, pages: Math.ceil(count / pageSize)};
+        })
+    });
 }
 
 function getSortOrder(field : string, dir : number) : any {

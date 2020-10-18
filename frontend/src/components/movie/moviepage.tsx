@@ -1,20 +1,20 @@
-import React, { Dispatch, useEffect } from 'react';
-import { Movie } from '../utils/reducers/movies';
+import React, { useEffect } from 'react';
+import { SearchResult } from '../utils/reducers/searchresult';
 import FilterList from '../filters/filterlist';
 import MovieGrid from './moviegrid';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../utils/store';
-import { Pagination } from '@material-ui/lab';
 import Search from '../search';
 import OrderSelect from '../order/orderselect';
 import './index.css';
 import { executeSearch, SearchParams } from '../utils/reducers/searchparams';
 import { CircularProgress } from '@material-ui/core';
-import { setLoading } from '../utils/actions/searchparams';
+import Pager from '../pager';
+import { Dispatch } from '@reduxjs/toolkit';
 
 const MoviePage : React.FunctionComponent = () => {
 
-    const movies : Array<Movie> | null = useSelector((state : AppState) => state.movies);
+    const searchResult : SearchResult | null = useSelector((state : AppState) => state.searchResult);
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
@@ -29,11 +29,6 @@ const MoviePage : React.FunctionComponent = () => {
         executeSearch(searchParams);
     }, []);
 
-    function test() {
-        console.log(searchParams.loading);
-        return <CircularProgress />
-    }
-
     return (
         <div className="moviePage">
             <FilterList filtertype={filterType} filters={filterValues}/>
@@ -42,9 +37,9 @@ const MoviePage : React.FunctionComponent = () => {
                     <Search />
                     <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
                 </div> 
-                <Pagination count={10} color="primary" />
-                {searchParams.loading == true ? test() : null}
-                <MovieGrid data={movies == null ? [] : movies}/>
+                <Pager />
+                {searchParams.loading ? <CircularProgress size={250}/> : null}
+                <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
             </div>
         </div>
     );

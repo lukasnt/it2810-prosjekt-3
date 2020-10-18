@@ -1,6 +1,4 @@
-import { MovieActions } from "../actions/movies";
-import { setLoading } from "../actions/searchparams";
-import { store } from "../store";
+import { SearchResultActions } from "../actions/searchresult";
 
 //Typene brukt i state
 export type Movie = {
@@ -20,13 +18,18 @@ export type Movie = {
     overview : string;
 };
 
+export type SearchResult = {
+    movies : Array<Movie>;
+    pages : number;
+}
+
 //Reducer-funksjonen, initialiserer store med user
-export function moviesReducer(state : Array<Movie> | null = null, action: MovieActions) {
+export function searchResultReducer(state : SearchResult | null = null, action: SearchResultActions) {
     switch (action.type) {
-        case "SET_MOVIES":
+        case "SET_SEARCH_RESULT":
             return state = action.payload;
-        case "CLEAR_MOVIES":
-            return state = [];
+        case "CLEAR_SEARCH_RESULT":
+            return state = { movies: [], pages: 0 };
         default:
             neverReached(action);
     }

@@ -1,4 +1,4 @@
-import { setMovies } from "../actions/movies";
+import { setSearchResult } from "../actions/searchresult";
 import { SearchParamsActions, setLoading } from "../actions/searchparams";
 import { store } from "../store";
 
@@ -20,51 +20,80 @@ export function searchParamsReducer(state : SearchParams = {
     orderField : "voteCount",
     orderDir : 1,
     page : 1,
-    pageSize : 25,
-    loading: false
+    pageSize : 18,
+    loading: true
 }, action: SearchParamsActions) {
     let updated :  boolean = true;
+    let pageUpdated : boolean = false;
+    
+    let newState : SearchParams = {
+        query: state.query,
+        filters : state.filters,
+        orderField: state.orderField,
+        orderDir: state.orderDir,
+        page: state.page,
+        pageSize : state.pageSize,
+        loading: state.loading
+    }
+
     switch (action.type) {
         case "SET_QUERY":
-            state.query = action.payload;
+            newState.query = action.payload;
             break;
         case "SET_FILTERS":
-            state.filters = action.payload as Array<string>;
+            newState.filters = action.payload as Array<string>;
             break;
         case "SET_ORDER_FIELD":
-            state.orderField = action.payload as string;
+            newState.orderField = action.payload as string;
             break;
         case "SET_ORDER_DIR":
-            state.orderDir = action.payload as number;
+            newState.orderDir = action.payload as number;
             break;
         case "SET_PAGE":
-            state.page = action.payload as number;
+            newState.page = action.payload as number;
+            pageUpdated = true;
             break;
         case "SET_PAGE_SIZE":
-            state.pageSize = action.payload as number;
+            newState.pageSize = action.payload as number;
             break;
         case "SET_LOADING":
-            state.loading = action.payload as boolean;
+            newState.loading = action.payload as boolean;
             updated = false;
             break;
         default:
             updated = false;
+            newState = state;
             break;
     }
     if (updated) {
-        executeSearch(state);
+        executeSearch(newState);
     }
-    return state;
+    /*
+    if (!pageUpdated) {
+        state.page = 1;
+    }
+    */
+
+    return newState;
 }
 
+let callID : number = 0;
 export async function executeSearch(state : SearchParams) : Promise<void> {
+    state.loading = true;
+    callID++;
     return fetch("http://localhost:8080/api/movie/search?" + 
         "query=" + state.query + "&" +
         "filters=" + state.filters + "&" +
-        "orderField=" + state.orderField)
+        "orderField=" + state.orderField + "&" +
+        "page=" + state.page + "&" +
+        "pageSize=" + state.pageSize + "&" +
+        "callID=" + callID)
         .then(res => res.json())
         .then(data => {
-            store.dispatch(setMovies(data));
+            if (data.callID == callID) {
+                store.dispatch(setSearchResult(data.result));
+                store.dispatch(setLoading(false));
+            }
         });
 }
 
