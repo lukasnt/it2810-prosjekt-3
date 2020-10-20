@@ -1,11 +1,19 @@
 import express, { Router, Request, Response } from "express";
-import { searchMovies } from "../data/movie";
+import { findSingleMovie, searchMovies } from "../data/movie";
 
 function parseStringArray(text : string) : Array<string> {
     return text.split(",");
 }
 
 const router : Router = express.Router();
+
+router.get("/single/:tconst", (req : Request, res : Response) => {
+    const tconst : string = req.params.tconst as string;
+
+    findSingleMovie(tconst).then(result => {
+        res.send(result);
+    })
+});
 
 router.get("/search", (req : Request, res : Response) => {
     let query : string = req.query.query as string;

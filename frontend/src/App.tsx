@@ -4,6 +4,7 @@ import Login from './components/login';
 import Registration from './components/registration';
 import NavigationBar from "./components/navigation/navigationbar";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import SingleMoviePage from "./components/movie/singlemoviepage"
 import MoviePage from './components/movie/moviepage';
 
 
@@ -18,6 +19,9 @@ function App() {
                   </Route>
                   <Route path="/registration">
                       <Registration />
+                  </Route>
+                  <Route path="/movie/:tconst" >
+                        <SingleMoviePage />
                   </Route>
                   <Route path="/">
                       <MoviePage />
