@@ -9,7 +9,7 @@ export interface Movie {
     startYear : string;
     endYear : string;
     runtimeMinutes : string;
-    genres : string;
+    genres : Array<string>;
     posterPath : string;
     voteAverage : string;
     voteCount : string;
@@ -26,7 +26,7 @@ export const MovieSchema : Schema = new Schema({
     startYear : String,
     endYear : String,
     runtimeMinutes : String,
-    genres : String,
+    genres : Array,
     posterPath : String,
     voteAverage : String,
     voteCount : String,
@@ -55,7 +55,8 @@ export async function searchMovies(
      pageSize : number = 50,
      orderField : string = "voteCount",
      orderDir : number = -1,
-     filters : Array<string> = []) : Promise<SearchResult>
+     filters : Array<string> = [],
+     language : string = "") : Promise<SearchResult>
 {
     let mongoQuery : any = { };
     let mongoProjection : any = { };
@@ -65,7 +66,8 @@ export async function searchMovies(
     } else {
         orderField = orderField == "relevance" ? "voteCount" : orderField;
     }
-    if (filters[0] != "") mongoQuery.genres = { $in: getAllFilterPermutations(filters) };
+    if (filters[0] != "") mongoQuery.genres = { $all: filters };
+    if (language != "") mongoQuery.originalLanguage = language;
 
     return MovieModel.find(
         mongoQuery,
@@ -87,6 +89,8 @@ function getSortOrder(field : string, dir : number) : any {
         return JSON.parse("{ \"" + field + "\" : " + dir.toString() + "}");
 }
 
+/*
+// This function was in use when genres was a single string
 function getAllFilterPermutations(filters : Array<string>) : Array<string> {
     let result : Array<string> = [];
     if (filters.length == 1) return filters;
@@ -100,3 +104,13 @@ function getAllFilterPermutations(filters : Array<string>) : Array<string> {
     }
     return result;
 }
+*/
+
+/*
+// Ad hoc query to get all the languages in a text-file, so that I can copy paste it to moviePage in frontend
+let fs = require('fs');
+    MovieModel.aggregate([{$group: {
+        _id: {originalLanguage: "$originalLanguage"},
+        count: { $sum: 1 }
+    }}]).then(data => data.map(d => "\"" + d._id.originalLanguage + "\" ")).then(data => fs.writeFile("languages.txt", data, (err : Error) => {console.log(err)}));
+*/

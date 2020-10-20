@@ -28,6 +28,7 @@ const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setPrimaryTitle(data.primaryTitle)
                 setStartYear(data.startYear)
                 setRuntimeMinutes(data.runtimeMinutes)
