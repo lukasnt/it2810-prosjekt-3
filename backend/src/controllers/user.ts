@@ -1,6 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import crypto from "crypto";
-import { addUser, findUser, User } from "../data/user";
+import { addFavorite, addUser, findUser, removeFavorite, User } from "../data/user";
 
 const users : Array<User> = [
     {
@@ -8,7 +8,8 @@ const users : Array<User> = [
         lastName: 'Doe',
         email: 'johndoe@email.com',
         // This is the SHA256 hash for value of `password`
-        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
+        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
+        favorites: []
     }
 ];
 
@@ -33,14 +34,12 @@ function removeTokens(user : User) {
 }
 
 export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
-    console.log(authTokens);
     if (req.body.user) {
         next();
     } else {
-        res.send(403);
+        res.sendStatus(403);
     }
 };
-
 
 const router : Router = express.Router();
 
@@ -67,7 +66,8 @@ router.post("/register", (req : Request, res : Response) => {
             firstName,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            favorites: []
         });
 
         res.sendStatus(201);
@@ -98,7 +98,8 @@ router.post('/login', (req : Request, res : Response) => {
                 authToken: authToken,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                email: user.email
+                email: user.email,
+                favorites: user.favorites
             });
         } else {
             res.sendStatus(403);
@@ -109,6 +110,18 @@ router.post('/login', (req : Request, res : Response) => {
 router.post('/logout', requireAuth, (req : Request, res : Response) => {
     removeTokens(req.body.user);
     res.sendStatus(200);
+});
+
+router.post('/favorite', requireAuth, (req : Request, res : Response) => {
+    addFavorite(req.body.user.email, req.body.movie).then(_ => {
+        res.sendStatus(200);
+    });
+});
+
+router.delete('/favorite', requireAuth, (req : Request, res : Response) => {
+    removeFavorite(req.body.user.email, req.body.movie).then(_ => {
+        res.sendStatus(200);
+    });
 });
 
 // Example function that requires authentication

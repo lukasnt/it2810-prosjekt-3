@@ -1,17 +1,20 @@
 import { Document, model, Model, Schema } from "mongoose";
+import { Movie } from "./movie";
 
 export interface User {
     firstName : string;
     lastName : string;
     email : string;
     password : string;
+    favorites : Array<Movie>;
 }
 
 export const UserSchema : Schema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
-    password: String
+    password: String,
+    favorites: Array
 });
 
 export interface UserDocument extends User, Document {};
@@ -23,11 +26,20 @@ export function addUser(user : User) : void {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        password: user.password
+        password: user.password,
+        favorites: []
     }).catch(error => {
         if (error.code == 11000) console.log("Unable to add duplicate email.");
     });
 };
+
+export async function addFavorite(email : string, favorite : Movie) : Promise<void> {
+    return UserModel.update({ email: email }, { $push: { favorites: favorite } });
+}
+
+export async function removeFavorite(email : string, favorite : Movie) : Promise<void> {
+    return UserModel.update({ email: email }, { $pull: { favorites: { tconst: favorite.tconst } } });
+}
 
 export async function findUser(email : string) : Promise<User | null> {
     return UserModel.findOne({ "email": email }, (err, doc) => {

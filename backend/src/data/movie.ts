@@ -1,5 +1,4 @@
-import { Document, DocumentQuery, model, Model, Schema } from "mongoose";
-import { UserSchema } from "./user";
+import { Document, model, Schema } from "mongoose";
 
 export interface Movie {
     tconst : string;
