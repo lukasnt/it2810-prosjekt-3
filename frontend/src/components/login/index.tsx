@@ -3,8 +3,11 @@ import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postData } from '../utils/ajax';
-import { AppState, setUser, User } from '../utils/store';
+import { setUser } from '../utils/actions/users';
+import { User } from '../utils/reducers/user';
+import { AppState } from '../utils/store';
 import './index.css';
+import { Redirect } from 'react-router-dom';
 
 const Login : React.FunctionComponent = () => {
     
@@ -12,10 +15,12 @@ const Login : React.FunctionComponent = () => {
     const dispatch : Dispatch<any> = useDispatch();
     
     const [errorTxt, setErrorTxt] = useState("");
+    const [redirect, setRedirect] = useState(false);
     
     function login() : void {
         const email : string = (document.getElementById("lEmail") as HTMLInputElement).value;
         const password : string = (document.getElementById("lPassword") as HTMLInputElement).value;
+
 
         const data : any = {
             email: email,
@@ -23,7 +28,14 @@ const Login : React.FunctionComponent = () => {
         };
 
         postData("http://localhost:8080/api/user/login", data)
-            .then(res => res.json())
+            .then(res => {
+                if (res.status == 403) {  // Forbidden (i.e wrong username/password)
+                    console.log("Not Correct username and password combination");
+                    setErrorTxt("Not Correct username and password combination");
+                    throw Error(res.statusText);
+                }
+                return res.json()
+            })
             .then(data => {
                 console.log(data);
                 dispatch(setUser({
@@ -34,11 +46,8 @@ const Login : React.FunctionComponent = () => {
                 }));
                 console.log(user);
                 setErrorTxt("");
-            })
-            .catch(error => {
-                console.log("Not Correct username and password combination");
-                setErrorTxt("Not Correct username and password combination");
-            });
+                setRedirect(true);
+            }).catch(error => {});
     }
 
     return (
@@ -47,6 +56,7 @@ const Login : React.FunctionComponent = () => {
             <TextField required id="lPassword" type="password" label="Password" variant="outlined"/>
             <Button variant="contained" color="primary" onClick={login}> Login </Button>
             <Typography color="secondary"> {errorTxt} </Typography>
+            {redirect ? <Redirect to="/" /> : null}
         </Paper>
     );
 };

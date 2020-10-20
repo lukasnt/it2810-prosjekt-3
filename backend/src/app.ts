@@ -5,8 +5,6 @@ import router from "./routes";
 import { authTokens } from "./controllers/user";
 import cors from "cors";
 import { connect, db } from "./data/database";
-import { searchUsers } from "./data/user";
-import { MovieSchema } from "./data/movie";
 
 const app : Application = express();
 

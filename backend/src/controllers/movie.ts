@@ -1,17 +1,23 @@
 import express, { Router, Request, Response } from "express";
 import { searchMovies } from "../data/movie";
 
+function parseStringArray(text : string) : Array<string> {
+    return text.split(",");
+}
+
 const router : Router = express.Router();
 
 router.get("/search", (req : Request, res : Response) => {
     let query : string = req.query.query as string;
-    /*
-    let filters : Array<String> = req.query.filters as Array<String>;
-    let order : string = req.query.order as string;
-    let page : number = parseInt(req.query.page as string);
-    */
-    searchMovies(query).then(docs => {
-        res.send(docs);
+    let filters : Array<string> = req.query.filters == undefined ? [] : parseStringArray(req.query.filters as string);
+    let orderField : string = req.query.orderField == undefined ? "voteCount" : req.query.orderField as string;
+    let orderDir : number = req.query.orderDir == undefined ? -1 : parseInt(req.query.orderDir as string);
+    let page : number = req.query.page == undefined ? 1 : parseInt(req.query.page as string);
+    let pageSize : number = req.query.pageSize == undefined ? 25 : parseInt(req.query.pageSize as string);
+    let callID : number = req.query.callID == undefined ? 0 : parseInt(req.query.callID as string);
+
+    searchMovies(query, page, pageSize, orderField, orderDir, filters).then(result => {
+        res.send({ result: result, callID: callID });
     })
 });
 

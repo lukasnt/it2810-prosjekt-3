@@ -3,17 +3,13 @@ import './App.css';
 import Login from './components/login';
 import Registration from './components/registration';
 import NavigationBar from "./components/navigation/navigationbar";
-import FilterList from "./components/filters/filterlist";
-import MovieGrid from './components/movie/moviegrid';
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import { testMovies } from './components/movie/testmovies';
-import { Provider } from "react-redux";
-import { store } from "./components/utils/store";
+import MoviePage from './components/movie/moviepage';
 
 
 function App() {
+
   return (
-      <Provider store={store}>
           <BrowserRouter>
               <NavigationBar/>
               <Switch>
@@ -24,14 +20,10 @@ function App() {
                       <Registration />
                   </Route>
                   <Route path="/">
-                      <div className="movieView">
-                          <FilterList />
-                          <MovieGrid data={testMovies}/>
-                      </div>
+                      <MoviePage />
                   </Route>
               </Switch>
           </BrowserRouter>
-      </Provider>
   );
 }
 

@@ -7,18 +7,25 @@ import {
     ListItemText,
     ListSubheader, TextField
 } from "@material-ui/core";
+import { Dispatch } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilters } from '../utils/actions/searchparams';
+import { SearchParams } from '../utils/reducers/searchparams';
+import { AppState } from '../utils/store';
 
-/*
 export interface FilterProps {
     filtertype : string;
     filters : string[];
 }
- */
 
-const FilterList = () => {
+const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters} ) => {
+    
+    const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
+    const dispatch : Dispatch<any> = useDispatch();
+
     //State for checkboxes, will probably use redux instead
-    const [checked, setChecked] = React.useState([0]);
-
+    const [checked, setChecked] = React.useState(searchParams.filters.map(name => filters.indexOf(name)));
+    
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -30,19 +37,16 @@ const FilterList = () => {
         }
 
         setChecked(newChecked);
+        dispatch(setFilters(newChecked.map(index => filters[index])));
     };
 
-    /* Dummy data, to be given by props */
-    const filterType = "Genre";
-    const filterValues =["Action", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Thriller", "Western"];
-
+    
     return (
         <div className="filterList">
-            <TextField id="movietitle-searchfield" label="Search movie" />
-            <List dense subheader={<ListSubheader>{filterType}</ListSubheader>}>
-            {filterValues.map((filter:string) => {
+            <List dense subheader={<ListSubheader>{filtertype}</ListSubheader>}>
+            {filters.map((filter:string) => {
                 const labelId = `checkbox-list-label-${filter}`;
-                const index = filterValues.indexOf(filter);
+                const index = filters.indexOf(filter);
                 return (
                     <ListItem key={index} role={undefined} dense button onClick={handleToggle(index)}>
                         <ListItemIcon>
