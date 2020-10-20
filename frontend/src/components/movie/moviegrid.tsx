@@ -13,6 +13,7 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
         return data.map(card => 
             <Grid item key={card.tconst}> 
                 <MovieCard 
+                    tconst={card.tconst}
                     title={card.primaryTitle}
                     imageUrl={card.posterPath}
                     description={card.overview}

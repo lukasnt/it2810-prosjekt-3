@@ -46,6 +46,10 @@ export interface SearchResult {
 
 export const MovieModel = model<MovieDocument>("movies", MovieSchema);
 
+export async function findSingleMovie(tconst : string) : Promise<Movie | null> {
+    return MovieModel.findOne({ tconst: tconst });
+}
+
 export async function searchMovies(
      query : string,
      page : number = 1,
