@@ -1,7 +1,7 @@
 .moviePage {
     margin-top: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
 }
 
@@ -14,14 +14,21 @@
 }
 
 .movieViewHeader {
-    width: 90%;
+    width: 95%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
+.favoritesViewHeader {
+    width: 95%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .movieGrid {
+    display: flex;
     width: 90%;
     min-width: 275px;
     flex-grow: 2;
@@ -32,6 +39,11 @@
     min-width: 200px;
     flex-grow: 1;
     margin: 10px;
+}
+
+.pager {
+    align-self: center;
+    margin: auto;
 }
 
 .movie-grid {
@@ -65,4 +77,8 @@
     height: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.link {
+    text-decoration: none;
+    color: white;
 }
