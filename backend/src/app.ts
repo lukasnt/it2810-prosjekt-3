@@ -32,6 +32,7 @@ app.use((req : Request, res : Response, next : NextFunction) => {
 
     // Inject the user to the request
     req.body.user = authTokens.get(authToken);
+    if (req.body.user) req.body.user.authToken = authToken;
 
     next();
 });

@@ -107,6 +107,20 @@ router.post('/login', (req : Request, res : Response) => {
     })
 });
 
+router.get('/', requireAuth, (req : Request, res : Response) => {
+    findUser(req.body.user.email)
+        .then(user => {
+            if (user) 
+                res.send({
+                    token: req.body.user.authToken,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    favorites: user.favorites
+                });
+        })
+});
+
 router.post('/logout', requireAuth, (req : Request, res : Response) => {
     removeTokens(req.body.user);
     res.sendStatus(200);

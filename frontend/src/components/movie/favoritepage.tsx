@@ -1,34 +1,38 @@
-import React, { useEffect } from 'react';
-import { SearchResult } from '../utils/reducers/searchresult';
+import React, { useEffect, useState } from 'react';
 import MovieGrid from './moviegrid';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../utils/store';
-import OrderSelect from '../order/orderselect';
 import './index.css';
-import { executeSearch, SearchParams } from '../utils/reducers/searchparams';
 import {CircularProgress} from '@material-ui/core';
-import Pager from '../pager';
 import { User } from '../utils/reducers/user';
+import { postData } from '../utils/ajax';
+import { Dispatch } from '@reduxjs/toolkit';
+import { setUser } from '../utils/actions/users';
 
 const FavoritesPage : React.FunctionComponent = () => {
 
     const user : User | null = useSelector((state : AppState) => state.user);
+    const dispatch : Dispatch<any> = useDispatch();
 
-    const orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
-    const orderValues : Array<string>  = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        
+        if (user) {
+            fetch("http://localhost:8080/api/user/", {
+                headers: {
+                    'Authorization': user.token
+                  }
+            })
+            .then(res => res.json())
+            .then(data => {
+                dispatch(setUser(data));
+            })
+        }
     }, []);
 
     return (
         <div className="moviePage">
-            <div className="favoritesViewHeader">
-                <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
-            </div>
-            <Pager />
-                <MovieGrid data={ user == null ? [] : user.favorites }/>
-            <Pager />
+            <MovieGrid data={ user == null ? [] : user.favorites }/>
         </div>
     );
 };

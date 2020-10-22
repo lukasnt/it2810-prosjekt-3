@@ -72,8 +72,6 @@ export async function searchMovies(
     if (language != "") mongoQuery.originalLanguage = language;
     mongoQuery.runtimeMinutes = { $gt: minRuntime, $lt: maxRuntime};
 
-    console.log(preprocessQuery(query));
-    
     return MovieModel.find(
         mongoQuery,
         mongoProjection)
