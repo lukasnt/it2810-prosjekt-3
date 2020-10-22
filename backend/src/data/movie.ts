@@ -6,13 +6,13 @@ export interface Movie {
     primaryTitle : string;
     originalTitle : string;
     isAdult : string;
-    startYear : string;
+    startYear : number;
     endYear : string;
-    runtimeMinutes : string;
+    runtimeMinutes : number;
     genres : Array<string>;
     posterPath : string;
-    voteAverage : string;
-    voteCount : string;
+    voteAverage : number;
+    voteCount : number;
     originalLanguage : string;
     overview : string;
 }
@@ -23,13 +23,13 @@ export const MovieSchema : Schema = new Schema({
     primaryTitle : String,
     originalTitle : String,
     isAdult : String,
-    startYear : String,
+    startYear : Number,
     endYear : String,
-    runtimeMinutes : String,
+    runtimeMinutes : Number,
     genres : Array,
     posterPath : String,
-    voteAverage : String,
-    voteCount : String,
+    voteAverage : Number,
+    voteCount : Number,
     originalLanguage : String,
     overview : String
 });
@@ -56,7 +56,9 @@ export async function searchMovies(
      orderField : string = "voteCount",
      orderDir : number = -1,
      filters : Array<string> = [],
-     language : string = "") : Promise<SearchResult>
+     language : string = "",
+     minRuntime : number = 0,
+     maxRuntime : number = Infinity) : Promise<SearchResult>
 {
     let mongoQuery : any = { };
     let mongoProjection : any = { };
@@ -68,7 +70,10 @@ export async function searchMovies(
     }
     if (filters[0] != "") mongoQuery.genres = { $all: filters };
     if (language != "") mongoQuery.originalLanguage = language;
+    mongoQuery.runtimeMinutes = { $gt: minRuntime, $lt: maxRuntime};
 
+    console.log(preprocessQuery(query));
+    
     return MovieModel.find(
         mongoQuery,
         mongoProjection)
@@ -87,6 +92,14 @@ function getSortOrder(field : string, dir : number) : any {
         return { score: { $meta: "textScore" }};
     else
         return JSON.parse("{ \"" + field + "\" : " + dir.toString() + "}");
+}
+
+function preprocessQuery(query : string) : string {
+    if (query == "") return query;
+    return query.split(" ")
+        .map(term => "\"" + term + "\"")
+        .reduce((prev, current, index, array) => prev + " " + current);
+        
 }
 
 /*
