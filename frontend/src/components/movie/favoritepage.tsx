@@ -8,17 +8,17 @@ import './index.css';
 import { executeSearch, SearchParams } from '../utils/reducers/searchparams';
 import {CircularProgress} from '@material-ui/core';
 import Pager from '../pager';
+import { User } from '../utils/reducers/user';
 
 const FavoritesPage : React.FunctionComponent = () => {
 
-    const searchResult : SearchResult | null = useSelector((state : AppState) => state.searchResult);
-    const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
+    const user : User | null = useSelector((state : AppState) => state.user);
 
     const orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
     const orderValues : Array<string>  = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
 
     useEffect(() => {
-        executeSearch(searchParams);
+        
     }, []);
 
     return (
@@ -27,8 +27,7 @@ const FavoritesPage : React.FunctionComponent = () => {
                 <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
             </div>
             <Pager />
-            {searchParams.loading ? <CircularProgress size={250}/> : null}
-            <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
+                <MovieGrid data={ user == null ? [] : user.favorites }/>
             <Pager />
         </div>
     );

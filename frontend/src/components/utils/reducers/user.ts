@@ -1,4 +1,5 @@
 import { UserActions } from "../actions/users";
+import { Movie } from "./searchresult";
 
 //Typene brukt i state
 export type User = {
@@ -6,6 +7,7 @@ export type User = {
     firstName: string;
     lastName: string;
     token: string;
+    favorites: Array<Movie>;
 };
 
 //Reducer-funksjonen, initialiserer store med user

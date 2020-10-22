@@ -42,7 +42,8 @@ const Login : React.FunctionComponent = () => {
                     email: email,
                     firstName: data.firstName,
                     lastName: data.lastName,
-                    token: data.authToken
+                    token: data.authToken,
+                    favorites: data.favorites
                 }));
                 console.log(user);
                 setErrorTxt("");
