@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilters } from '../utils/actions/searchparams';
+import { setGenres } from '../utils/actions/searchparams';
 import { SearchParams } from '../utils/reducers/searchparams';
 import { AppState } from '../utils/store';
 
@@ -24,7 +24,7 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
     const dispatch : Dispatch<any> = useDispatch();
 
     //State for checkboxes, will probably use redux instead
-    const [checked, setChecked] = React.useState(searchParams.filters.map(name => filters.indexOf(name)));
+    const [checked, setChecked] = React.useState(searchParams.genres.map(name => filters.indexOf(name)));
     
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);
@@ -37,7 +37,7 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
         }
 
         setChecked(newChecked);
-        dispatch(setFilters(newChecked.map(index => filters[index])));
+        dispatch(setGenres(newChecked.map(index => filters[index])));
     };
 
     

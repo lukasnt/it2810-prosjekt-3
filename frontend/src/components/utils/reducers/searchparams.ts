@@ -5,7 +5,9 @@ import { store } from "../store";
 //Typene brukt i state
 export type SearchParams = {
     query : string;
-    filters : Array<string>;
+    genres : Array<string>;
+    language : string;
+    runtimeMinutes : Array<number>;
     orderField : string;
     orderDir : number;
     page : number;
@@ -16,7 +18,9 @@ export type SearchParams = {
 //Reducer-funksjonen, initialiserer store med user
 export function searchParamsReducer(state : SearchParams = {
     query : "",
-    filters : [],
+    genres : [],
+    language : "",
+    runtimeMinutes : [],
     orderField : "voteCount",
     orderDir : 1,
     page : 1,
@@ -28,7 +32,9 @@ export function searchParamsReducer(state : SearchParams = {
     
     let newState : SearchParams = {
         query: state.query,
-        filters : state.filters,
+        genres : state.genres,
+        language : state.language,
+        runtimeMinutes : state.runtimeMinutes,
         orderField: state.orderField,
         orderDir: state.orderDir,
         page: state.page,
@@ -40,8 +46,14 @@ export function searchParamsReducer(state : SearchParams = {
         case "SET_QUERY":
             newState.query = action.payload;
             break;
-        case "SET_FILTERS":
-            newState.filters = action.payload as Array<string>;
+        case "SET_GENRES":
+            newState.genres = action.payload as Array<string>;
+            break;
+        case "SET_LANGUAGE":
+            newState.language = action.payload as string;
+            break;
+        case "SET_RUNTIME_MINUTES":
+            newState.runtimeMinutes = action.payload as Array<number>;
             break;
         case "SET_ORDER_FIELD":
             newState.orderField = action.payload as string;
@@ -65,14 +77,13 @@ export function searchParamsReducer(state : SearchParams = {
             newState = state;
             break;
     }
+
+    if (updated && !pageUpdated) {
+        newState.page = 1;
+    }
     if (updated) {
         executeSearch(newState);
     }
-    /*
-    if (!pageUpdated) {
-        state.page = 1;
-    }
-    */
 
     return newState;
 }
@@ -83,7 +94,9 @@ export async function executeSearch(state : SearchParams) : Promise<void> {
     callID++;
     return fetch("http://localhost:8080/api/movie/search?" + 
         "query=" + state.query + "&" +
-        "filters=" + state.filters + "&" +
+        "filters=" + state.genres + "&" +
+        "language=" + state.language + "&" +
+        "runtimeMinutes=" + state.runtimeMinutes + "&" +
         "orderField=" + state.orderField + "&" +
         "page=" + state.page + "&" +
         "pageSize=" + state.pageSize + "&" +

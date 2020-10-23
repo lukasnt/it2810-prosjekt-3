@@ -7,10 +7,24 @@ export function setQuery(query : string) {
     } as const;
 }
 
-export function setFilters(filters : Array<string>) {
+export function setGenres(filters : Array<string>) {
     return {
-        type: "SET_FILTERS",
+        type: "SET_GENRES",
         payload: filters
+    } as const;
+}
+
+export function setLanguage(language : string) {
+    return {
+        type: "SET_LANGUAGE",
+        payload: language
+    } as const;
+}
+
+export function setRuntimeMinutes(runtimeMinutes : Array<number>) {
+    return {
+        type: "SET_RUNTIME_MINUTES",
+        payload: runtimeMinutes
     } as const;
 }
 
@@ -49,8 +63,11 @@ export function setLoading(loading : boolean) {
     } as const;
 }
 
+
 export type SearchParamsActions = ReturnType<typeof setQuery> |
- ReturnType<typeof setFilters> |
+ ReturnType<typeof setGenres> |
+ ReturnType<typeof setLanguage> |
+ ReturnType<typeof setRuntimeMinutes> |
  ReturnType<typeof setOrderField> |
  ReturnType<typeof setOrderDir> |
  ReturnType<typeof setPage> |
