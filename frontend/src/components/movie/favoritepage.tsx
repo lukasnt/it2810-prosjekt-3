@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { SearchResult } from '../utils/reducers/searchresult';
 import MovieGrid from './moviegrid';
 import { useDispatch, useSelector } from 'react-redux';
+import Media, {Card, CardContent, CardMedia, Typography} from '@material-ui/core';
 import { AppState } from '../utils/store';
 import OrderSelect from '../order/orderselect';
 import './index.css';
@@ -23,12 +24,19 @@ const FavoritesPage : React.FunctionComponent = () => {
 
     return (
         <div className="moviePage">
-            <div className="favoritesViewHeader">
-                <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
-            </div>
-            <Pager />
-                <MovieGrid data={ user == null ? [] : user.favorites }/>
-            <Pager />
+            {user?.favorites.length == 0 ? (
+                <Typography variant="h6" style={{margin: "auto", marginTop: "20%"}}>No favorites added</Typography>
+            ) : (
+                <div>
+                    <div className="favoritesViewHeader">
+                        <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
+                    </div>
+                    <Pager />
+                        <MovieGrid data={user == null ? [] : user.favorites}/>
+                    <Pager />
+                </div>
+                )
+            }
         </div>
     );
 };
