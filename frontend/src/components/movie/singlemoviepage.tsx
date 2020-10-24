@@ -1,8 +1,15 @@
 import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import { Hidden, Card, CardContent, CardMedia, Typography, Grid } from '@material-ui/core';
+import {Hidden, Card, CardContent, CardMedia, Typography, Grid, IconButton, Button} from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 // import { getMovieData } from '../utils/ajax';
+import {User} from "../utils/reducers/user";
+import {useSelector} from "react-redux";
+import {AppState} from "../utils/store";
+import {addFavorite} from "../../../../backend/src/data/user";
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteButton from "../favorite/favoritebuttons";
 
 
 export interface SingleMoviePageProps {
@@ -10,51 +17,51 @@ export interface SingleMoviePageProps {
 
 
 const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
-    const [primaryTitle, setPrimaryTitle] = useState('')
-    const [startYear, setStartYear] = useState('')
-    const [runtimeMinutes, setRuntimeMinutes] = useState('')
-    const [genres, setGenres] = useState('')
-    const [posterPath, setPosterPath] = useState('')
-    const [voteAverage, setVoteAverage] = useState('')
-    const [voteCount, setVoteCount] = useState('')
-    const [overview, setOverview] = useState('')
-    const [myRating, setMyRating] = useState('')
+    const [primaryTitle, setPrimaryTitle] = useState('');
+    const [startYear, setStartYear] = useState('');
+    const [runtimeMinutes, setRuntimeMinutes] = useState('');
+    const [genres, setGenres] = useState('');
+    const [posterPath, setPosterPath] = useState('');
+    const [voteAverage, setVoteAverage] = useState('');
+    const [voteCount, setVoteCount] = useState('');
+    const [overview, setOverview] = useState('');
+    const [myRating, setMyRating] = useState('');
+    const [isFavorite, setIsFavorite] = useState('');
 
     let params : any = useParams();
 
     useEffect(() => {
         console.log(params.tconst);
-        // TODO: Replace everything above with data from api call
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                setPrimaryTitle(data.primaryTitle)
-                setStartYear(data.startYear)
-                setRuntimeMinutes(data.runtimeMinutes)
-                setGenres(data.genres)
-                setPosterPath(data.posterPath)
-                setVoteAverage(data.voteAverage)
-                setVoteCount(data.voteCount)
-                setMyRating('')
+                setPrimaryTitle(data.primaryTitle);
+                setStartYear(data.startYear);
+                setRuntimeMinutes(data.runtimeMinutes);
+                setGenres(data.genres);
+                setPosterPath(data.posterPath);
+                setVoteAverage(data.voteAverage);
+                setVoteCount(data.voteCount);
+                setMyRating('');
                 setOverview(data.overview)
             })
-    }, [])
+    }, []);
 
     function saveUserRating(rating : number | null) : void {
         if (rating) {
-            let ratingSum = (+voteAverage * +voteCount) + rating*2
-            let newVoteCount = +voteCount
+            let ratingSum = (+voteAverage * +voteCount) + rating*2;
+            let newVoteCount = +voteCount;
             if (myRating) {
                 ratingSum -= +myRating*2
             } else {
                 newVoteCount += 1
             }
-            const newVoteAverage = ratingSum / newVoteCount
+            const newVoteAverage = ratingSum / newVoteCount;
             
-            setMyRating(String(rating))
-            setVoteAverage(String(newVoteAverage))
-            setVoteCount(String(newVoteCount))
+            setMyRating(String(rating));
+            setVoteAverage(String(newVoteAverage));
+            setVoteCount(String(newVoteCount));
 
             // TODO: Save vote to database
         }
@@ -88,6 +95,7 @@ const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
                                 {'(' + String(+voteAverage/2) + ') • ' + voteCount + ' ratings'}
                             </Typography>
                         </div>
+                        <FavoriteButton movieId={params.tconst}/>
                         <Typography variant='h5' style={{marginTop: '20px'}}>
                             Overview
                         </Typography>
@@ -98,8 +106,8 @@ const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
                 </Card>
             </Grid>
         </Grid> 
-    )
-}
+    );
+};
 
-export default SingleMoviePage
+export default SingleMoviePage;
         

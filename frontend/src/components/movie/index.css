@@ -78,6 +78,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.favoriteButton {
+    margin-top: 10px;
+}
 .link {
     text-decoration: none;
     color: white;
