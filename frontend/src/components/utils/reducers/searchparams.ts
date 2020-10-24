@@ -22,7 +22,7 @@ export function searchParamsReducer(state : SearchParams = {
     language : "",
     runtimeMinutes : [],
     orderField : "voteCount",
-    orderDir : 1,
+    orderDir : -1,
     page : 1,
     pageSize : 18,
     loading: true
@@ -98,6 +98,7 @@ export async function executeSearch(state : SearchParams) : Promise<void> {
         "language=" + state.language + "&" +
         "runtimeMinutes=" + state.runtimeMinutes + "&" +
         "orderField=" + state.orderField + "&" +
+        "orderDir=" + state.orderDir + "&" +
         "page=" + state.page + "&" +
         "pageSize=" + state.pageSize + "&" +
         "callID=" + callID)

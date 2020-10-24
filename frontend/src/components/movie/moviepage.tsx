@@ -14,6 +14,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import FilterRange from '../filters/filterrange';
 import FilterSelect, { Language } from '../filters/filterselect';
 import tags, { Subtag } from "language-tags";
+import OrderDirSelect from '../search/orderdirselect';
 
 const MoviePage : React.FunctionComponent = () => {
 
@@ -48,6 +49,7 @@ const MoviePage : React.FunctionComponent = () => {
                 <div className="movieViewHeader"> 
                     <Search />
                     <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
+                    <OrderDirSelect orderDir={searchParams.orderDir} />
                 </div> 
                 <Pager />
                 {searchParams.loading ? <CircularProgress size={250}/> : null}
