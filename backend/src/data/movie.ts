@@ -57,8 +57,7 @@ export async function searchMovies(
      orderDir : number = -1,
      filters : Array<string> = [],
      language : string = "",
-     minRuntime : number = 0,
-     maxRuntime : number = Infinity) : Promise<SearchResult>
+     runtimeMinutes : Array<number> = []) : Promise<SearchResult>
 {
     let mongoQuery : any = { };
     let mongoProjection : any = { };
@@ -70,10 +69,8 @@ export async function searchMovies(
     }
     if (filters[0] != "") mongoQuery.genres = { $all: filters };
     if (language != "") mongoQuery.originalLanguage = language;
-    mongoQuery.runtimeMinutes = { $gt: minRuntime, $lt: maxRuntime};
+    if (runtimeMinutes.length == 2) mongoQuery.runtimeMinutes = { $gt: runtimeMinutes[0], $lt: runtimeMinutes[1]};
 
-    console.log(preprocessQuery(query));
-    
     return MovieModel.find(
         mongoQuery,
         mongoProjection)
@@ -98,8 +95,7 @@ function preprocessQuery(query : string) : string {
     if (query == "") return query;
     return query.split(" ")
         .map(term => "\"" + term + "\"")
-        .reduce((prev, current, index, array) => prev + " " + current);
-        
+        .reduce((prev, current, index, array) => prev + " " + current);   
 }
 
 /*
