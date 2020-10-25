@@ -34,11 +34,11 @@ export function addUser(user : User) : void {
 };
 
 export async function addFavorite(email : string, favorite : Movie) : Promise<void> {
-    return UserModel.update({ email: email }, { $push: { favorites: favorite } });
+    return UserModel.updateOne({ email: email }, { $push: { favorites: favorite } });
 }
 
 export async function removeFavorite(email : string, favorite : Movie) : Promise<void> {
-    return UserModel.update({ email: email }, { $pull: { favorites: { tconst: favorite.tconst } } });
+    return UserModel.updateOne({ email: email }, { $pull: { favorites: { tconst: favorite.tconst } } });
 }
 
 export async function findUser(email : string) : Promise<User | null> {

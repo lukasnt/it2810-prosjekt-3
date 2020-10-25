@@ -21,7 +21,6 @@ const Login : React.FunctionComponent = () => {
         const email : string = (document.getElementById("lEmail") as HTMLInputElement).value;
         const password : string = (document.getElementById("lPassword") as HTMLInputElement).value;
 
-
         const data : any = {
             email: email,
             password: password
@@ -37,7 +36,6 @@ const Login : React.FunctionComponent = () => {
                 return res.json()
             })
             .then(data => {
-                console.log(data);
                 dispatch(setUser({
                     email: email,
                     firstName: data.firstName,
@@ -45,7 +43,6 @@ const Login : React.FunctionComponent = () => {
                     token: data.authToken,
                     favorites: data.favorites
                 }));
-                console.log(user);
                 setErrorTxt("");
                 setRedirect(true);
             }).catch(error => {});

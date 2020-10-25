@@ -1,50 +1,45 @@
 import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import {Hidden, Card, CardContent, CardMedia, Typography, Grid, IconButton, Button} from '@material-ui/core';
+import { Hidden, Card, CardContent, CardMedia, Typography, Grid } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-// import { getMovieData } from '../utils/ajax';
-import {User} from "../utils/reducers/user";
-import {useSelector} from "react-redux";
-import {AppState} from "../utils/store";
-import {addFavorite} from "../../../../backend/src/data/user";
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteButton from "../favorite/favoritebuttons";
+import { Movie } from '../utils/reducers/searchresult';
 
 
-export interface SingleMoviePageProps {
-}
+const SingleMoviePage : React.FunctionComponent = () => {
 
-
-const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
-    const [primaryTitle, setPrimaryTitle] = useState('');
-    const [startYear, setStartYear] = useState('');
-    const [runtimeMinutes, setRuntimeMinutes] = useState('');
-    const [genres, setGenres] = useState('');
-    const [posterPath, setPosterPath] = useState('');
     const [voteAverage, setVoteAverage] = useState('');
     const [voteCount, setVoteCount] = useState('');
-    const [overview, setOverview] = useState('');
     const [myRating, setMyRating] = useState('');
-    const [isFavorite, setIsFavorite] = useState('');
 
     let params : any = useParams();
+
+    const [movie, setMovie] = useState<Movie>({
+        tconst: params.tconst,
+        titleType: "",
+        primaryTitle: "",
+        originalTitle: "",
+        isAdult: "",
+        startYear: 0,
+        endYear: "",
+        runtimeMinutes: 0,
+        genres: "",
+        posterPath: "",
+        voteAverage: 0,
+        voteCount: 0,
+        originalLanguage: "",
+        overview: ""
+    });
 
     useEffect(() => {
         console.log(params.tconst);
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                setPrimaryTitle(data.primaryTitle);
-                setStartYear(data.startYear);
-                setRuntimeMinutes(data.runtimeMinutes);
-                setGenres(data.genres);
-                setPosterPath(data.posterPath);
-                setVoteAverage(data.voteAverage);
+                setMovie(data);
                 setVoteCount(data.voteCount);
+                setVoteAverage(data.voteAverage);
                 setMyRating('');
-                setOverview(data.overview)
             })
     }, []);
 
@@ -69,13 +64,13 @@ const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
 
 
     return (
-        <Grid container spacing={2} justify='center' alignItems='center' style={{width: '100%', minHeight: '95vh', backgroundImage: 'linear-gradient(to right, rgba(44,44,44,1) 15%, rgba(44,44,44,0.7)), url(' + posterPath + ')', backgroundSize: 'cover', backgroundPositionY: '50%', margin: '0px'}}>
+        <Grid container spacing={2} justify='center' alignItems='center' style={{width: '100%', minHeight: '95vh', backgroundImage: 'linear-gradient(to right, rgba(44,44,44,1) 15%, rgba(44,44,44,0.7)), url(' + movie.posterPath + ')', backgroundSize: 'cover', backgroundPositionY: '50%', margin: '0px'}}>
             <Hidden xsDown>
                 <Grid item xs={12} sm={5} md={3} style={{height: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
                     <Card style={{width: '300px', display: 'flex', justifyContent: 'center', marginLeft: '5%'}}>
                         <CardMedia style={{height: '450px', width: '300px'}}
-                            image={posterPath}
-                            title={primaryTitle}
+                            image={movie.posterPath}
+                            title={movie.primaryTitle}
                         />        
                     </Card>
                 </Grid>
@@ -84,23 +79,23 @@ const SingleMoviePage : React.FunctionComponent<SingleMoviePageProps> = () => {
                 <Card style={{backgroundColor: 'transparent', boxShadow: 'none', marginLeft: '5%', marginRight: '5%'}}>
                     <CardContent style={{color: 'white'}}>
                         <Typography variant='h3'>
-                            {primaryTitle + ' (' + startYear + ')'}
+                            {movie.primaryTitle + ' (' + movie.startYear + ')'}
                         </Typography>
                         <Typography variant='subtitle1' style={{marginTop: '10px'}}>
-                            {genres + ' • ' + ((+runtimeMinutes-(+runtimeMinutes % 60)) / 60) + ' h ' + (+runtimeMinutes % 60) + ' m'}
+                            {movie.genres + ' • ' + ((+movie.runtimeMinutes-(+movie.runtimeMinutes % 60)) / 60) + ' h ' + (+movie.runtimeMinutes % 60) + ' m'}
                         </Typography>
                         <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
                             <Rating name='hover-feedback' value={+myRating} onChange={(e, newValue) => saveUserRating(newValue)} style={{marginRight: '3%'}}/>
                             <Typography variant='subtitle1' >
-                                {'(' + String(+voteAverage/2) + ') • ' + voteCount + ' ratings'}
+                                {'(' + String((+voteAverage/2.).toFixed(2)) + ') • ' + voteCount + ' ratings'}
                             </Typography>
                         </div>
-                        <FavoriteButton movieId={params.tconst}/>
+                        <FavoriteButton movie={movie}/>
                         <Typography variant='h5' style={{marginTop: '20px'}}>
                             Overview
                         </Typography>
                         <Typography variant='body2' style={{marginTop: '10px'}}>
-                            {overview}
+                            {movie.overview}
                         </Typography>
                     </CardContent>          
                 </Card>

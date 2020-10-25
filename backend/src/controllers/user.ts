@@ -2,48 +2,10 @@ import express, { Router, Request, Response, NextFunction } from "express";
 import crypto from "crypto";
 import { addFavorite, addUser, findUser, removeFavorite, User } from "../data/user";
 
-const users : Array<User> = [
-    {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'johndoe@email.com',
-        // This is the SHA256 hash for value of `password`
-        password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=',
-        favorites: []
-    }
-];
-
-// This will hold the users and authToken related to users
-export const authTokens : Map<String, User> = new Map<String, User>();
-
-function getHashedPassword(password : string) : string {
-    const sha256 = crypto.createHash('sha256');
-    const hash = sha256.update(password).digest('base64');
-    return hash;
-}
-
-function generateAuthToken() : string {
-    return crypto.randomBytes(30).toString('hex');
-}
-
-function removeTokens(user : User) {
-    for (let token in authTokens.keys()) {
-        if ((authTokens.get(token) as User).email == user.email) authTokens.delete(token);
-    }
-    console.log(authTokens);
-}
-
-export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
-    if (req.body.user) {
-        next();
-    } else {
-        res.sendStatus(403);
-    }
-};
-
 const router : Router = express.Router();
 
-router.post("/register", (req : Request, res : Response) => {
+// Authentication example is inspired by: https://stackabuse.com/handling-authentication-in-express-js/
+router.post("/register", (req : Request, res : Response, next : NextFunction) => {
     const { email, firstName, lastName, password, confirmPassword } = req.body;
 
     // Check if the password and confirm password fields match
@@ -55,22 +17,22 @@ router.post("/register", (req : Request, res : Response) => {
             .then(user => {
                 if (user) {
                     res.sendStatus(403);
-                    return;
+                    next();
+                } else {
+                    const hashedPassword : string = getHashedPassword(password);
+
+                    // Store user into the database
+                    addUser({
+                        firstName,
+                        lastName,
+                        email,
+                        password: hashedPassword,
+                        favorites: []
+                    });
+
+                    res.sendStatus(200);
                 }
             });
-        
-        const hashedPassword : string = getHashedPassword(password);
-
-        // Store user into the database
-        addUser({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            favorites: []
-        });
-
-        res.sendStatus(201);
     } else {
         res.sendStatus(403);
     }
@@ -142,5 +104,33 @@ router.delete('/favorite', requireAuth, (req : Request, res : Response) => {
 router.get("/:email", requireAuth, (req : Request, res : Response) => {
     res.send(req.body.user);
 });
+
+
+// This will hold the users and authToken related to users
+export const authTokens : Map<String, User> = new Map<String, User>();
+
+function getHashedPassword(password : string) : string {
+    const sha256 = crypto.createHash('sha256');
+    const hash = sha256.update(password).digest('base64');
+    return hash;
+}
+
+function generateAuthToken() : string {
+    return crypto.randomBytes(30).toString('hex');
+}
+
+function removeTokens(user : User) {
+    for (let token in authTokens.keys()) {
+        if ((authTokens.get(token) as User).email == user.email) authTokens.delete(token);
+    }
+}
+
+export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
+    if (req.body.user) {
+        next();
+    } else {
+        res.sendStatus(403);
+    }
+};
 
 export default router;

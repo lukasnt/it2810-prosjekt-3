@@ -18,10 +18,8 @@ const Logout : React.FunctionComponent = () => {
     function logout() : void {
         postData("http://localhost:8080/api/user/logout", {}, user?.token)
             .then(res => {
-                if (res.ok) {
-                    setRedirect(true);
-                    dispatch(setUser(null));
-                }
+                setRedirect(true);
+                dispatch(setUser(null));
             })
             .catch(error => {
                 console.log("Couldn't log out");
