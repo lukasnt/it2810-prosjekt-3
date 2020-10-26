@@ -41,7 +41,7 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
 
     
     return (
-        <List className="filterList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
+        <List className="filterListGenre" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
         {filters.map((filter:string) => {
             const labelId = `checkbox-list-label-${filter}`;
             const index = filters.indexOf(filter);

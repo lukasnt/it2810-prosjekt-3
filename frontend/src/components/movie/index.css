@@ -37,6 +37,14 @@
 }
 .filterContainerVertical {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 25px;
+}
+
+.filterSelectLanguage {
+    width: 300px;
 }
 
 .movieViewHeader {
@@ -45,10 +53,10 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
-.filterList, .filterRange {
+.filterListGenre, .filterRange {
     min-width: 200px;
     flex-grow: 1;
     margin: 10px;
@@ -56,15 +64,11 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-.filterList > li {
+.filterListGenre > li {
     width: 100%;
 }
-.filterList > div:nth-child(n+1) {
-    width: 200px;
-}
-
-.filterRange > div:nth-child(n+1) {
-    width: 200px;
+.filterListGenre > div:nth-child(n+1) {
+    width: 175px;
 }
 
 .rangeSlider {
@@ -72,16 +76,22 @@
     margin-right: 25px;
 }
 
+.showFiltersButton {
+    margin-top: 50px;
+}
+
 .movietitle-searchfield {
     max-width: 400px;
     width: 100%;
 }
 
-.movieViewHeader > div:nth-last-child(2) {
+.movieViewHeader > div {
     margin: 25px;
 }
 
 .orderContainer {
+    width: 250px;
+    margin: 25px;
     display: flex;
 }
 
