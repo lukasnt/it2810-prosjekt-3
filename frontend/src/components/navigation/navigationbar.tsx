@@ -5,6 +5,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import MovieIcon from '@material-ui/icons/Movie';
+import SearchIcon from '@material-ui/icons/Search';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import RegisterIcon from '@material-ui/icons/PersonAdd';
+import LoginIcon from '@material-ui/icons/ExitToApp';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Button} from "@material-ui/core";
 import { Link } from "react-router-dom"
@@ -26,32 +31,46 @@ const NavigationBar : React.FunctionComponent = () => {
   const user : User | null = useSelector((state : AppState) => state.user);
 
     return (
-        <div className="root">
+        <div className="navbarRoot">
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className="menuButton" color="inherit" aria-label="menu">
+                    {/*<IconButton edge="start" className="menuButton" color="inherit" aria-label="menu">
                         <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className="title">
-                        A Movie Database
-                    </Typography>
-                    <Link className="link" to="/"><Button color="inherit">Search movies</Button></Link>
+                    </IconButton>*/}
+                    <MovieIcon />
+                    <Typography variant="h6" className="titleWide" noWrap>Some Movie Database</Typography>
+                    <Link className="link" to="/">
+                        <Button color="inherit">
+                            <SearchIcon />Search movies
+                        </Button>
+                    </Link>
                     {user != null ? (
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                color="inherit"
-                            >
+                        <div className="userOptions">
+                            <Link className="link" to="/favorites">
+                                <Button color="inherit">
+                                    <FavoriteBorderIcon />Favorites
+                                </Button>
+                            </Link>
+                            <IconButton color="inherit">
                                 <AccountCircle />
+                                <Typography className="userName">
+                                    {user?.firstName + " " + user?.lastName}
+                                </Typography>
                             </IconButton>
                             <Logout />
                         </div>
                     ) : (
-                        <div>
-                            <Link className="link" to="/registration"><Button color="inherit">Register</Button></Link>
-                            <Link className="link" to="/login"><Button color="inherit">Login</Button></Link>
+                        <div className="userOptions">
+                            <Link className="link" to="/registration">
+                                <Button color="inherit">
+                                    <RegisterIcon />Register
+                                </Button>
+                            </Link>
+                            <Link className="link" to="/login">
+                                <Button color="inherit">
+                                    <LoginIcon />Login
+                                </Button>
+                            </Link>
                         </div>
                     )}
                 </Toolbar>

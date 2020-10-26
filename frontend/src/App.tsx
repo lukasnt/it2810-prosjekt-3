@@ -6,6 +6,7 @@ import NavigationBar from "./components/navigation/navigationbar";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import SingleMoviePage from "./components/movie/singlemoviepage"
 import MoviePage from './components/movie/moviepage';
+import FavoritesPage from "./components/movie/favoritepage";
 
 
 function App() {
@@ -20,8 +21,11 @@ function App() {
                   <Route path="/registration">
                       <Registration />
                   </Route>
+                  <Route path="/favorites">
+                      <FavoritesPage />
+                  </Route>
                   <Route path="/movie/:tconst" >
-                        <SingleMoviePage />
+                      <SingleMoviePage />
                   </Route>
                   <Route path="/">
                       <MoviePage />

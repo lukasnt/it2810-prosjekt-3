@@ -18,7 +18,7 @@ const OrderSelect : React.FunctionComponent<OrderSelectProps> = ({ orderLabels, 
     const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
-    const [value, setValue] = React.useState(defaultValue);
+    const [value, setValue] = React.useState(searchParams.orderField);
 
     function generateMenuItems() : JSX.Element[] {
         let jsx : JSX.Element[] = []; 
@@ -34,7 +34,7 @@ const OrderSelect : React.FunctionComponent<OrderSelectProps> = ({ orderLabels, 
     };
 
     return (
-        <FormControl className="orderSelect" variant="filled">
+        <FormControl className="orderSelect" variant="standard">
             <InputLabel id="order-label"> Order on </InputLabel>
             <Select
                 labelId="order-label"

@@ -1,5 +1,4 @@
-import { Document, DocumentQuery, model, Model, Schema } from "mongoose";
-import { UserSchema } from "./user";
+import { Document, model, Schema } from "mongoose";
 
 export interface Movie {
     tconst : string;
@@ -7,13 +6,13 @@ export interface Movie {
     primaryTitle : string;
     originalTitle : string;
     isAdult : string;
-    startYear : string;
+    startYear : number;
     endYear : string;
-    runtimeMinutes : string;
-    genres : string;
+    runtimeMinutes : number;
+    genres : Array<string>;
     posterPath : string;
-    voteAverage : string;
-    voteCount : string;
+    voteAverage : number;
+    voteCount : number;
     originalLanguage : string;
     overview : string;
 }
@@ -24,13 +23,13 @@ export const MovieSchema : Schema = new Schema({
     primaryTitle : String,
     originalTitle : String,
     isAdult : String,
-    startYear : String,
+    startYear : Number,
     endYear : String,
-    runtimeMinutes : String,
-    genres : String,
+    runtimeMinutes : Number,
+    genres : Array,
     posterPath : String,
-    voteAverage : String,
-    voteCount : String,
+    voteAverage : Number,
+    voteCount : Number,
     originalLanguage : String,
     overview : String
 });
@@ -56,7 +55,9 @@ export async function searchMovies(
      pageSize : number = 50,
      orderField : string = "voteCount",
      orderDir : number = -1,
-     filters : Array<string> = []) : Promise<SearchResult>
+     filters : Array<string> = [],
+     language : string = "",
+     runtimeMinutes : Array<number> = []) : Promise<SearchResult>
 {
     let mongoQuery : any = { };
     let mongoProjection : any = { };
@@ -66,7 +67,9 @@ export async function searchMovies(
     } else {
         orderField = orderField == "relevance" ? "voteCount" : orderField;
     }
-    if (filters[0] != "") mongoQuery.genres = { $in: getAllFilterPermutations(filters) };
+    if (filters[0] != "") mongoQuery.genres = { $all: filters };
+    if (language != "") mongoQuery.originalLanguage = language;
+    if (runtimeMinutes.length == 2) mongoQuery.runtimeMinutes = { $gt: runtimeMinutes[0], $lt: runtimeMinutes[1]};
 
     return MovieModel.find(
         mongoQuery,
@@ -88,6 +91,15 @@ function getSortOrder(field : string, dir : number) : any {
         return JSON.parse("{ \"" + field + "\" : " + dir.toString() + "}");
 }
 
+function preprocessQuery(query : string) : string {
+    if (query == "") return query;
+    return query.split(" ")
+        .map(term => "\"" + term + "\"")
+        .reduce((prev, current, index, array) => prev + " " + current);   
+}
+
+/*
+// This function was in use when genres was a single string
 function getAllFilterPermutations(filters : Array<string>) : Array<string> {
     let result : Array<string> = [];
     if (filters.length == 1) return filters;
@@ -101,3 +113,13 @@ function getAllFilterPermutations(filters : Array<string>) : Array<string> {
     }
     return result;
 }
+*/
+
+/*
+// Ad hoc query to get all the languages in a text-file, so that I can copy paste it to moviePage in frontend
+let fs = require('fs');
+    MovieModel.aggregate([{$group: {
+        _id: {originalLanguage: "$originalLanguage"},
+        count: { $sum: 1 }
+    }}]).then(data => data.map(d => "\"" + d._id.originalLanguage + "\" ")).then(data => fs.writeFile("languages.txt", data, (err : Error) => {console.log(err)}));
+*/

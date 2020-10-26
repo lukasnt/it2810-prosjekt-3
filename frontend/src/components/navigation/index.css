@@ -1,10 +1,13 @@
-.root{
+.navbarRoot{
     flex-grow: 1;
 }
 .menuButton {
     margin-right: 8px;
 }
-.title {
+.titleWide, .titleNarrow {
+    flex-grow: 1;
+}
+.userOptions{
     flex-grow: 1;
 }
 .link {
