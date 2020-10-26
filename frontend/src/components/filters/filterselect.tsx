@@ -32,7 +32,7 @@ const FilterSelect : React.FunctionComponent<FilterSelectProps> = ( {filtertype,
     }
 
     return (
-        <List dense subheader={<ListSubheader>{filtertype}</ListSubheader>}>
+        <List dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
             <ListItem>
                 <Autocomplete
                     options={options}

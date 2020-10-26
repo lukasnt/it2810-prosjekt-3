@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@material-ui/core';
 import { AppState } from '../utils/store';
 import './index.css';
-import {CircularProgress} from '@material-ui/core';
 import { User } from '../utils/reducers/user';
-import { postData } from '../utils/ajax';
 import { Dispatch } from '@reduxjs/toolkit';
 import { setUser } from '../utils/actions/users';
 
@@ -32,7 +30,7 @@ const FavoritesPage : React.FunctionComponent = () => {
     }, []);
 
     return (
-        <div className="moviePage">
+        <div className="favoritePage">
             {user?.favorites.length == 0 ? (
                 <Typography variant="h6" style={{margin: "auto", marginTop: "20%"}}>No favorites added</Typography>
             ) : (

@@ -1,3 +1,5 @@
+/* MOVIE-SEARCH-PAGE */
+
 .moviePage {
     margin-top: 20px;
     display: flex;
@@ -13,20 +15,6 @@
     width: 100%;
 }
 
-.movieViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.favoritesViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .movieGrid {
     display: flex;
     width: 90%;
@@ -35,15 +23,61 @@
     margin: 10px;
 }
 
-.filterList {
+/* (Filters, etc.) */
+
+.movieViewHeader {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-around;
+}
+
+.filterList, .filterRange {
     min-width: 200px;
     flex-grow: 1;
     margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.filterList > li {
+    width: 100%;
+}
+.filterList > div:nth-child(n+1) {
+    width: 200px;
+}
+
+.filterRange > div:nth-child(n+1) {
+    width: 200px;
+}
+
+.rangeSlider {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.movietitle-searchfield {
+    max-width: 400px;
+    width: 100%;
+}
+
+.movieViewHeader > div:nth-last-child(2) {
+    margin: 25px;
+}
+
+.orderContainer {
+    display: flex;
+}
+
+.orderSelect {
+    width: 175px;
 }
 
 .pager {
     align-self: center;
-    margin: auto;
+    margin: 25px auto;
 }
 
 .movie-grid {
@@ -79,9 +113,16 @@
     text-overflow: ellipsis;
 }
 
+.favoritePage {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
 .favoriteButton {
     margin-top: 10px;
 }
+
 .link {
     text-decoration: none;
     color: white;

@@ -5,7 +5,7 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    ListSubheader, TextField
+    ListSubheader
 } from "@material-ui/core";
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,6 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
     const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
-    //State for checkboxes, will probably use redux instead
     const [checked, setChecked] = React.useState(searchParams.genres.map(name => filters.indexOf(name)));
     
     const handleToggle = (value: number) => () => {
@@ -42,28 +41,26 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
 
     
     return (
-        <div className="filterList">
-            <List dense subheader={<ListSubheader>{filtertype}</ListSubheader>}>
-            {filters.map((filter:string) => {
-                const labelId = `checkbox-list-label-${filter}`;
-                const index = filters.indexOf(filter);
-                return (
-                    <ListItem key={index} role={undefined} dense button onClick={handleToggle(index)}>
-                        <ListItemIcon>
-                            <Checkbox
-                                edge="end"
-                                checked={checked.indexOf(index) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            />
-                        </ListItemIcon>
-                        <ListItemText id={labelId} primary={filter} />
-                    </ListItem>
-                );
-            })}
-            </List>
-        </div>
+        <List className="filterList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
+        {filters.map((filter:string) => {
+            const labelId = `checkbox-list-label-${filter}`;
+            const index = filters.indexOf(filter);
+            return (
+                <ListItem className="filterListItem" key={index} role={undefined} dense button onClick={handleToggle(index)}>
+                    <ListItemIcon>
+                        <Checkbox
+                            edge="end"
+                            checked={checked.indexOf(index) !== -1}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                    </ListItemIcon>
+                    <ListItemText id={labelId} primary={filter} />
+                </ListItem>
+            );
+        })}
+        </List>
     );
 };
 

@@ -20,7 +20,7 @@ const Pager : React.FunctionComponent = () => {
     };
 
     return (
-        <Pagination count={searchResult?.pages} page={searchParams.page} onChange={handleChange} color="primary" />
+        <Pagination className="pager" count={searchResult?.pages} page={searchParams.page} onChange={handleChange} color="primary" />
     );
 };
 export default Pager;

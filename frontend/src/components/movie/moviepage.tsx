@@ -8,7 +8,7 @@ import Search from '../search';
 import OrderSelect from '../order/orderselect';
 import './index.css';
 import { executeSearch, SearchParams } from '../utils/reducers/searchparams';
-import { CircularProgress } from '@material-ui/core';
+import {Box, CircularProgress, List, Typography} from '@material-ui/core';
 import Pager from '../pager';
 import { Dispatch } from '@reduxjs/toolkit';
 import FilterRange from '../filters/filterrange';
@@ -41,19 +41,23 @@ const MoviePage : React.FunctionComponent = () => {
 
     return (
         <div className="moviePage">
-            <FilterList filtertype={filterType} filters={filterValues}/>
-            <FilterList filtertype={"18+"} filters={["Enable"]}/>
-            <FilterRange filtertype={"Runtime Minutes"} />
-            <FilterSelect filtertype={"Language"} options={languageOptions}/>
+            <List className="filterContainer">
+                <FilterList filtertype={filterType} filters={filterValues}/>
+                <FilterRange filtertype={"Runtime Minutes"} />
+                <FilterSelect filtertype={"Language"} options={languageOptions}/>
+            </List>
             <div className="movieView">
-                <div className="movieViewHeader"> 
+                <div className="movieViewHeader">
                     <Search />
-                    <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
-                    <OrderDirSelect orderDir={searchParams.orderDir} />
+                    <div className="orderContainer">
+                        <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
+                        <OrderDirSelect orderDir={searchParams.orderDir} />
+                    </div>
                 </div> 
                 <Pager />
                 {searchParams.loading ? <CircularProgress size={250}/> : null}
                 <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
+                <Pager />
             </div>
         </div>
     );
