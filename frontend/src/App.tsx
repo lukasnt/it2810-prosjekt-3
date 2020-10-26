@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import Login from './components/login';
-import Registration from './components/registration';
+import Login from './components/user/login';
+import Registration from './components/user/registration';
 import NavigationBar from "./components/navigation/navigationbar";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-import SingleMoviePage from "./components/movie/singlemoviepage"
-import MoviePage from './components/movie/moviepage';
+import SearchPage from './components/search/searchpage';
 import FavoritesPage from "./components/movie/favoritepage";
+import MoviePage from './components/movie/moviepage';
 
 
 function App() {
@@ -25,10 +25,10 @@ function App() {
                       <FavoritesPage />
                   </Route>
                   <Route path="/movie/:tconst" >
-                      <SingleMoviePage />
+                      <MoviePage />
                   </Route>
                   <Route path="/">
-                      <MoviePage />
+                      <SearchPage />
                   </Route>
               </Switch>
           </BrowserRouter>

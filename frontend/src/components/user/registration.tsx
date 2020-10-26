@@ -1,7 +1,7 @@
 import { Button, Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { postData } from '../utils/ajax';
+import { postData } from '../../utils/ajax';
 import './index.css';
 
 const Registration : React.FunctionComponent = () => {

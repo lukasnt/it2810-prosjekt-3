@@ -5,9 +5,9 @@ import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOrderDir } from '../utils/actions/searchparams';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { AppState } from '../utils/store';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { AppState } from '../../redux/store';
+import { setOrderDir } from '../../redux/actions/searchparams';
 
 interface OrderDirSelectProps {
     orderDir : number;

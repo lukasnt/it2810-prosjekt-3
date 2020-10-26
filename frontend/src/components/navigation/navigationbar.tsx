@@ -4,19 +4,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import MovieIcon from '@material-ui/icons/Movie';
 import SearchIcon from '@material-ui/icons/Search';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import RegisterIcon from '@material-ui/icons/PersonAdd';
 import LoginIcon from '@material-ui/icons/ExitToApp';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Button} from "@material-ui/core";
 import { Link } from "react-router-dom"
-import { User } from '../utils/reducers/user';
 import { useSelector } from 'react-redux';
-import { AppState } from '../utils/store';
-import Logout from '../logout';
+import Logout from '../user/logout';
+import { AccountCircle } from '@material-ui/icons';
+import { User } from '../../redux/reducers/user';
+import { AppState } from '../../redux/store';
 
 /* Modified component supplied by https://material-ui.com/components/app-bar/ */
 

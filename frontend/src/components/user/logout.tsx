@@ -2,11 +2,11 @@ import { Button } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postData } from '../utils/ajax';
-import { setUser } from '../utils/actions/users';
-import { User } from '../utils/reducers/user';
-import { AppState } from '../utils/store';
 import { Redirect } from 'react-router-dom';
+import { setUser } from '../../redux/actions/users';
+import { User } from '../../redux/reducers/user';
+import { AppState } from '../../redux/store';
+import { postData } from '../../utils/ajax';
 
 const Logout : React.FunctionComponent = () => {
     

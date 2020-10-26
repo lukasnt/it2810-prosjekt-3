@@ -2,3 +2,8 @@
     max-width: 500px;
     width: 100%;
 }
+
+.orderSelect {
+    width: 100%;
+    max-width: 175px;
+}

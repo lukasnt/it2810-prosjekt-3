@@ -1,61 +1,108 @@
-import React, { useEffect } from 'react';
-import { SearchResult } from '../utils/reducers/searchresult';
-import FilterList from '../filters/filterlist';
-import MovieGrid from './moviegrid';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../utils/store';
-import Search from '../search';
-import OrderSelect from '../order/orderselect';
-import './index.css';
-import { executeSearch, SearchParams } from '../utils/reducers/searchparams';
-import { CircularProgress } from '@material-ui/core';
-import Pager from '../pager';
-import { Dispatch } from '@reduxjs/toolkit';
-import FilterRange from '../filters/filterrange';
-import FilterSelect, { Language } from '../filters/filterselect';
-import tags, { Subtag } from "language-tags";
-import OrderDirSelect from '../search/orderdirselect';
+import React, { useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
+import { Hidden, Card, CardContent, CardMedia, Typography, Grid } from '@material-ui/core';
+import { Rating } from '@material-ui/lab';
+import FavoriteButton from "./favoritebutton";
+import { Movie } from '../../redux/reducers/searchresult';
+
 
 const MoviePage : React.FunctionComponent = () => {
 
-    const searchResult : SearchResult | null = useSelector((state : AppState) => state.searchResult);
-    const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
-    const dispatch : Dispatch<any> = useDispatch();
+    const [voteAverage, setVoteAverage] = useState('');
+    const [voteCount, setVoteCount] = useState('');
+    const [myRating, setMyRating] = useState('');
 
-    /* Dummy data, to be given by props */
-    const filterType : string  = "Genre";
-    const filterValues : Array<string>  =["Action", "Adventure", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"];
-    
-    const orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
-    const orderValues : Array<string>  = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
+    let params : any = useParams();
 
-    let languageCodes : Array<string> = ["kk" ,"dv" ,"or" ,"ur" ,"it" ,"sd" ,"sa" ,"et" ,"ak" ,"se" ,"bi" ,"ss" ,"bm" ,"am" ,"lb" ,"sv" ,"hr" ,"lo" ,"nb" ,"bs" ,"mk" ,"gu" ,"hz" ,"mo" ,"cr" ,"iu" ,"yo" ,"pl" ,"ht" ,"id" ,"tl" ,"af" ,"wo" ,"ce" ,"fo" ,"sr" ,"th" ,"fr" ,"st" ,"nn" ,"ka" ,"rm" ,"pa" ,"en" ,"mt" ,"ko" ,"bn" ,"fa" ,"mi" ,"tg" ,"te" ,"sl" ,"uk" ,"xx" ,"be" ,"eo" ,"sw" ,"ca" ,"cs" ,"zu" ,"qu" ,"as" ,"ha" ,"sq" ,"gl" ,"az" ,"si" ,"km" ,"ba" ,"el" ,"aa" ,"sn" ,"ay" ,"ty" ,"yi" ,"so" ,"dz" ,"nl" ,"de" ,"ff" ,"fi" ,"lv" ,"tk" ,"ch" ,"kg" ,"sm" ,"la" ,"rw" ,"eu" ,"sh" ,"ne" ,"mr" ,"ta" ,"ln" ,"ru" ,"hu" ,"sk" ,"zh" ,"fy" ,"pt" ,"ja" ,"tr" ,"ml" ,"ab" ,"xh" ,"tt" ,"mn" ,"hi" ,"hy" ,"he" ,"lt" ,"ps" ,"gd" ,"da" ,"ar" ,"no" ,"ms" ,"kn" ,"ro" ,"bg" ,"ku" ,"ky" ,"my" ,"uz" ,"vi" ,"ug" ,"jv" ,"ga" ,"cy" ,"bo" ,"mg" ,"is" ,"mh" ,"cn" ,"es" ,"ti"];
-    let languageOptions : Array<Language> = languageCodes.map(code => {
-        const langSubtag : Subtag | null = tags.language(code);
-        return {code: code, title: langSubtag == null ? "" : langSubtag.descriptions()[0]};
+    const [movie, setMovie] = useState<Movie>({
+        tconst: params.tconst,
+        titleType: "",
+        primaryTitle: "",
+        originalTitle: "",
+        isAdult: "",
+        startYear: 0,
+        endYear: "",
+        runtimeMinutes: 0,
+        genres: "",
+        posterPath: "",
+        voteAverage: 0,
+        voteCount: 0,
+        originalLanguage: "",
+        overview: ""
     });
 
     useEffect(() => {
-        executeSearch(searchParams);
+        console.log(params.tconst);
+        fetch('http://localhost:8080/api/movie/single/' + params.tconst)
+            .then(res => res.json())
+            .then(data => {
+                setMovie(data);
+                setVoteCount(data.voteCount);
+                setVoteAverage(data.voteAverage);
+                setMyRating('');
+            })
     }, []);
 
+    function saveUserRating(rating : number | null) : void {
+        if (rating) {
+            let ratingSum = (+voteAverage * +voteCount) + rating*2;
+            let newVoteCount = +voteCount;
+            if (myRating) {
+                ratingSum -= +myRating*2
+            } else {
+                newVoteCount += 1
+            }
+            const newVoteAverage = ratingSum / newVoteCount;
+            
+            setMyRating(String(rating));
+            setVoteAverage(String(newVoteAverage));
+            setVoteCount(String(newVoteCount));
+
+            // TODO: Save vote to database
+        }
+    }
+
+
     return (
-        <div className="moviePage">
-            <FilterList filtertype={filterType} filters={filterValues}/>
-            <FilterList filtertype={"18+"} filters={["Enable"]}/>
-            <FilterRange filtertype={"Runtime Minutes"} />
-            <FilterSelect filtertype={"Language"} options={languageOptions}/>
-            <div className="movieView">
-                <div className="movieViewHeader"> 
-                    <Search />
-                    <OrderSelect orderValues={orderValues} orderLabels={orderLabels} defaultValue="voteCount"/>
-                    <OrderDirSelect orderDir={searchParams.orderDir} />
-                </div> 
-                <Pager />
-                {searchParams.loading ? <CircularProgress size={250}/> : null}
-                <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
-            </div>
-        </div>
+        <Grid container spacing={2} justify='center' alignItems='center' style={{width: '100%', minHeight: '95vh', backgroundImage: 'linear-gradient(to right, rgba(44,44,44,1) 15%, rgba(44,44,44,0.7)), url(' + movie.posterPath + ')', backgroundSize: 'cover', backgroundPositionY: '50%', margin: '0px'}}>
+            <Hidden xsDown>
+                <Grid item xs={12} sm={5} md={3} style={{height: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+                    <Card style={{width: '300px', display: 'flex', justifyContent: 'center', marginLeft: '5%'}}>
+                        <CardMedia style={{height: '450px', width: '300px'}}
+                            image={movie.posterPath}
+                            title={movie.primaryTitle}
+                        />        
+                    </Card>
+                </Grid>
+            </Hidden>
+            <Grid item xs={12} sm={7} md={9} style={{height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <Card style={{backgroundColor: 'transparent', boxShadow: 'none', marginLeft: '5%', marginRight: '5%'}}>
+                    <CardContent style={{color: 'white'}}>
+                        <Typography variant='h3'>
+                            {movie.primaryTitle + ' (' + movie.startYear + ')'}
+                        </Typography>
+                        <Typography variant='subtitle1' style={{marginTop: '10px'}}>
+                            {movie.genres + ' • ' + ((+movie.runtimeMinutes-(+movie.runtimeMinutes % 60)) / 60) + ' h ' + (+movie.runtimeMinutes % 60) + ' m'}
+                        </Typography>
+                        <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
+                            <Rating name='hover-feedback' value={+myRating} onChange={(e, newValue) => saveUserRating(newValue)} style={{marginRight: '3%'}}/>
+                            <Typography variant='subtitle1' >
+                                {'(' + String((+voteAverage/2.).toFixed(2)) + ') • ' + voteCount + ' ratings'}
+                            </Typography>
+                        </div>
+                        <FavoriteButton movie={movie}/>
+                        <Typography variant='h5' style={{marginTop: '20px'}}>
+                            Overview
+                        </Typography>
+                        <Typography variant='body2' style={{marginTop: '10px'}}>
+                            {movie.overview}
+                        </Typography>
+                    </CardContent>          
+                </Card>
+            </Grid>
+        </Grid> 
     );
 };
+
 export default MoviePage;
+        

@@ -2,11 +2,11 @@
 import React from 'react';
 import { Autocomplete } from '@material-ui/lab';
 import { List, ListItem, ListSubheader, TextField, Typography } from '@material-ui/core';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { AppState } from '../utils/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
-import { setLanguage } from '../utils/actions/searchparams';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { AppState } from '../../redux/store';
+import { setLanguage } from '../../redux/actions/searchparams';
 
 export interface Language {
     code: string;

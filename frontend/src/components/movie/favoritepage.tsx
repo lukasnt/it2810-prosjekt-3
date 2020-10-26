@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import MovieGrid from './moviegrid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@material-ui/core';
-import { AppState } from '../utils/store';
 import './index.css';
-import {CircularProgress} from '@material-ui/core';
-import { User } from '../utils/reducers/user';
-import { postData } from '../utils/ajax';
 import { Dispatch } from '@reduxjs/toolkit';
-import { setUser } from '../utils/actions/users';
+import { User } from '../../redux/reducers/user';
+import { AppState } from '../../redux/store';
+import { setUser } from '../../redux/actions/users';
 
 const FavoritesPage : React.FunctionComponent = () => {
 

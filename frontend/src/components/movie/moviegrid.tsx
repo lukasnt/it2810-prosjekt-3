@@ -1,7 +1,7 @@
 import React from 'react';
 import MovieCard, { MovieCardProps } from './moviecard';
 import { Grid } from '@material-ui/core';
-import { Movie } from '../utils/reducers/searchresult';
+import { Movie } from '../../redux/reducers/searchresult';
 
 interface MovieGridProps {
     data : Array<Movie>;

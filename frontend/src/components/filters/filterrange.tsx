@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Checkbox, List, ListItem, ListItemText, ListSubheader, Slider, Typography } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../utils/store';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { setRuntimeMinutes } from '../utils/actions/searchparams';
+import { setRuntimeMinutes } from '../../redux/actions/searchparams';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { AppState } from '../../redux/store';
 
 export interface FilterRangeProps {
     filtertype : string;

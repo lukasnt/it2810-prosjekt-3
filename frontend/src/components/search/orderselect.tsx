@@ -1,11 +1,11 @@
 import React from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { AppState } from '../utils/store';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import "./index.css";
-import { setOrderField } from '../utils/actions/searchparams';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { AppState } from '../../redux/store';
+import { setOrderField } from '../../redux/actions/searchparams';
 
 interface OrderSelectProps {
     orderLabels: Array<string>;

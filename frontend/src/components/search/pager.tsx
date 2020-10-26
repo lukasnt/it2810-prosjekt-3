@@ -1,10 +1,10 @@
 import { Pagination } from '@material-ui/lab';
 import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage } from '../utils/actions/searchparams';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { SearchResult } from '../utils/reducers/searchresult';
-import { AppState } from '../utils/store';
+import { setPage } from '../../redux/actions/searchparams';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { SearchResult } from '../../redux/reducers/searchresult';
+import { AppState } from '../../redux/store';
 
 const Pager : React.FunctionComponent = () => {
 

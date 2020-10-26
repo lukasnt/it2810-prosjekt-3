@@ -2,12 +2,12 @@ import { Button, Paper, TextField, Typography } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postData } from '../utils/ajax';
-import { setUser } from '../utils/actions/users';
-import { User } from '../utils/reducers/user';
-import { AppState } from '../utils/store';
 import './index.css';
 import { Redirect } from 'react-router-dom';
+import { User } from '../../redux/reducers/user';
+import { AppState } from '../../redux/store';
+import { postData } from '../../utils/ajax';
+import { setUser } from '../../redux/actions/users';
 
 const Login : React.FunctionComponent = () => {
     

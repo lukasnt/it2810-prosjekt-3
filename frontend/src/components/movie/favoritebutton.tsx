@@ -2,13 +2,13 @@ import React from "react";
 import {Button, IconButton, Typography} from "@material-ui/core";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import {User} from "../utils/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import {AppState} from "../utils/store";
-import { Movie } from "../utils/reducers/searchresult";
-import { postData } from "../utils/ajax";
 import { Dispatch } from "@reduxjs/toolkit";
-import { addFavorite, removeFavorite, setUser } from "../utils/actions/users";
+import { Movie } from "../../redux/reducers/searchresult";
+import { AppState } from "../../redux/store";
+import { User } from "../../redux/reducers/user";
+import { postData } from "../../utils/ajax";
+import { addFavorite, removeFavorite } from "../../redux/actions/users";
 
 export interface FavoriteButtonProps {
     movie : Movie;

@@ -9,9 +9,9 @@ import {
 } from "@material-ui/core";
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGenres } from '../utils/actions/searchparams';
-import { SearchParams } from '../utils/reducers/searchparams';
-import { AppState } from '../utils/store';
+import { AppState } from '../../redux/store';
+import { SearchParams } from '../../redux/reducers/searchparams';
+import { setGenres } from '../../redux/actions/searchparams';
 
 export interface FilterProps {
     filtertype : string;
