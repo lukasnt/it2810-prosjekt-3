@@ -44,8 +44,8 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
                     </Button>
                 ) : (
                     <Button onClick={postFavorite}>
-                        <FavoriteBorderIcon color="secondary" fontSize="large"/>marginLeft: '10px'
-                        <Typography variant="button" style={{ color: "white", }}> Add favorite </Typography>
+                        <FavoriteBorderIcon color="secondary" fontSize="large"/>
+                        <Typography variant="button" style={{ color: "white", marginLeft: '10px'}}> Add favorite </Typography>
                     </Button>
                 )
             ) : (
