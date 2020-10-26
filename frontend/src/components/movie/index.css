@@ -1,10 +1,17 @@
 /* MOVIE-SEARCH-PAGE */
 
-.moviePage {
+.moviePageHorizontal, .moviePageVertical {
     margin-top: 20px;
     display: flex;
-    flex-direction: column;
     flex-wrap: nowrap;
+}
+
+.moviePageVertical {
+    flex-direction: column;
+}
+
+.moviePageHorizontal {
+    flex-direction: row;
 }
 
 .movieView {
@@ -24,6 +31,13 @@
 }
 
 /* (Filters, etc.) */
+
+.filterContainerHorizontal {
+    width: 250px;
+}
+.filterContainerVertical {
+    width: 100%;
+}
 
 .movieViewHeader {
     width: 95%;
