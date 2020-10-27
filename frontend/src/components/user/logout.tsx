@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import {MenuItem} from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,10 +28,10 @@ const Logout : React.FunctionComponent = () => {
     }
 
     return (
-        <Button color="inherit" onClick={logout}>
-            Logout
+        <MenuItem onClick={logout}>
+            Log out
             {redirect ? <Redirect to="/login"/> : null}
-        </Button>
+        </MenuItem>
     );
 };
 

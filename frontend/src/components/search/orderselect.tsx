@@ -31,10 +31,10 @@ const OrderSelect : React.FunctionComponent<OrderSelectProps> = ({ orderLabels, 
     function handleChange(event: React.ChangeEvent<{ value: any }>) : void {
         setValue(event.target.value as string);
         dispatch(setOrderField(event.target.value as string))
-    };
+    }
 
     return (
-        <FormControl className="orderSelect" variant="standard">
+        <FormControl className="orderSelect">
             <InputLabel id="order-label"> Order on </InputLabel>
             <Select
                 labelId="order-label"

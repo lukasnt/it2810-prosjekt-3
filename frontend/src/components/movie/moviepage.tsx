@@ -105,4 +105,3 @@ const MoviePage : React.FunctionComponent = () => {
 };
 
 export default MoviePage;
-        

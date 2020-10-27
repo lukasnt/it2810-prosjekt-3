@@ -1,5 +1,5 @@
 import { Pagination } from '@material-ui/lab';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../../redux/actions/searchparams';
 import { SearchParams } from '../../redux/reducers/searchparams';
@@ -17,10 +17,10 @@ const Pager : React.FunctionComponent = () => {
     function handleChange(event: React.ChangeEvent<any>, value: number) {
         dispatch(setPage(value));
         setLocalPage(value);
-    };
+    }
 
     return (
-        <Pagination count={searchResult?.pages} page={searchParams.page} onChange={handleChange} color="primary" />
+        <Pagination className="pager" count={searchResult?.pages} page={searchParams.page} onChange={handleChange} color="primary" />
     );
 };
 export default Pager;

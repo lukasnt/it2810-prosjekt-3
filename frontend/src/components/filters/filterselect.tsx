@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Autocomplete } from '@material-ui/lab';
-import { List, ListItem, ListSubheader, TextField, Typography } from '@material-ui/core';
+import { List, ListItem, ListSubheader, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
 import { SearchParams } from '../../redux/reducers/searchparams';
@@ -25,14 +25,14 @@ const FilterSelect : React.FunctionComponent<FilterSelectProps> = ( {filtertype,
 
     function handleChange(event: any, newValue: Language | null) {
         dispatch(setLanguage(newValue == null ? "" : newValue.code));
-    };
+    }
 
     function getDefaultValue() : Language | null | undefined {
         return searchParams.language == "" ? null : options.find(opt => opt.code == searchParams.language);
     }
 
     return (
-        <List dense subheader={<ListSubheader>{filtertype}</ListSubheader>}>
+        <List className="filterSelectLanguage" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
             <ListItem>
                 <Autocomplete
                     options={options}

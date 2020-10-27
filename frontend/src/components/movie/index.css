@@ -1,8 +1,26 @@
-.moviePage {
+/* MOVIE-SEARCH-PAGE */
+
+.searchPage {
     margin-top: 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: nowrap;
+}
+
+@media only screen and (max-width: 960px) {
+    .searchPage {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+    .filterContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
 }
 
 .movieView {
@@ -13,20 +31,6 @@
     width: 100%;
 }
 
-.movieViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.favoritesViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .movieGrid {
     display: flex;
     width: 90%;
@@ -35,15 +39,74 @@
     margin: 10px;
 }
 
-.filterList {
+/* (Filters, etc.) */
+
+.filterContainer {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filterSelectLanguage {
+    width: 300px;
+}
+
+.movieViewHeader {
+    width: 95%;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-evenly;
+}
+
+.filterListGenre, .filterRange {
     min-width: 200px;
     flex-grow: 1;
     margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.filterListGenre > li {
+    width: 100%;
+}
+.filterListGenre > div:nth-child(n+1) {
+    width: 175px;
+}
+
+.rangeSlider {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.showFiltersButton {
+    margin-top: 50px;
+}
+
+.movietitle-searchfield {
+    max-width: 400px;
+    width: 100%;
+}
+
+.movieViewHeader > div {
+    margin: 25px;
+}
+
+.orderContainer {
+    width: 250px;
+    margin: 25px;
+    display: flex;
+}
+
+.orderSelect {
+    width: 175px;
 }
 
 .pager {
     align-self: center;
-    margin: auto;
+    margin: 25px auto;
 }
 
 .movie-grid {
@@ -79,9 +142,16 @@
     text-overflow: ellipsis;
 }
 
+.favoritePage {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
 .favoriteButton {
     margin-top: 10px;
 }
+
 .link {
     text-decoration: none;
     color: white;
