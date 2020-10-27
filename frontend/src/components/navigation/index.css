@@ -1,13 +1,24 @@
-.navbarRoot{
-    flex-grow: 1;
+.navbar {
+    display: flex;
+    flex-wrap: nowrap;
 }
+
 .menuButton {
     margin-right: 8px;
+    display: inline-block;
 }
+
+.userOptions {
+    flex: 1;
+}
+/*
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+ */
+
 .titleWide, .titleNarrow {
-    flex-grow: 1;
-}
-.userOptions{
     flex-grow: 1;
 }
 .link {
