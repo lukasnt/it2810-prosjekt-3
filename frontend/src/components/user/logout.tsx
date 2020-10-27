@@ -28,7 +28,7 @@ const Logout : React.FunctionComponent = () => {
     }
 
     return (
-        <MenuItem onClick={logout}>
+        <MenuItem data-cy='logout_button' onClick={logout}>
             Log out
             {redirect ? <Redirect to="/login"/> : null}
         </MenuItem>
