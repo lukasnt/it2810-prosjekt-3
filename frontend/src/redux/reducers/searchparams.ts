@@ -1,6 +1,4 @@
-import { setSearchResult } from "../actions/searchresult";
-import { SearchParamsActions, setLoading } from "../actions/searchparams";
-import { store } from "../store";
+import { SearchParamsActions } from "../actions/searchparams";
 
 //Typene brukt i state
 export type SearchParams = {
@@ -26,21 +24,9 @@ export function searchParamsReducer(state : SearchParams = {
     page : 1,
     pageSize : 18,
     loading: true
-}, action: SearchParamsActions) {
-    let updated :  boolean = true;
-    let pageUpdated : boolean = false;
-    
-    let newState : SearchParams = {
-        query: state.query,
-        genres : state.genres,
-        language : state.language,
-        runtimeMinutes : state.runtimeMinutes,
-        orderField: state.orderField,
-        orderDir: state.orderDir,
-        page: state.page,
-        pageSize : state.pageSize,
-        loading: state.loading
-    }
+}, action: SearchParamsActions) { 
+
+    let newState : SearchParams = { ...state }
 
     switch (action.type) {
         case "SET_QUERY":
@@ -63,52 +49,16 @@ export function searchParamsReducer(state : SearchParams = {
             break;
         case "SET_PAGE":
             newState.page = action.payload as number;
-            pageUpdated = true;
             break;
         case "SET_PAGE_SIZE":
             newState.pageSize = action.payload as number;
             break;
         case "SET_LOADING":
             newState.loading = action.payload as boolean;
-            updated = false;
             break;
         default:
-            updated = false;
             newState = state;
             break;
     }
-
-    if (updated && !pageUpdated) {
-        newState.page = 1;
-    }
-    if (updated) {
-        executeSearch(newState);
-    }
-
     return newState;
 }
-
-let callID : number = 0;
-export async function executeSearch(state : SearchParams) : Promise<void> {
-    state.loading = true;
-    callID++;
-    return fetch("http://localhost:8080/api/movie/search?" + 
-        "query=" + state.query + "&" +
-        "filters=" + state.genres + "&" +
-        "language=" + state.language + "&" +
-        "runtimeMinutes=" + state.runtimeMinutes + "&" +
-        "orderField=" + state.orderField + "&" +
-        "orderDir=" + state.orderDir + "&" +
-        "page=" + state.page + "&" +
-        "pageSize=" + state.pageSize + "&" +
-        "callID=" + callID)
-        .then(res => res.json())
-        .then(data => {
-            if (data.callID == callID) {
-                store.dispatch(setSearchResult(data.result));
-                store.dispatch(setLoading(false));
-            }
-        });
-}
-
-function neverReached(never: never) {}

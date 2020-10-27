@@ -20,6 +20,7 @@ const Logout : React.FunctionComponent = () => {
             .then(res => {
                 setRedirect(true);
                 dispatch(setUser(null));
+                localStorage.setItem("user", JSON.stringify(null));
             })
             .catch(error => {
                 console.log("Couldn't log out");

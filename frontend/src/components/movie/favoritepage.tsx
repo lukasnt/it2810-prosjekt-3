@@ -25,6 +25,7 @@ const FavoritesPage : React.FunctionComponent = () => {
             .then(res => res.json())
             .then(data => {
                 dispatch(setUser(data));
+                localStorage.setItem("user", JSON.stringify(data));
             })
         }
     }, []);

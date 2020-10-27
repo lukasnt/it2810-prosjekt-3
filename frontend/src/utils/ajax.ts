@@ -1,3 +1,10 @@
+import { store } from "../redux/store";
+import { setLoading } from "../redux/actions/searchparams";
+import { setSearchResult } from "../redux/actions/searchresult";
+import { SearchParams } from "../redux/reducers/searchparams";
+
+
+
 // Taken from MDN
 // Example POST method implementation:
 export async function postData(url = '', data = {}, token = "", method = "POST") : Promise<Response> {
@@ -18,9 +25,25 @@ export async function postData(url = '', data = {}, token = "", method = "POST")
   });
 }
 
-function handleErrors(response : Response) {
-  if (!response.ok) {
-      throw Error(response.statusText);
-  }
-  return response;
+let callID : number = 0;
+export async function executeSearch(state : SearchParams) : Promise<void> {
+    if (!state.loading) store.dispatch(setLoading(true));
+    callID++;
+    return fetch("http://localhost:8080/api/movie/search?" + 
+        "query=" + state.query + "&" +
+        "filters=" + state.genres + "&" +
+        "language=" + state.language + "&" +
+        "runtimeMinutes=" + state.runtimeMinutes + "&" +
+        "orderField=" + state.orderField + "&" +
+        "orderDir=" + state.orderDir + "&" +
+        "page=" + state.page + "&" +
+        "pageSize=" + state.pageSize + "&" +
+        "callID=" + callID)
+        .then(res => res.json())
+        .then(data => {
+            if (data.callID == callID) {
+                store.dispatch(setSearchResult(data.result));
+                store.dispatch(setLoading(false));
+            }
+        });
 }

@@ -43,6 +43,7 @@ const Login : React.FunctionComponent = () => {
                     token: data.authToken,
                     favorites: data.favorites
                 }));
+                localStorage.setItem("user", JSON.stringify(data));
                 setErrorTxt("");
                 setRedirect(true);
             }).catch(error => {});
