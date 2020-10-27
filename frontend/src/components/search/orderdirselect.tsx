@@ -2,12 +2,13 @@
 import React from 'react';
 import "./index.css";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
+import {ArrowDownward, ArrowUpward} from '@material-ui/icons';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrderDir } from '../utils/actions/searchparams';
 import { SearchParams } from '../utils/reducers/searchparams';
 import { AppState } from '../utils/store';
+import {Typography} from "@material-ui/core";
 
 interface OrderDirSelectProps {
     orderDir : number;
@@ -35,11 +36,11 @@ const OrderDirSelect : React.FunctionComponent<OrderDirSelectProps> = ({ orderDi
             aria-label="text alignment"
             orientation="horizontal"
         >
-            <ToggleButton value={1} aria-label="left aligned">
-              <ArrowDropUp />
+            <ToggleButton value={-1} aria-label="Descending">
+                <ArrowDownward />
             </ToggleButton>
-            <ToggleButton value={-1} aria-label="centered">
-              <ArrowDropDown />
+            <ToggleButton value={1} aria-label="Ascending">
+              <ArrowUpward />
             </ToggleButton>
         </ToggleButtonGroup>
     );

@@ -34,7 +34,7 @@ const OrderSelect : React.FunctionComponent<OrderSelectProps> = ({ orderLabels, 
     };
 
     return (
-        <FormControl className="orderSelect" variant="standard">
+        <FormControl className="orderSelect">
             <InputLabel id="order-label"> Order on </InputLabel>
             <Select
                 labelId="order-label"
