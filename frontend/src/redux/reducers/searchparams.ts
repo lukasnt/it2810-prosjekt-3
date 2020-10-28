@@ -13,7 +13,7 @@ export type SearchParams = {
     loading: boolean;
 };
 
-//Reducer-funksjonen, initialiserer store med user
+//Reducer-funksjonen, initialiserer store med searchParams
 export function searchParamsReducer(state : SearchParams = {
     query : "",
     genres : [],

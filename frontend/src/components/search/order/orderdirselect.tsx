@@ -18,8 +18,10 @@ const OrderDirSelect : React.FunctionComponent<OrderDirSelectProps> = ({ orderDi
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
     
+    // Default value is the value in global state in searchParams
     const [alignment, setAlignment] = React.useState(searchParams.orderDir);
 
+    // Sets the value selected from the toggle-buttons to the local state of alignment and global state of searchParams  
     const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: number | null) => {
         if (newAlignment !== null) {
           setAlignment(newAlignment);

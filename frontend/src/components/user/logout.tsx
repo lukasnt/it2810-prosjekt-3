@@ -15,6 +15,7 @@ const Logout : React.FunctionComponent = () => {
 
     const [redirect, setRedirect] = useState(false);
     
+    // Sends a logout-post to the backend, and removes user from localStorage and global state
     function logout() : void {
         postData("http://localhost:8080/api/user/logout", {}, user?.token)
             .then(() => {

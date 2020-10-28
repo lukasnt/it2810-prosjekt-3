@@ -44,7 +44,8 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
         executeSearch(this.props.appState.searchParams);
     }
 
-    // Everytime the searchParams have updated (besides loading) it should execute a search
+    // Everytime the searchParams (in redux) have updated (besides loading) it should execute a search
+    // This is done by checking if the previous params and current params are not equal to each other
     componentDidUpdate(prevProps : SearchPageProps) : void {
         let prevParams = prevProps.appState.searchParams;
         let currentParams = this.props.appState.searchParams;

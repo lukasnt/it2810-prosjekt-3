@@ -12,6 +12,7 @@ const SearchBar : React.FunctionComponent = () => {
     const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
+    // When the enter-key is pressed the query in searchParams in global state is updated
     function searchMovies(ev : any) {
         if (ev.key === 'Enter') {
             let query : string = ev.target.value;

@@ -9,7 +9,8 @@ interface MovieGridProps {
 
 const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
 
-    function generateMovieCards() {
+    // Takes the the array of movies and returns an Array of Grid-items of MovieCards
+    function generateMovieCards() : JSX.Element[] {
         return data.map(card => 
             <Grid item key={card.tconst}> 
                 <MovieCard 

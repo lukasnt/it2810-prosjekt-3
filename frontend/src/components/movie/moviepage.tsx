@@ -7,12 +7,10 @@ import { Movie } from '../../redux/reducers/searchresult';
 
 const MoviePage : React.FunctionComponent = () => {
 
-    const [voteAverage, setVoteAverage] = useState('');
-    const [voteCount, setVoteCount] = useState('');
-    const [myRating, setMyRating] = useState('');
-
+    // This is the parameters in the url, the movie-id (tconst) is used
     let params : any = useParams();
 
+    // Holds state of the movie that it gets from the backend
     const [movie, setMovie] = useState<Movie>({
         tconst: params.tconst,
         titleType: "",
@@ -30,8 +28,15 @@ const MoviePage : React.FunctionComponent = () => {
         overview: ""
     });
 
+    // Other states that is more convinient to have in single values
+    const [voteAverage, setVoteAverage] = useState('');
+    const [voteCount, setVoteCount] = useState('');
+    const [myRating, setMyRating] = useState('');
+
+    // When the component is mounted, it takes the id (tconst) from the url 
+    // and sends a request for that movie to the backend
+    // Then updates the state of the movie that it gets
     useEffect(() => {
-        console.log(params.tconst);
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
             .then(data => {
