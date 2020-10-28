@@ -12,6 +12,7 @@ const Pager : React.FunctionComponent = () => {
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
+    // When the Pagination changes the searchParams in global state is updated
     function handleChange(event: React.ChangeEvent<any>, value: number) {
         dispatch(setPage(value));
     }

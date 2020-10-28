@@ -69,6 +69,7 @@ router.post('/login', (req : Request, res : Response) => {
     })
 });
 
+// Gets the logged in user
 router.get('/', requireAuth, (req : Request, res : Response) => {
     findUser(req.body.user.email)
         .then(user => {
@@ -83,17 +84,20 @@ router.get('/', requireAuth, (req : Request, res : Response) => {
         })
 });
 
+// Logs out the user 
 router.post('/logout', requireAuth, (req : Request, res : Response) => {
     removeTokens(req.body.user);
     res.sendStatus(200);
 });
 
+// Adds a movie to the users favorites
 router.post('/favorite', requireAuth, (req : Request, res : Response) => {
     addFavorite(req.body.user.email, req.body.movie).then(_ => {
         res.sendStatus(200);
     });
 });
 
+// Deltes a movie from the users favorites
 router.delete('/favorite', requireAuth, (req : Request, res : Response) => {
     removeFavorite(req.body.user.email, req.body.movie).then(_ => {
         res.sendStatus(200);
@@ -125,6 +129,8 @@ function removeTokens(user : User) {
     }
 }
 
+// Requires a user to be attached to the body (i.e. authenticated) to pass
+// else it will return a 403 response.
 export function requireAuth(req : Request, res : Response, next : NextFunction) : void {
     if (req.body.user) {
         next();
@@ -132,5 +138,21 @@ export function requireAuth(req : Request, res : Response, next : NextFunction) 
         res.sendStatus(403);
     }
 };
+
+// Attaches the logged in user to the request-body based on the token in the request
+// The token can either be in the cookies or a part of the HTTP-header
+export function attachUser(req : Request, res : Response, next : NextFunction) {
+    // Get auth token from the cookies
+    let authToken : string = req.cookies['AuthToken'];
+
+    // If token is not in cookie and in header
+    if (!authToken) authToken = req.headers["authorization"] as string;
+
+    // Inject the user to the request
+    req.body.user = authTokens.get(authToken);
+    if (req.body.user) req.body.user.authToken = authToken;
+
+    next();
+}
 
 export default router;

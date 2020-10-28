@@ -9,13 +9,16 @@ const Registration : React.FunctionComponent = () => {
   const [errorTxt, setErrorTxt] = useState("");
   const [redirect, setRedirect] = useState(false);
 
+  // Posts the values in the text-fields to the backend
   function register() : void {
+    // Gets the values from the text-fields
     const email : string = (document.getElementById("rEmail") as HTMLInputElement).value;
     const firstName : string = (document.getElementById("rFirstName") as HTMLInputElement).value;
     const lastName : string = (document.getElementById("rLastName") as HTMLInputElement).value;
     const password : string = (document.getElementById("rPassword") as HTMLInputElement).value;
     const confirmPassword : string = (document.getElementById("rConfirmPassword") as HTMLInputElement).value;
 
+    // The data to be posted
     const data : any = {
       email: email,
       firstName: firstName,
@@ -24,6 +27,7 @@ const Registration : React.FunctionComponent = () => {
       confirmPassword: confirmPassword
     };
 
+    // sends the post call
     postData("http://localhost:8080/api/user/register", data)
       .then(res => {
         if (res.status == 403) {  // Forbidden (i.e wrong username/password)

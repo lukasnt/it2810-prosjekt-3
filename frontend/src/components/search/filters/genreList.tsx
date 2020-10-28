@@ -23,8 +23,10 @@ const GenreList : React.FunctionComponent<FilterProps> = ({filtertype, filters} 
     const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
 
+    // Array of which genres are enabled in the filter
     const [checked, setChecked] = React.useState(searchParams.genres.map(name => filters.indexOf(name)));
     
+    // Updates the checked-array when any of the checkboxes have changed value
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];

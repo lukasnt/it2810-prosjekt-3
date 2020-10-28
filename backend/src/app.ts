@@ -1,10 +1,10 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import router from "./routes";
-import { authTokens } from "./controllers/user";
 import cors from "cors";
-import { connect, db } from "./data/database";
+import { connect } from "./data/database";
+import { attachUser } from "./controllers/user";
 
 const app : Application = express();
 
@@ -23,24 +23,10 @@ app.use(cookieParser());
 // Enable cors-headers
 app.use(cors());
 
-app.use((req : Request, res : Response, next : NextFunction) => {
-    // Get auth token from the cookies
-    let authToken : string = req.cookies['AuthToken'];
+// Attach User to the body based on the token
+app.use(attachUser);
 
-    // If token is not in cookie and in header
-    if (!authToken) authToken = req.headers["authorization"] as string;
-
-    // Inject the user to the request
-    req.body.user = authTokens.get(authToken);
-    if (req.body.user) req.body.user.authToken = authToken;
-
-    next();
-});
-
-app.get("/", (req : Request, res : Response) => {
-    res.send("hello");
-});
-
+// Use the endpoints from the controllers
 app.use("/api", router);
 
 app.listen(8080, () => {

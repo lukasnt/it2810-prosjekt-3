@@ -15,30 +15,23 @@ const RuntimeList : React.FunctionComponent<FilterRangeProps> = ({filtertype} ) 
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
     
+    // A two-valued array for runtimeMinutes filter: [minValue, maxValue]. Default set to the value in searchParams in redux
     const [value, setValue] = React.useState<number[]>(searchParams.runtimeMinutes.length == 0 ? [0, 480] : searchParams.runtimeMinutes);
-    //const [checked, setChecked] = React.useState(searchParams.runtimeMinutes.length == 0);
-
-    function valuetext(value: number) {
+    
+    // How text is displayed on slider
+    function valuetext(value: number) : string {
         return `${value} minutes`;
     }
 
-    function handleChange(event: any, newValue: number | number[]) {
+    // When the slider is dragged the local state value is updated
+    function handleChange(event: any, newValue: number | number[]) : void {
         setValue(newValue as number[]);
     }
 
-    function handleChangeCommited(event: any, newValue: number | number[]) {
+    // When the slider is dropped (comitted) the global state for runtimeMinutes is updated
+    function handleChangeCommited(event: any, newValue: number | number[]) : void {
         dispatch(setRuntimeMinutes(newValue as number[]));
     }
-
-    /*
-    function handleCheckChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setChecked(event.target.checked);
-        if (!event.target.checked)
-            dispatch(setRuntimeMinutes(value));
-        else
-            dispatch(setRuntimeMinutes([]));
-    };
-     */
 
     return (
         <List className="runtimeList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>

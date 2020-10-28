@@ -17,6 +17,8 @@ const Login : React.FunctionComponent = () => {
     const [errorTxt, setErrorTxt] = useState("");
     const [redirect, setRedirect] = useState(false);
     
+    // Takes the values in the text-fields and posts them to the backend
+    // If the login is succsessful, the user is updated in global state and localStorage
     function login() : void {
         const email : string = (document.getElementById("lEmail") as HTMLInputElement).value;
         const password : string = (document.getElementById("lPassword") as HTMLInputElement).value;
@@ -26,8 +28,10 @@ const Login : React.FunctionComponent = () => {
             password: password
         };
 
+        // Makes the post call
         postData("http://localhost:8080/api/user/login", data)
             .then(res => {
+                // If it couldn't log in error is thrown
                 if (res.status == 403) {  // Forbidden (i.e wrong username/password)
                     console.log("Not Correct username and password combination");
                     setErrorTxt("Not Correct username and password combination");
@@ -36,6 +40,7 @@ const Login : React.FunctionComponent = () => {
                 return res.json()
             })
             .then(data => {
+                // Sets global state
                 dispatch(setUser({
                     email: email,
                     firstName: data.firstName,
@@ -43,6 +48,7 @@ const Login : React.FunctionComponent = () => {
                     token: data.authToken,
                     favorites: data.favorites
                 }));
+                // Sets value in local Storage
                 localStorage.setItem("user", JSON.stringify(data));
                 setErrorTxt("");
                 setRedirect(true);

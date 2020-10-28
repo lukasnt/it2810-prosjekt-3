@@ -13,6 +13,8 @@ const FavoritesPage : React.FunctionComponent = () => {
     const user : User | null = useSelector((state : AppState) => state.user);
     const dispatch : Dispatch<any> = useDispatch();
 
+    // When the component is mounted it should request the favorite movies from the backend
+    // and set it to the users favorites in redux store and localStorage
     useEffect(() => {
         if (user) {
             fetch("http://localhost:8080/api/user/", {

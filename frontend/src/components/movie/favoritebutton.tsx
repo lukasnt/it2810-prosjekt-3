@@ -19,6 +19,7 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
     const user : User | null = useSelector((state : AppState) => state.user);    
     const dispatch : Dispatch<any> = useDispatch();
 
+    // Post the movie from the props to the databse
     function postFavorite() : void {
         postData("http://localhost:8080/api/user/favorite", { movie: movie }, user?.token)
             .then(() => {
@@ -26,6 +27,7 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
             });
     }
 
+    // Delete the movie from the props in the databse
     function deleteFavorite() : void {
         postData("http://localhost:8080/api/user/favorite", { movie: movie }, user?.token, "DELETE")
             .then(() => {
