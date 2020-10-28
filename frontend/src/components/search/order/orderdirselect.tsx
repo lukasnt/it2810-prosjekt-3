@@ -1,13 +1,13 @@
 
 import React from 'react';
-import "./index.css";
+import "../index.css";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import {ArrowDownward, ArrowUpward} from '@material-ui/icons';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { SearchParams } from '../../redux/reducers/searchparams';
-import { AppState } from '../../redux/store';
-import { setOrderDir } from '../../redux/actions/searchparams';
+import { SearchParams } from '../../../redux/reducers/searchparams';
+import { AppState } from '../../../redux/store';
+import { setOrderDir } from '../../../redux/actions/searchparams';
 
 interface OrderDirSelectProps {
     orderDir : number;

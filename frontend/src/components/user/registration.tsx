@@ -34,7 +34,7 @@ const Registration : React.FunctionComponent = () => {
           setErrorTxt("");
           setRedirect(true);
         }
-      }).catch(error => {});;
+      }).catch(() => {});
   }
 
   return (

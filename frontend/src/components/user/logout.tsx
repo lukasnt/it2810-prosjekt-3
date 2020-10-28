@@ -17,12 +17,12 @@ const Logout : React.FunctionComponent = () => {
     
     function logout() : void {
         postData("http://localhost:8080/api/user/logout", {}, user?.token)
-            .then(res => {
+            .then(() => {
                 setRedirect(true);
                 dispatch(setUser(null));
                 localStorage.setItem("user", JSON.stringify(null));
             })
-            .catch(error => {
+            .catch(() => {
                 console.log("Couldn't log out");
             })
     }

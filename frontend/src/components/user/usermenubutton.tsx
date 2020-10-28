@@ -6,7 +6,7 @@ import {Menu} from "@material-ui/core";
 import {useSelector} from "react-redux";
 import {User} from "../../redux/reducers/user";
 import {AppState} from "../../redux/store";
-import Logout from "../user/logout";
+import Logout from "./logout";
 
 export default function UserMenuButton() {
 

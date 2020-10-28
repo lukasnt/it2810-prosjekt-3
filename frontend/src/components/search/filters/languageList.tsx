@@ -4,9 +4,9 @@ import { Autocomplete } from '@material-ui/lab';
 import { List, ListItem, ListSubheader, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
-import { SearchParams } from '../../redux/reducers/searchparams';
-import { AppState } from '../../redux/store';
-import { setLanguage } from '../../redux/actions/searchparams';
+import { SearchParams } from '../../../redux/reducers/searchparams';
+import { AppState } from '../../../redux/store';
+import { setLanguage } from '../../../redux/actions/searchparams';
 
 export interface Language {
     code: string;
@@ -18,7 +18,7 @@ export interface FilterSelectProps {
     options : Array<Language>;
 }
 
-const FilterSelect : React.FunctionComponent<FilterSelectProps> = ( {filtertype, options} ) => {
+const LanguageList : React.FunctionComponent<FilterSelectProps> = ({filtertype, options} ) => {
     
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
@@ -32,7 +32,7 @@ const FilterSelect : React.FunctionComponent<FilterSelectProps> = ( {filtertype,
     }
 
     return (
-        <List className="filterSelectLanguage" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
+        <List className="languageList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
             <ListItem>
                 <Autocomplete
                     options={options}
@@ -47,4 +47,4 @@ const FilterSelect : React.FunctionComponent<FilterSelectProps> = ( {filtertype,
     );
 };
 
-export default FilterSelect;
+export default LanguageList;

@@ -1,15 +1,15 @@
 import React from 'react';
-import FilterList from '../filters/filterlist';
+import GenreList from './filters/genreList';
 import MovieGrid from '../movie/moviegrid';
 import { connect } from 'react-redux';
-import OrderSelect from './orderselect';
+import OrderSelect from './order/orderselect';
 import './index.css';
-import {Box, Button, CircularProgress} from '@material-ui/core';
+import {Button, CircularProgress} from '@material-ui/core';
 import Pager from './pager';
-import FilterRange from '../filters/filterrange';
-import FilterSelect, { Language } from '../filters/filterselect';
+import RuntimeList from './filters/runtimeList';
+import LanguageList, { Language } from './filters/languageList';
 import tags, { Subtag } from "language-tags";
-import OrderDirSelect from './orderdirselect';
+import OrderDirSelect from './order/orderdirselect';
 import SearchBar from './searchbar';
 import { AppState } from '../../redux/store';
 import { executeSearch } from '../../utils/ajax';
@@ -64,18 +64,18 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
         return (
             <div className="searchPage">
                 {this.state.showFilters &&
-                    <Box className="filterContainer">
-                        <FilterList filtertype={this.filterType} filters={this.filterValues}/>
-                        <FilterRange filtertype={"Runtime Minutes"}/>
-                        <FilterSelect filtertype={"Language"} options={this.languageOptions}/>
+                    <div className="filterContainer">
+                        <GenreList filtertype={this.filterType} filters={this.filterValues}/>
+                        <RuntimeList filtertype={"Runtime Minutes"}/>
+                        <LanguageList filtertype={"Language"} options={this.languageOptions}/>
                         <div className="orderContainer">
                             <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
                             <OrderDirSelect orderDir={searchParams.orderDir} />
                         </div>
-                    </Box>
+                    </div>
                 }
-                <div className="movieView">
-                    <div className="movieViewHeader">
+                <div className="searchView">
+                    <div className="searchPageHeader">
                         <Button className="showFiltersButton" variant="outlined" color="primary"
                                 onClick={() => {this.setState({showFilters : !this.state.showFilters})}}>
                             {this.state.showFilters ? "Hide filters" : "Show filters"}

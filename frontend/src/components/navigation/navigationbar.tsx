@@ -14,18 +14,11 @@ import { Link } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import { User } from '../../redux/reducers/user';
 import { AppState } from '../../redux/store';
-import UserMenuButton from "./UserMenuButton";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
-/* Modified component supplied by https://material-ui.com/components/app-bar/ */
+import UserMenuButton from "../user/usermenubutton";
 
 const NavigationBar : React.FunctionComponent = () => {
-    /*
-    const classes = useStyles();
-    const [auth, setAuth] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-     */
+
     const user : User | null = useSelector((state : AppState) => state.user);
 
     //const gttMedium = useMediaQuery('(min-width:650px)');

@@ -9,16 +9,16 @@ import {
 } from "@material-ui/core";
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../redux/store';
-import { SearchParams } from '../../redux/reducers/searchparams';
-import { setGenres } from '../../redux/actions/searchparams';
+import { AppState } from '../../../redux/store';
+import { SearchParams } from '../../../redux/reducers/searchparams';
+import { setGenres } from '../../../redux/actions/searchparams';
 
 export interface FilterProps {
     filtertype : string;
     filters : string[];
 }
 
-const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters} ) => {
+const GenreList : React.FunctionComponent<FilterProps> = ({filtertype, filters} ) => {
     
     const searchParams : SearchParams | null = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
@@ -41,12 +41,12 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
 
     
     return (
-        <List className="filterListGenre" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
+        <List className="genreList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
         {filters.map((filter:string) => {
             const labelId = `checkbox-list-label-${filter}`;
             const index = filters.indexOf(filter);
             return (
-                <ListItem className="filterListItem" key={index} role={undefined} dense button onClick={handleToggle(index)}>
+                <ListItem className="genreListItem" key={index} role={undefined} dense button onClick={handleToggle(index)}>
                     <ListItemIcon>
                         <Checkbox
                             edge="end"
@@ -64,4 +64,4 @@ const FilterList : React.FunctionComponent<FilterProps> = ( {filtertype, filters
     );
 };
 
-export default FilterList;
+export default GenreList;

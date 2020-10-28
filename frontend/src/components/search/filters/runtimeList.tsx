@@ -2,15 +2,15 @@ import React from 'react';
 import { List, ListItem, ListSubheader, Slider } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRuntimeMinutes } from '../../redux/actions/searchparams';
-import { SearchParams } from '../../redux/reducers/searchparams';
-import { AppState } from '../../redux/store';
+import { setRuntimeMinutes } from '../../../redux/actions/searchparams';
+import { SearchParams } from '../../../redux/reducers/searchparams';
+import { AppState } from '../../../redux/store';
 
 export interface FilterRangeProps {
     filtertype : string;
 }
 
-const FilterRange : React.FunctionComponent<FilterRangeProps> = ( {filtertype} ) => {
+const RuntimeList : React.FunctionComponent<FilterRangeProps> = ({filtertype} ) => {
     
     const searchParams : SearchParams = useSelector((state : AppState) => state.searchParams);
     const dispatch : Dispatch<any> = useDispatch();
@@ -41,7 +41,7 @@ const FilterRange : React.FunctionComponent<FilterRangeProps> = ( {filtertype} )
      */
 
     return (
-        <List className="filterRange" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
+        <List className="runtimeList" dense subheader={<ListSubheader disableSticky>{filtertype}</ListSubheader>}>
             <ListItem>  
                 <Slider
                     className="rangeSlider"
@@ -68,4 +68,4 @@ const FilterRange : React.FunctionComponent<FilterRangeProps> = ( {filtertype} )
 </ListItem>
  */
 
-export default FilterRange;
+export default RuntimeList;
