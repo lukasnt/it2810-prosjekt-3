@@ -25,7 +25,7 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
     }
 
     return (
-        <div className="movieGrid">
+        <div className="movie-grid">
             <Grid container spacing={2}
                 direction="row"
                 alignItems="center"

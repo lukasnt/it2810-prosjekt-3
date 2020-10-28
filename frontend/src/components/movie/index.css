@@ -1,14 +1,9 @@
-.movieGrid {
+.movie-grid {
     display: flex;
     width: 90%;
     min-width: 275px;
     flex-grow: 2;
-    margin: 10px;
-}
-
-.movie-grid {
     padding: 10px;
-    margin: 10px;
 }
 
 .movie-card {
@@ -39,13 +34,13 @@
     text-overflow: ellipsis;
 }
 
-.favoritePage {
+.favorite-page {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
 }
 
-.favoriteButton {
+.favorite-button {
     margin-top: 10px;
 }
 

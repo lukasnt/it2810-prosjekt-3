@@ -34,7 +34,7 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
     }
 
     return (
-        <div className="favoriteButton">
+        <div className="favorite-button">
             {user != null && user.favorites != null ? (
 
                 (user.favorites.map(movie => movie.tconst).includes(movie.tconst)) ? (

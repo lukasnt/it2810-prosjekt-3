@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import MovieGrid from './moviegrid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@material-ui/core';
@@ -29,7 +29,7 @@ const FavoritesPage : React.FunctionComponent = () => {
     }, []);
 
     return (
-        <div className="favoritePage">
+        <div className="favorite-page">
             {user?.favorites.length == 0 ? (
                 <Typography variant="h6" style={{margin: "auto", marginTop: "20%"}}>No favorites added</Typography>
             ) : (
