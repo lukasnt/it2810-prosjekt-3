@@ -49,7 +49,7 @@ const Registration : React.FunctionComponent = () => {
       <TextField required data-cy='register_password' id="rPassword" label="Password" variant="outlined" type="password"/>
       <TextField required data-cy='register_confirm_password' id="rConfirmPassword" label="Confirm Password" variant="outlined" type="password"/>
       <Button data-cy='register_register' variant="contained" color="primary" onClick={register}> Register </Button>
-      <Typography color="secondary"> {errorTxt} </Typography>
+      <Typography color="error"> {errorTxt} </Typography>
         {redirect ? <Redirect to="/login" /> : null}
     </Paper>
   );

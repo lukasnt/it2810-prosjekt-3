@@ -41,18 +41,18 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
 
                 (user.favorites.map(movie => movie.tconst).includes(movie.tconst)) ? (
                     <Button data-cy='remove_favorite_button' onClick={deleteFavorite}>
-                        <FavoriteIcon color="secondary" fontSize="large"/>
+                        <FavoriteIcon style={{color:"#dc004e"}} fontSize="large"/>
                         <Typography variant="button" style={{color: "white", marginLeft: '10px'}}> Remove favorite </Typography>
                     </Button>
                 ) : (
                     <Button data-cy='add_favorite_button' onClick={postFavorite}>
-                        <FavoriteBorderIcon color="secondary" fontSize="large"/>
+                        <FavoriteBorderIcon style={{color:"#dc004e"}} fontSize="large"/>
                         <Typography variant="button" style={{ color: "white", marginLeft: '10px'}}> Add favorite </Typography>
                     </Button>
                 )
             ) : (
                 <Button href="/login">
-                    <FavoriteBorderIcon color="secondary" fontSize="large"/>
+                    <FavoriteBorderIcon style={{color:"#dc004e"}} fontSize="large"/>
                     <Typography variant="button" style={{color: "white", marginLeft: '10px'}}> Add favorite </Typography>
                 </Button>
             )}

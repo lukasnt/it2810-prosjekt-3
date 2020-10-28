@@ -38,11 +38,12 @@ const RuntimeList : React.FunctionComponent<FilterRangeProps> = ({filtertype} ) 
             <ListItem>  
                 <Slider
                     className="rangeSlider"
+                    color="secondary"
                     value={value}
                     max={480}
                     onChange={handleChange}
                     onChangeCommitted={handleChangeCommited}
-                    valueLabelDisplay="auto"
+                    valueLabelDisplay="on"
                     aria-labelledby="range-slider"
                     getAriaValueText={valuetext}
                 />

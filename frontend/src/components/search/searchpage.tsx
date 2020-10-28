@@ -77,7 +77,7 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
                 }
                 <div className="searchView">
                     <div className="searchPageHeader">
-                        <Button className="showFiltersButton" variant="outlined" color="primary"
+                        <Button className="showFiltersButton" variant="outlined" color="secondary"
                                 onClick={() => {this.setState({showFilters : !this.state.showFilters})}}>
                             {this.state.showFilters ? "Hide filters" : "Show filters"}
                         </Button>

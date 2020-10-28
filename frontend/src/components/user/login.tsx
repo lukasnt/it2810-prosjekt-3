@@ -1,17 +1,15 @@
 import { Button, Paper, TextField, Typography } from '@material-ui/core';
 import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './index.css';
 import { Redirect } from 'react-router-dom';
-import { User } from '../../redux/reducers/user';
-import { AppState } from '../../redux/store';
 import { postData } from '../../utils/ajax';
 import { setUser } from '../../redux/actions/users';
 
 const Login : React.FunctionComponent = () => {
     
-    const user : User | null = useSelector((state : AppState) => state.user);
+    //const user : User | null = useSelector((state : AppState) => state.user);
     const dispatch : Dispatch<any> = useDispatch();
     
     const [errorTxt, setErrorTxt] = useState("");
@@ -52,7 +50,7 @@ const Login : React.FunctionComponent = () => {
                 localStorage.setItem("user", JSON.stringify(data));
                 setErrorTxt("");
                 setRedirect(true);
-            }).catch(error => {});
+            }).catch(() => {});
     }
 
     return (
@@ -60,7 +58,7 @@ const Login : React.FunctionComponent = () => {
             <TextField required data-cy='login_email' id="lEmail" label="Email" variant="outlined"/>
             <TextField required data-cy='login_password' id="lPassword" type="password" label="Password" variant="outlined"/>
             <Button data-cy='login_button' variant="contained" color="primary" onClick={login}> Login </Button>
-            <Typography color="secondary"> {errorTxt} </Typography>
+            <Typography color="error"> {errorTxt} </Typography>
             {redirect ? <Redirect to="/" /> : null}
         </Paper>
     );
