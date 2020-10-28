@@ -20,7 +20,7 @@ const SearchBar : React.FunctionComponent = () => {
     }
 
     return (
-        <TextField className="movietitle-searchfield" defaultValue={searchParams.query} label="Search movie" onKeyPress={searchMovies}/>
+        <TextField className="searchField" defaultValue={searchParams.query} label="Search movie" onKeyPress={searchMovies}/>
     );
 };
 export default SearchBar;

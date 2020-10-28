@@ -2,10 +2,10 @@ import React from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-import "./index.css";
-import { SearchParams } from '../../redux/reducers/searchparams';
-import { AppState } from '../../redux/store';
-import { setOrderField } from '../../redux/actions/searchparams';
+import "../index.css";
+import { SearchParams } from '../../../redux/reducers/searchparams';
+import { AppState } from '../../../redux/store';
+import { setOrderField } from '../../../redux/actions/searchparams';
 
 interface OrderSelectProps {
     orderLabels: Array<string>;
@@ -31,10 +31,10 @@ const OrderSelect : React.FunctionComponent<OrderSelectProps> = ({ orderLabels, 
     function handleChange(event: React.ChangeEvent<{ value: any }>) : void {
         setValue(event.target.value as string);
         dispatch(setOrderField(event.target.value as string))
-    };
+    }
 
     return (
-        <FormControl className="orderSelect" variant="standard">
+        <FormControl className="orderSelect">
             <InputLabel id="order-label"> Order on </InputLabel>
             <Select
                 labelId="order-label"

@@ -5,7 +5,6 @@ import { Rating } from '@material-ui/lab';
 import FavoriteButton from "./favoritebutton";
 import { Movie } from '../../redux/reducers/searchresult';
 
-
 const MoviePage : React.FunctionComponent = () => {
 
     const [voteAverage, setVoteAverage] = useState('');
@@ -58,10 +57,9 @@ const MoviePage : React.FunctionComponent = () => {
             setVoteAverage(String(newVoteAverage));
             setVoteCount(String(newVoteCount));
 
-            // TODO: Save vote to database
+            // TD: Save vote to database
         }
     }
-
 
     return (
         <Grid container spacing={2} justify='center' alignItems='center' style={{width: '100%', minHeight: '95vh', backgroundImage: 'linear-gradient(to right, rgba(44,44,44,1) 15%, rgba(44,44,44,0.7)), url(' + movie.posterPath + ')', backgroundSize: 'cover', backgroundPositionY: '50%', margin: '0px'}}>
@@ -105,4 +103,3 @@ const MoviePage : React.FunctionComponent = () => {
 };
 
 export default MoviePage;
-        

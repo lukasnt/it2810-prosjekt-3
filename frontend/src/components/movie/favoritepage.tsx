@@ -13,8 +13,6 @@ const FavoritesPage : React.FunctionComponent = () => {
     const user : User | null = useSelector((state : AppState) => state.user);
     const dispatch : Dispatch<any> = useDispatch();
 
-    const [loading, setLoading] = useState(false);
-
     useEffect(() => {
         if (user) {
             fetch("http://localhost:8080/api/user/", {
@@ -31,7 +29,7 @@ const FavoritesPage : React.FunctionComponent = () => {
     }, []);
 
     return (
-        <div className="moviePage">
+        <div className="favoritePage">
             {user?.favorites.length == 0 ? (
                 <Typography variant="h6" style={{margin: "auto", marginTop: "20%"}}>No favorites added</Typography>
             ) : (

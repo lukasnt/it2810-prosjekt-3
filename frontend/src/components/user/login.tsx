@@ -51,9 +51,9 @@ const Login : React.FunctionComponent = () => {
 
     return (
         <Paper className="login">
-            <TextField required id="lEmail" label="Email" variant="outlined"/>
-            <TextField required id="lPassword" type="password" label="Password" variant="outlined"/>
-            <Button variant="contained" color="primary" onClick={login}> Login </Button>
+            <TextField required data-cy='login_email' id="lEmail" label="Email" variant="outlined"/>
+            <TextField required data-cy='login_password' id="lPassword" type="password" label="Password" variant="outlined"/>
+            <Button data-cy='login_button' variant="contained" color="primary" onClick={login}> Login </Button>
             <Typography color="secondary"> {errorTxt} </Typography>
             {redirect ? <Redirect to="/" /> : null}
         </Paper>

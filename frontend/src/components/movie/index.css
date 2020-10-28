@@ -1,49 +1,9 @@
-.moviePage {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
-.movieView {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.movieViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.favoritesViewHeader {
-    width: 95%;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .movieGrid {
     display: flex;
     width: 90%;
     min-width: 275px;
     flex-grow: 2;
     margin: 10px;
-}
-
-.filterList {
-    min-width: 200px;
-    flex-grow: 1;
-    margin: 10px;
-}
-
-.pager {
-    align-self: center;
-    margin: auto;
 }
 
 .movie-grid {
@@ -79,9 +39,16 @@
     text-overflow: ellipsis;
 }
 
+.favoritePage {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
 .favoriteButton {
     margin-top: 10px;
 }
+
 .link {
     text-decoration: none;
     color: white;

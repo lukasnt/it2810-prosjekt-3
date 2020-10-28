@@ -1,14 +1,14 @@
 import React from "react";
-import {Button, IconButton, Typography} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import {useDispatch, useSelector} from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
-import { Movie } from "../../redux/reducers/searchresult";
-import { AppState } from "../../redux/store";
-import { User } from "../../redux/reducers/user";
-import { postData } from "../../utils/ajax";
-import { addFavorite, removeFavorite } from "../../redux/actions/users";
+import {Dispatch} from "@reduxjs/toolkit";
+import {Movie} from "../../redux/reducers/searchresult";
+import {AppState} from "../../redux/store";
+import {User} from "../../redux/reducers/user";
+import {postData} from "../../utils/ajax";
+import {addFavorite, removeFavorite} from "../../redux/actions/users";
 
 export interface FavoriteButtonProps {
     movie : Movie;
@@ -21,14 +21,14 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
 
     function postFavorite() : void {
         postData("http://localhost:8080/api/user/favorite", { movie: movie }, user?.token)
-            .then(res => {
+            .then(() => {
                 dispatch(addFavorite(movie));
             });
     }
 
     function deleteFavorite() : void {
         postData("http://localhost:8080/api/user/favorite", { movie: movie }, user?.token, "DELETE")
-            .then(res => {
+            .then(() => {
                 dispatch(removeFavorite(movie));
             });
     }
@@ -38,20 +38,20 @@ const FavoriteButton : React.FunctionComponent<FavoriteButtonProps> = ({movie}) 
             {user != null && user.favorites != null ? (
 
                 (user.favorites.map(movie => movie.tconst).includes(movie.tconst)) ? (
-                    <IconButton onClick={deleteFavorite}>
+                    <Button data-cy='remove_favorite_button' onClick={deleteFavorite}>
                         <FavoriteIcon color="secondary" fontSize="large"/>
-                        <Typography style={{color: "white", marginLeft: '10px'}}> Remove favorite </Typography>
-                    </IconButton>
+                        <Typography variant="button" style={{color: "white", marginLeft: '10px'}}> Remove favorite </Typography>
+                    </Button>
                 ) : (
-                    <Button onClick={postFavorite}>
+                    <Button data-cy='add_favorite_button' onClick={postFavorite}>
                         <FavoriteBorderIcon color="secondary" fontSize="large"/>
-                        <Typography style={{ color: "white", marginLeft: '10px' }}> Add favorite </Typography>
+                        <Typography variant="button" style={{ color: "white", marginLeft: '10px'}}> Add favorite </Typography>
                     </Button>
                 )
             ) : (
                 <Button href="/login">
                     <FavoriteBorderIcon color="secondary" fontSize="large"/>
-                    <Typography style={{color: "white", marginLeft: '10px'}}> Add favorite </Typography>
+                    <Typography variant="button" style={{color: "white", marginLeft: '10px'}}> Add favorite </Typography>
                 </Button>
             )}
         </div>

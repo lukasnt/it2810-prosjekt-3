@@ -34,20 +34,20 @@ const Registration : React.FunctionComponent = () => {
           setErrorTxt("");
           setRedirect(true);
         }
-      }).catch(error => {});;
+      }).catch(() => {});
   }
 
   return (
-      <Paper className="registration">
-        <TextField required id="rEmail" label="Email" variant="outlined"/>
-        <TextField required id="rFirstName" label="First Name" variant="outlined"/>
-        <TextField required id="rLastName" label="Last Name" variant="outlined"/>
-        <TextField required id="rPassword" label="Password" variant="outlined" type="password"/>
-        <TextField required id="rConfirmPassword" label="Confirm Password" variant="outlined" type="password"/>
-        <Button variant="contained" color="primary" onClick={register}> Register </Button>
-        <Typography color="secondary"> {errorTxt} </Typography>
+    <Paper className="registration">
+      <TextField required data-cy='register_email' id="rEmail" label="Email" variant="outlined"/>
+      <TextField required data-cy='register_first_name' id="rFirstName" label="First Name" variant="outlined"/>
+      <TextField required data-cy='register_last_name' id="rLastName" label="Last Name" variant="outlined"/>
+      <TextField required data-cy='register_password' id="rPassword" label="Password" variant="outlined" type="password"/>
+      <TextField required data-cy='register_confirm_password' id="rConfirmPassword" label="Confirm Password" variant="outlined" type="password"/>
+      <Button data-cy='register_register' variant="contained" color="primary" onClick={register}> Register </Button>
+      <Typography color="secondary"> {errorTxt} </Typography>
         {redirect ? <Redirect to="/login" /> : null}
-      </Paper>
+    </Paper>
   );
 };
 

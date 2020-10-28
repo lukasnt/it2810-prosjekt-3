@@ -1,15 +1,15 @@
 import React from 'react';
-import FilterList from '../filters/filterlist';
+import GenreList from './filters/genreList';
 import MovieGrid from '../movie/moviegrid';
 import { connect } from 'react-redux';
-import OrderSelect from './orderselect';
+import OrderSelect from './order/orderselect';
 import './index.css';
-import { CircularProgress } from '@material-ui/core';
+import {Button, CircularProgress} from '@material-ui/core';
 import Pager from './pager';
-import FilterRange from '../filters/filterrange';
-import FilterSelect, { Language } from '../filters/filterselect';
+import RuntimeList from './filters/runtimeList';
+import LanguageList, { Language } from './filters/languageList';
 import tags, { Subtag } from "language-tags";
-import OrderDirSelect from './orderdirselect';
+import OrderDirSelect from './order/orderdirselect';
 import SearchBar from './searchbar';
 import { AppState } from '../../redux/store';
 import { executeSearch } from '../../utils/ajax';
@@ -21,9 +21,8 @@ interface SearchPageProps {
 }
 
 // Have chosen to make this a Class-component since then we can take use of the componentDidUpdate method
-class SearchPage extends React.Component<SearchPageProps> {  
+class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean}> {
 
-    /* Dummy data, to be given by props */
     filterType : string  = "Genre";
     filterValues : Array<string>  =["Action", "Adventure", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"];
     orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
@@ -33,6 +32,12 @@ class SearchPage extends React.Component<SearchPageProps> {
         const langSubtag : Subtag | null = tags.language(code);
         return {code: code, title: langSubtag == null ? "" : langSubtag.descriptions()[0]};
     });
+
+    constructor(props:SearchPageProps) {
+        super(props);
+        this.state = {showFilters: false}
+
+    }
 
     // executes search when component have mounted
     componentDidMount() : void {
@@ -57,25 +62,35 @@ class SearchPage extends React.Component<SearchPageProps> {
         let searchParams = this.props.appState.searchParams;
         let searchResult = this.props.appState.searchResult;
         return (
-        <div className="moviePage">
-            <FilterList filtertype={this.filterType} filters={this.filterValues}/>
-            <FilterList filtertype={"18+"} filters={["Enable"]}/>
-            <FilterRange filtertype={"Runtime Minutes"} />
-            <FilterSelect filtertype={"Language"} options={this.languageOptions}/>
-            <div className="movieView">
-                <div className="movieViewHeader"> 
-                    <SearchBar />
-                    <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
-                    <OrderDirSelect orderDir={searchParams.orderDir} />
-                </div> 
-                <Pager />
-                {searchParams.loading ? <CircularProgress size={250}/> : null}
-                <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
+            <div className="searchPage">
+                {this.state.showFilters &&
+                    <div className="filterContainer">
+                        <GenreList filtertype={this.filterType} filters={this.filterValues}/>
+                        <RuntimeList filtertype={"Runtime Minutes"}/>
+                        <LanguageList filtertype={"Language"} options={this.languageOptions}/>
+                        <div className="orderContainer">
+                            <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
+                            <OrderDirSelect orderDir={searchParams.orderDir} />
+                        </div>
+                    </div>
+                }
+                <div className="searchView">
+                    <div className="searchPageHeader">
+                        <Button className="showFiltersButton" variant="outlined" color="primary"
+                                onClick={() => {this.setState({showFilters : !this.state.showFilters})}}>
+                            {this.state.showFilters ? "Hide filters" : "Show filters"}
+                        </Button>
+                        <SearchBar />
+                    </div>
+                    <Pager />
+                    {searchParams.loading ? <CircularProgress size={250}/> : null}
+                    <MovieGrid data={ searchParams.loading ? [] : (searchResult?.movies != null ? searchResult.movies : [])}/>
+                    <Pager/>
+                </div>
             </div>
-        </div>
-    );
+        );
     }
-};
+}
 
 function mapStateToProps(state : AppState) : SearchPageProps {
     return { appState: state };

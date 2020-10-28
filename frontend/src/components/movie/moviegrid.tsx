@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieCard, { MovieCardProps } from './moviecard';
+import MovieCard from './moviecard';
 import { Grid } from '@material-ui/core';
 import { Movie } from '../../redux/reducers/searchresult';
 
@@ -36,4 +36,5 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
         </div>
     );
 };
+
 export default MovieGrid;
