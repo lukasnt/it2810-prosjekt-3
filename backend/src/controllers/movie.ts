@@ -3,6 +3,7 @@ import { findSingleMovie, searchMovies } from "../data/movie";
 
 const router : Router = express.Router();
 
+// Endpoint for a single movie
 router.get("/single/:tconst", (req : Request, res : Response) => {
     const tconst : string = req.params.tconst as string;
 
@@ -11,7 +12,9 @@ router.get("/single/:tconst", (req : Request, res : Response) => {
     })
 });
 
+// Endpoint for search
 router.get("/search", (req : Request, res : Response) => {
+    // Format all the query-params
     let query : string = req.query.query as string;
     let filters : Array<string> = req.query.filters == undefined ? [] : parseStringArray(req.query.filters as string);
     let language : string = req.query.language == undefined ? "" : req.query.language as string;
