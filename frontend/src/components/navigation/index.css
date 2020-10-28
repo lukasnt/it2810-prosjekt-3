@@ -1,26 +1,14 @@
-.navbar {
-    display: flex;
-    flex-wrap: nowrap;
+.navbar > div {
+    justify-content: space-evenly;
 }
 
-.menuButton {
-    margin-right: 8px;
-    display: inline-block;
-}
-
-.userOptions {
-    flex: 1;
-}
-/*
+.navbarRight {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-
- */
-
-.titleWide, .titleNarrow {
-    flex-grow: 1;
+    align-items: center;
 }
+
 .link {
     text-decoration: none;
     color: white;

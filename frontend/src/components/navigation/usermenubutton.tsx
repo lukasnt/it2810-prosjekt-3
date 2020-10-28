@@ -6,9 +6,9 @@ import {Menu} from "@material-ui/core";
 import {useSelector} from "react-redux";
 import {User} from "../../redux/reducers/user";
 import {AppState} from "../../redux/store";
-import Logout from "./logout";
+import Logout from "../user/logout";
 
-export default function UserMenuButton() {
+const UserMenuButton : React.FunctionComponent = () => {
 
     const user: User | null = useSelector((state: AppState) => state.user);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,16 +22,18 @@ export default function UserMenuButton() {
     };
 
     return (
-        <div className="menuButton">
+        <div className="userButton">
             <IconButton color="inherit" aria-controls="user-menu" aria-haspopup="true" onClick={handleClick}>
                 <AccountCircle/>
-                <Typography className="userName">
+                <Typography className="userName" noWrap>
                     {user?.firstName + " " + user?.lastName}
                 </Typography>
             </IconButton>
-        <Menu id="user-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-            <Logout />
-        </Menu>
+            <Menu id="user-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                <Logout />
+            </Menu>
         </div>
     )
-    }
+};
+
+export default UserMenuButton;
