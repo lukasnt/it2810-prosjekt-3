@@ -8,13 +8,15 @@ Installer pakkene lokalt ved følgende kommando i terminalen (både i /frontend 
 `npm install`
 
 ### 2. Backend
-Start backend først i /backend ved:
+Start backend i /backend ved:
 
 `npm run dev`
 
-(Husk at lagring av filer vil restarte serveren, og gjøre at f.eks innloggede brukere blir fjernet)
+(Husk å bruke NTNU VPN slik at backend kan koble seg opp mot databasen)
 
-(dersom du ønsker å ha den kompilerte JavaScript-builden se mer her)
+(Husk at lagring av filer vil restarte serveren, og gjøre at f.eks innloggede brukere blir utlogget i backend)
+
+(dersom du ønsker å ha den kompilerte JavaScript-builden se mer [her](https://gitlab.stud.idi.ntnu.no/it2810-h20/team-24/prosjekt-3/-/blob/14-write-documentation/backend/README.md))
 
 ### 3. Frontend
 Start deretter frontend i /frontend ved:
