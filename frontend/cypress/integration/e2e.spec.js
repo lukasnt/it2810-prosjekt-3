@@ -20,7 +20,7 @@ describe('End to end test', () => {
         cy.url().should('contain', '/login')
 
         // Test navigating to main page
-        cy.get('button').contains('Search movies').click()
+        cy.get('button').contains('Search').click()
         cy.url().should('not.contain', '/login')
     })
 
