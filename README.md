@@ -1,4 +1,7 @@
 # Prosjekt 3
+Vi har valgt å utvikle en webside der man kan søke på, filtrere, sortere og vise detaljert info om filmer. I tillegg har vi laget et innloggingssystem, slik at man kan lagre favorittfilmer. 
+
+For å ha et datagrunnlag vi kan bruke i databasen, har vi lastet ned IMDB sin dump med generell informasjon deres film og serie-innhold. Siden denne informasjonen var begrenset og uten bilder, har vi laget et script som bruker API-kall til TMDB for å legge til ytterligere informasjon, og slik at vi får filtrert vekk uønsket innhold. 
 
 ## React
 React med typescript er brukt i frontend, som har blitt satt opp med create-react-app.  
@@ -30,3 +33,14 @@ Vi har to overordende endepunkter: /movie og /user. Under /user har vi /register
 
 
 Backenden har dessuten implementert registrering og autentisering av brukere (ble gjort før vi visste at det ikke var krav). Dette er også lagt inn som middleware i Express applikasjonen og krever bare at man legger til requireAuth-funksjonen som argument i et endepunkt for å kunne bli brukt. Mesteparten av kode knyttet til autentisering er i /controllers/user.ts.
+
+
+## Testing
+### Unit og snapshot testing
+Det er skrevet 5 unit-tester med Jest. For at unit-testene for komponentene som bruker ajax ikke skal sende faktiske kall til backend, har vi mocket alle slike kall. Det testes blant annet for at verdiene til enkeltelementer tar verdien av mock dataene, og at fetch kalles korrekt antall ganger. Det er også skrevet et par snapshot tester, som gir oss mulighet til å oppdage uønskede endringer i renderingen. 
+
+### End to end testing
+Vi har valgt å bruke Cypress til å skrive end to end testene, da dette er godt dokumentert og virket enkelt å bruke. Det er skrevet 5 slike tester, der hver test er et eksempel på en brukerreise. Disse sjekker blant annet navigering på siden, registrering, innlogging, favorittinnhold og søk.
+
+### Device testing
+Vi testet at ting så bra ut og at funksjonaliteten var lik på flere forskjellige enheter. Vi testet bl.a. i Chrome der man kan teste i størrelsen til ulike enheter, men også på Motorola g6 plus og iPad Pro.
