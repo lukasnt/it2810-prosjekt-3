@@ -19,7 +19,7 @@ const MovieCard : React.FunctionComponent<MovieCardProps> = ({ tconst, title, im
         <Card className="movie-card">
             <CardActionArea>
                 <Link className="link" to={"/movie/" + tconst}> 
-                    <CardMedia className="movie-card-media"
+                    <CardMedia data-testid='media' className="movie-card-media"
                         image={imageUrl}
                         title={title}
                     />
@@ -27,7 +27,7 @@ const MovieCard : React.FunctionComponent<MovieCardProps> = ({ tconst, title, im
                         <Typography className="movie-card-title" gutterBottom variant="h5" color="textPrimary" component="h2">
                             {title}
                         </Typography>
-                        <Typography className="movie-card-text" variant="body2" color="textSecondary" component="p">
+                        <Typography data-testid='description' className="movie-card-text" variant="body2" color="textSecondary" component="p">
                             {description}
                         </Typography>
                     </CardContent>

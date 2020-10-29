@@ -32,7 +32,6 @@ const MoviePage : React.FunctionComponent = () => {
     });
 
     useEffect(() => {
-        console.log(params.tconst);
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
             .then(data => {
@@ -78,10 +77,10 @@ const MoviePage : React.FunctionComponent = () => {
             <Grid item xs={12} sm={7} md={9} style={{height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
                 <Card style={{backgroundColor: 'transparent', boxShadow: 'none', marginLeft: '5%', marginRight: '5%'}}>
                     <CardContent style={{color: 'white'}}>
-                        <Typography variant='h3'>
+                        <Typography data-testid='movietitle' variant='h3'>
                             {movie.primaryTitle + ' (' + movie.startYear + ')'}
                         </Typography>
-                        <Typography variant='subtitle1' style={{marginTop: '10px'}}>
+                        <Typography data-testid='genres' variant='subtitle1' style={{marginTop: '10px'}}>
                             {movie.genres + ' • ' + ((+movie.runtimeMinutes-(+movie.runtimeMinutes % 60)) / 60) + ' h ' + (+movie.runtimeMinutes % 60) + ' m'}
                         </Typography>
                         <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
@@ -91,7 +90,7 @@ const MoviePage : React.FunctionComponent = () => {
                             </Typography>
                         </div>
                         <FavoriteButton movie={movie}/>
-                        <Typography variant='h5' style={{marginTop: '20px'}}>
+                        <Typography data-testid='overview' variant='h5' style={{marginTop: '20px'}}>
                             Overview
                         </Typography>
                         <Typography variant='body2' style={{marginTop: '10px'}}>

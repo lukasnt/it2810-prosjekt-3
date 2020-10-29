@@ -103,8 +103,11 @@ describe('End to end test', () => {
         // Search for 'Deadpool'
         cy.get('label').contains('Search movie').parent().type('Deadpool{enter}')
 
+        // Make sure the deadpool movies has loaded
+        cy.contains('Deadpool 2')
+
         // Make sure a button contains the title and the movie id of deadpool
-        cy.get('button').contains('Deadpool').should('have.attr', 'href').and('include', '/movie/tt5463162')
+        cy.get('button').contains('Deadpool 2').should('have.attr', 'href').and('include', '/movie/tt5463162')
     })
 
 })
