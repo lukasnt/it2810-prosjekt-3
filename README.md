@@ -52,7 +52,7 @@ I implementasjon har vi ved unntak av tredjepartskomponentene brukt de ordinære
 Vi har valgt å bruke Redux til state management i React applikasjonen. Grunnen til at vi valgte Redux er at det er et populært og etablert bibliotek for state mangament og at det var noe vi ønsket å lære mer om.
 
 
-Måten vi bruker Redux på er at vi har 3 reducere: SearchParams, SearchResult og User. Dette er tilstand som vi ser på som globale fordi de går på tvers av flere komponenter og kreves på forskjellige nivåer av komponent-hierarkiet. SearchParams inneholder alle parameterne som skal sendes med til backend når det skal utføres søk. SearchResult er resultatet man får fra et søk (inkludere filmer og antall pager). User inneholder informasjon om brukeren som er logget inn, og inneholder også favoritt-filmene som er valgt.
+Måten vi bruker Redux på er at vi har 3 reducere: SearchParams, SearchResult og User. SearchParams inneholder alle parameterne som skal sendes med til backend når det skal utføres søk. SearchResult er resultatet man får fra et søk (inkluderer filmer og antall pager). User inneholder informasjon om brukeren som er logget inn, og inneholder også favoritt-filmene som er valgt. Dette er tilstand som vi ser på som globale fordi de går på tvers av flere komponenter og kreves på forskjellige nivåer av komponent-hierarkiet.
 
 
 Vi har sørget så godt som mulig for å følge de grunnleggende prinsippene bak Redux som blant annet å ha rene reducer-funksjoner (ingen side-effects). I tillegg til å sørge for at Actions er de eneste som kan endre Store.
