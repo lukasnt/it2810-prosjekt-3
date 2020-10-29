@@ -43,7 +43,10 @@ Vi har valgt å utvikle en webside der man kan søke på, filtrere, sortere og v
 For å ha et datagrunnlag vi kan bruke i databasen, har vi lastet ned IMDB sin dump med generell informasjon deres film og serie-innhold. Siden denne informasjonen var begrenset og uten bilder, har vi laget et script som bruker API-kall til TMDB for å legge til ytterligere informasjon, og slik at vi får filtrert vekk uønsket innhold. 
 
 ## React
-React med typescript er brukt i frontend, som har blitt satt opp med create-react-app.  
+React med typescript er brukt i frontend, som har blitt satt opp med create-react-app. Vi har lagt alle react komponenter i mappen components og ytterligere gruppert komponentene i undermapper etter hvilke kategorier de tilhører. Vi har gruppene movie, navigation, search og user. For eksempel har movie-mappen komponenter for moviepage, moviegrid, moviecard osv.
+
+
+I implementasjon har vi ved unntak av tredjepartskomponentene brukt de ordinære mekanismene i React som props og state med en hensiktsmessig komponentstruktur. Vi har så godt som mulig dekomponert komponentene slik at de er så enkle og leselig som mulig. Funksjoner og annen kode som ikke er selvforklarende er også kommentert.
 
 ## Redux
 Vi har valgt å bruke Redux til state management i React applikasjonen. Grunnen til at vi valgte Redux er at det er et populært og etablert bibliotek for state mangament og at det var noe vi ønsket å lære mer om.
