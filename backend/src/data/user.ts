@@ -19,6 +19,7 @@ export const UserSchema : Schema = new Schema({
 
 export interface UserDocument extends User, Document {};
 
+// This is the UserModel that is used to make queries
 export const UserModel = model<UserDocument>("user", UserSchema);
 
 export function addUser(user : User) : void {
@@ -53,6 +54,7 @@ export async function getAllUsers() : Promise<Array<User>> {
     });
 }
 
+// This is just used for testing
 // UserSchema.index({"$**": "text"}); // Only created once
 export async function searchUsers(query : string) : Promise<Array<User>> {
     return UserModel.find(

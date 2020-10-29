@@ -7,11 +7,20 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import SearchPage from './components/search/searchpage';
 import FavoritesPage from "./components/movie/favoritepage";
 import MoviePage from './components/movie/moviepage';
+import {MuiThemeProvider, createMuiTheme} from "@material-ui/core";
 
 
 function App() {
 
-  return (
+    const theme = createMuiTheme({
+        palette: {
+            primary : {main: '#00509D'},
+            secondary: {main: '#23CE6B'},
+            }
+        });
+
+    return (
+      <MuiThemeProvider theme={theme}>
           <BrowserRouter>
               <NavigationBar/>
               <Switch>
@@ -32,7 +41,8 @@ function App() {
                   </Route>
               </Switch>
           </BrowserRouter>
-  );
-}
+      </MuiThemeProvider>
+    );
+    }
 
 export default App;

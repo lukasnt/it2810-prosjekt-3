@@ -23,7 +23,7 @@ export type SearchResult = {
     pages : number;
 }
 
-//Reducer-funksjonen, initialiserer store med user
+//Reducer-funksjonen, initialiserer store med searchResult
 export function searchResultReducer(state : SearchResult | null = null, action: SearchResultActions) {
     switch (action.type) {
         case "SET_SEARCH_RESULT":

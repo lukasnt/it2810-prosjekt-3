@@ -5,15 +5,12 @@ import { Rating } from '@material-ui/lab';
 import FavoriteButton from "./favoritebutton";
 import { Movie } from '../../redux/reducers/searchresult';
 
-
 const MoviePage : React.FunctionComponent = () => {
 
-    const [voteAverage, setVoteAverage] = useState('');
-    const [voteCount, setVoteCount] = useState('');
-    const [myRating, setMyRating] = useState('');
-
+    // This is the parameters in the url, the movie-id (tconst) is used
     let params : any = useParams();
 
+    // Holds state of the movie that it gets from the backend
     const [movie, setMovie] = useState<Movie>({
         tconst: params.tconst,
         titleType: "",
@@ -31,6 +28,14 @@ const MoviePage : React.FunctionComponent = () => {
         overview: ""
     });
 
+    // Other states that is more convinient to have in single values
+    const [voteAverage, setVoteAverage] = useState('');
+    const [voteCount, setVoteCount] = useState('');
+    const [myRating, setMyRating] = useState('');
+
+    // When the component is mounted, it takes the id (tconst) from the url 
+    // and sends a request for that movie to the backend
+    // Then updates the state of the movie that it gets
     useEffect(() => {
         fetch('http://localhost:8080/api/movie/single/' + params.tconst)
             .then(res => res.json())
@@ -40,7 +45,7 @@ const MoviePage : React.FunctionComponent = () => {
                 setVoteAverage(data.voteAverage);
                 setMyRating('');
             })
-    }, []);
+    }, [params.tconst]);
 
     function saveUserRating(rating : number | null) : void {
         if (rating) {
@@ -57,10 +62,9 @@ const MoviePage : React.FunctionComponent = () => {
             setVoteAverage(String(newVoteAverage));
             setVoteCount(String(newVoteCount));
 
-            // TODO: Save vote to database
+            // TD: Save vote to database
         }
     }
-
 
     return (
         <Grid container spacing={2} justify='center' alignItems='center' style={{width: '100%', minHeight: '95vh', backgroundImage: 'linear-gradient(to right, rgba(44,44,44,1) 15%, rgba(44,44,44,0.7)), url(' + movie.posterPath + ')', backgroundSize: 'cover', backgroundPositionY: '50%', margin: '0px'}}>

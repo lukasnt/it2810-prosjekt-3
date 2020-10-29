@@ -1,16 +1,8 @@
-.registration {
+.registration, .login {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 70%;
+    max-width: 500px;
     padding: 20px;
     margin: 10px auto;
 }
-
-.login {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    padding: 20px;
-    margin: 10px auto;
-}
-

@@ -25,7 +25,13 @@ export async function postData(url = '', data = {}, token = "", method = "POST")
   });
 }
 
+// callID is a incremented value that is used to check if the recieved result is from the latest call
+// (so that it doesn't have to update the state multiple times if there were sent multiple calls (f.ex somone spamming some buttons))
 let callID : number = 0;
+
+// Here is the function that makes api call to backend for search
+// It takes the state of searchParams in redux and sends with the appropriate params in the call
+// Then it takes the result and sets the SearchResult state (which will be reflected in SearchPage)
 export async function executeSearch(state : SearchParams) : Promise<void> {
     if (!state.loading) store.dispatch(setLoading(true));
     callID++;
@@ -41,7 +47,7 @@ export async function executeSearch(state : SearchParams) : Promise<void> {
         "callID=" + callID)
         .then(res => res.json())
         .then(data => {
-            if (data.callID == callID) {
+            if (data.callID === callID) {
                 store.dispatch(setSearchResult(data.result));
                 store.dispatch(setLoading(false));
             }

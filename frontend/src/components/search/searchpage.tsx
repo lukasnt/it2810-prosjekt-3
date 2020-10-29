@@ -1,15 +1,15 @@
 import React from 'react';
-import FilterList from '../filters/filterlist';
+import GenreList from './filters/genreList';
 import MovieGrid from '../movie/moviegrid';
 import { connect } from 'react-redux';
-import OrderSelect from './orderselect';
+import OrderSelect from './order/orderselect';
 import './index.css';
-import {Box, Button, CircularProgress} from '@material-ui/core';
+import {Button, CircularProgress} from '@material-ui/core';
 import Pager from './pager';
-import FilterRange from '../filters/filterrange';
-import FilterSelect, { Language } from '../filters/filterselect';
+import RuntimeList from './filters/runtimeList';
+import LanguageList, { Language } from './filters/languageList';
 import tags, { Subtag } from "language-tags";
-import OrderDirSelect from './orderdirselect';
+import OrderDirSelect from './order/orderdirselect';
 import SearchBar from './searchbar';
 import { AppState } from '../../redux/store';
 import { executeSearch } from '../../utils/ajax';
@@ -27,11 +27,12 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
     filterValues : Array<string>  =["Action", "Adventure", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"];
     orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
     orderValues : Array<string>  = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
-    languageCodes : Array<string> = ["kk" ,"dv" ,"or" ,"ur" ,"it" ,"sd" ,"sa" ,"et" ,"ak" ,"se" ,"bi" ,"ss" ,"bm" ,"am" ,"lb" ,"sv" ,"hr" ,"lo" ,"nb" ,"bs" ,"mk" ,"gu" ,"hz" ,"mo" ,"cr" ,"iu" ,"yo" ,"pl" ,"ht" ,"id" ,"tl" ,"af" ,"wo" ,"ce" ,"fo" ,"sr" ,"th" ,"fr" ,"st" ,"nn" ,"ka" ,"rm" ,"pa" ,"en" ,"mt" ,"ko" ,"bn" ,"fa" ,"mi" ,"tg" ,"te" ,"sl" ,"uk" ,"xx" ,"be" ,"eo" ,"sw" ,"ca" ,"cs" ,"zu" ,"qu" ,"as" ,"ha" ,"sq" ,"gl" ,"az" ,"si" ,"km" ,"ba" ,"el" ,"aa" ,"sn" ,"ay" ,"ty" ,"yi" ,"so" ,"dz" ,"nl" ,"de" ,"ff" ,"fi" ,"lv" ,"tk" ,"ch" ,"kg" ,"sm" ,"la" ,"rw" ,"eu" ,"sh" ,"ne" ,"mr" ,"ta" ,"ln" ,"ru" ,"hu" ,"sk" ,"zh" ,"fy" ,"pt" ,"ja" ,"tr" ,"ml" ,"ab" ,"xh" ,"tt" ,"mn" ,"hi" ,"hy" ,"he" ,"lt" ,"ps" ,"gd" ,"da" ,"ar" ,"no" ,"ms" ,"kn" ,"ro" ,"bg" ,"ku" ,"ky" ,"my" ,"uz" ,"vi" ,"ug" ,"jv" ,"ga" ,"cy" ,"bo" ,"mg" ,"is" ,"mh" ,"cn" ,"es" ,"ti"];
+    languageCodes : Array<string> = ["kk" ,"dv" ,"or" ,"ur" ,"it" ,"sd" ,"sa" ,"et" ,"ak" ,"se" ,"bi" ,"ss" ,"bm" ,"am" ,"lb" ,"sv" ,"hr" ,"lo" ,"nb" ,"bs" ,"mk" ,"gu" ,"hz" ,"mo" ,"cr" ,"iu" ,"yo" ,"pl" ,"ht" ,"id" ,"tl" ,"af" ,"wo" ,"ce" ,"fo" ,"sr" ,"th" ,"fr" ,"st" ,"nn" ,"ka" ,"rm" ,"pa" ,"en" ,"mt" ,"ko" ,"bn" ,"fa" ,"mi" ,"tg" ,"te" ,"sl" ,"uk" ,"be" ,"eo" ,"sw" ,"ca" ,"cs" ,"zu" ,"qu" ,"as" ,"ha" ,"sq" ,"gl" ,"az" ,"si" ,"km" ,"ba" ,"el", "sn", "ay" ,"ty" ,"yi" ,"so" ,"dz" ,"nl" ,"de" ,"ff" ,"fi" ,"lv" ,"tk" ,"ch" ,"kg" ,"sm" ,"la" ,"rw" ,"eu" ,"sh" ,"ne" ,"mr" ,"ta" ,"ln" ,"ru" ,"hu" ,"sk" ,"zh" ,"fy" ,"pt" ,"ja" ,"tr" ,"ml" ,"ab" ,"xh" ,"tt" ,"mn" ,"hi" ,"hy" ,"he" ,"lt" ,"ps" ,"gd" ,"da" ,"ar" ,"no" ,"ms" ,"kn" ,"ro" ,"bg" ,"ku" ,"ky" ,"my" ,"uz" ,"vi" ,"ug" ,"jv" ,"ga" ,"cy" ,"bo" ,"mg" ,"is" ,"mh", "es" ,"ti"].sort();
     languageOptions : Array<Language> = this.languageCodes.map(code => {
         const langSubtag : Subtag | null = tags.language(code);
         return {code: code, title: langSubtag == null ? "" : langSubtag.descriptions()[0]};
     });
+    
 
     constructor(props:SearchPageProps) {
         super(props);
@@ -44,14 +45,15 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
         executeSearch(this.props.appState.searchParams);
     }
 
-    // Everytime the searchParams have updated (besides loading) it should execute a search
+    // Everytime the searchParams (in redux) have updated (besides loading) it should execute a search
+    // This is done by checking if the previous params and current params are not equal to each other
     componentDidUpdate(prevProps : SearchPageProps) : void {
         let prevParams = prevProps.appState.searchParams;
         let currentParams = this.props.appState.searchParams;
-        if (prevParams != currentParams && prevParams.loading == currentParams.loading) {
+        if (prevParams !== currentParams && prevParams.loading === currentParams.loading) {
 
             // If the page haven't been updated, that means it should be reset to 1.
-            if (prevParams.page == currentParams.page && currentParams.page != 1) 
+            if (prevParams.page === currentParams.page && currentParams.page !== 1) 
                 store.dispatch(setPage(1));
             else
                 executeSearch(currentParams);
@@ -64,23 +66,23 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
         return (
             <div className="searchPage">
                 {this.state.showFilters &&
-                    <Box className="filterContainer">
-                        <FilterList filtertype={this.filterType} filters={this.filterValues}/>
-                        <FilterRange filtertype={"Runtime Minutes"}/>
-                        <FilterSelect filtertype={"Language"} options={this.languageOptions}/>
-                        <div className="orderContainer">
-                            <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
-                            <OrderDirSelect orderDir={searchParams.orderDir} />
-                        </div>
-                    </Box>
+                    <div className="filterContainer">
+                        <GenreList filtertype={this.filterType} filters={this.filterValues}/>
+                        <RuntimeList filtertype={"Runtime Minutes"}/>
+                        <LanguageList filtertype={"Language"} options={this.languageOptions}/>
+                    </div>
                 }
-                <div className="movieView">
-                    <div className="movieViewHeader">
-                        <Button className="showFiltersButton" variant="outlined" color="primary"
+                <div className="searchView">
+                    <div className="searchPageHeader">
+                        <Button className="showFiltersButton" variant="outlined" color="secondary"
                                 onClick={() => {this.setState({showFilters : !this.state.showFilters})}}>
                             {this.state.showFilters ? "Hide filters" : "Show filters"}
                         </Button>
                         <SearchBar />
+                        <div className="orderContainer">
+                            <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
+                            <OrderDirSelect orderDir={searchParams.orderDir} />
+                        </div>
                     </div>
                     <Pager />
                     {searchParams.loading ? <CircularProgress size={250}/> : null}

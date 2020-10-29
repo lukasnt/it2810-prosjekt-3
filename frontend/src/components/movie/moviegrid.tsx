@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieCard, { MovieCardProps } from './moviecard';
+import MovieCard from './moviecard';
 import { Grid } from '@material-ui/core';
 import { Movie } from '../../redux/reducers/searchresult';
 
@@ -9,7 +9,8 @@ interface MovieGridProps {
 
 const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
 
-    function generateMovieCards() {
+    // Takes the the array of movies and returns an Array of Grid-items of MovieCards
+    function generateMovieCards() : JSX.Element[] {
         return data.map(card => 
             <Grid item key={card.tconst}> 
                 <MovieCard 
@@ -25,7 +26,7 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
     }
 
     return (
-        <div className="movieGrid">
+        <div className="movie-grid">
             <Grid container spacing={2}
                 direction="row"
                 alignItems="center"
@@ -36,4 +37,5 @@ const MovieGrid : React.FunctionComponent<MovieGridProps> = ({ data }) => {
         </div>
     );
 };
+
 export default MovieGrid;

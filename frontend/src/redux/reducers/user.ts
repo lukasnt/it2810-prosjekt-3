@@ -12,7 +12,7 @@ export type User = {
 
 //Reducer-funksjonen, initialiserer store med user
 export function userReducer(state : User | null = getUserFromLocalStorage(), action: UserActions) {
-    let newState : User | null = state != null ? { ...state } : null ;
+    let newState : User | null = state !== null ? { ...state } : null ;
 
     switch (action.type) {
         case "SET_USER":
@@ -22,10 +22,10 @@ export function userReducer(state : User | null = getUserFromLocalStorage(), act
             newState = null;
             break;
         case "ADD_FAVORITE":
-            if (newState != null) newState.favorites.push(action.payload);
+            if (newState !== null) newState.favorites.push(action.payload);
             break;
         case "REMOVE_FAVORITE":
-            if (newState != null) newState.favorites = newState.favorites.filter(movie => movie.tconst != action.payload.tconst);
+            if (newState !== null) newState.favorites = newState.favorites.filter(movie => movie.tconst !== action.payload.tconst);
             break;
         default:
             newState = state;
