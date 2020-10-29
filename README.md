@@ -1,4 +1,41 @@
 # Prosjekt 3
+
+## Hvordan kjøre og teste
+
+### 1. Installering
+Installer pakkene lokalt ved følgende kommando i terminalen (både i /frontend og i /backend):
+
+`npm install`
+
+### 2. Backend
+Start backend først i /backend ved:
+
+`npm run dev`
+
+(Husk at lagring av filer vil restarte serveren, og gjøre at f.eks innloggede brukere blir fjernet)
+
+(dersom du ønsker å ha den kompilerte JavaScript-builden se mer her)
+
+### 3. Frontend
+Start deretter frontend i /frontend ved:
+
+`npm start`
+
+(Husk at backend må fortsette å kjøre, så man må ha 2 terminaler oppe.)
+
+### 4. Testing
+Man kjører enhetstestene i /frontend ved:
+
+`npm run test`
+
+Man kjører end-to-end testene i /frontend ved:
+
+`npm run e2e`
+
+(Husk at frontend og backend må kjøre, altså man må ha 3 terminaler oppe)
+
+
+## Om siden
 Vi har valgt å utvikle en webside der man kan søke på, filtrere, sortere og vise detaljert info om filmer. I tillegg har vi laget et innloggingssystem, slik at man kan lagre favorittfilmer. 
 
 For å ha et datagrunnlag vi kan bruke i databasen, har vi lastet ned IMDB sin dump med generell informasjon deres film og serie-innhold. Siden denne informasjonen var begrenset og uten bilder, har vi laget et script som bruker API-kall til TMDB for å legge til ytterligere informasjon, og slik at vi får filtrert vekk uønsket innhold. 
@@ -15,9 +52,9 @@ Måten vi bruker Redux på er at vi har 3 reducere: SearchParams, SearchResult o
 
 Vi har sørget så godt som mulig for å følge de grunnleggende prinsippene bak Redux som blant annet å ha rene reducer-funksjoner (ingen side-effects). I tillegg til å sørge for at Actions er de eneste som kan endre Store.
 
-## Rest API, backend og MongoDB
+## REST API, backend og MongoDB
 
-Vi har valgt å bruke MongoDB som vår database. Vi valgte den fordi det er en svært populær databaseløsning som har god dokumentasjon, enkel å sette opp og er fleksibel å bruke. I vårt film-domene har vi to «collections», nemlig movie og user. For å enkelt kunne støtte søking på tekst har vi lagt inn en tekst-indeks på tittel feltene i movie-collection. Databasen er også satt opp på den virtuelle maskinen som gruppa har fått tildelt.
+Vi har valgt å bruke MongoDB som vår database. Dette fordi det er en svært populær databaseløsning som har god dokumentasjon, enkel å sette opp og er fleksibel å bruke. I vårt film-domene har vi to «collections», nemlig movie og user. For å enkelt kunne støtte søking på tekst har vi lagt inn en tekst-indeks på tittel feltene i movie-collection. Databasen er også satt opp på den virtuelle maskinen som gruppa har fått tildelt.
 
 
 Backend applikasjonen er satt opp til å bruke express.js med bruk av typescript i utviklingen. Her har vi brukt utviklingsverktøy som ts-node for å kunne kjøre typescript koden uten å eksplisitt måtte kompilere samt at vi har brukt nodemon til å kunne dynamisk oppdatere serveren ved lagring av relevante filer. Dessuten har vi satt opp kommandoer for å kunne kompilere (npm run build), kjøre den kompilerte javascript (npm start) og kjøre typescript under utvikling (npm run dev).
