@@ -30,7 +30,7 @@ const LanguageList : React.FunctionComponent<FilterSelectProps> = ({filtertype, 
 
     // Sets the default-language to the language that is in the searchParams global state (redux store)
     function getDefaultValue() : Language | null | undefined {
-        return searchParams.language == "" ? null : options.find(opt => opt.code == searchParams.language);
+        return searchParams.language === "" ? null : options.find(opt => opt.code === searchParams.language);
     }
 
     return (

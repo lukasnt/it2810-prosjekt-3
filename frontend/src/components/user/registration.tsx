@@ -30,7 +30,7 @@ const Registration : React.FunctionComponent = () => {
     // sends the post call
     postData("http://localhost:8080/api/user/register", data)
       .then(res => {
-        if (res.status == 403) {  // Forbidden (i.e wrong username/password)
+        if (res.status === 403) {  // Forbidden (i.e wrong username/password)
           console.log("Not Correct combination");
           setErrorTxt("Not Correct combination");
           throw Error(res.statusText);

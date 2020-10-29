@@ -47,7 +47,7 @@ export async function executeSearch(state : SearchParams) : Promise<void> {
         "callID=" + callID)
         .then(res => res.json())
         .then(data => {
-            if (data.callID == callID) {
+            if (data.callID === callID) {
                 store.dispatch(setSearchResult(data.result));
                 store.dispatch(setLoading(false));
             }

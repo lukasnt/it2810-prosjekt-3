@@ -27,11 +27,12 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
     filterValues : Array<string>  =["Action", "Adventure", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Horror", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"];
     orderLabels : Array<string>  = ["Relevance", "Title", "Release Year", "Runtime Minutes", "Vote Average", "Vote Count"];
     orderValues : Array<string>  = ["relevance", "primaryTitle", "startYear", "runtimeMinutes", "voteAverage", "voteCount"];
-    languageCodes : Array<string> = ["kk" ,"dv" ,"or" ,"ur" ,"it" ,"sd" ,"sa" ,"et" ,"ak" ,"se" ,"bi" ,"ss" ,"bm" ,"am" ,"lb" ,"sv" ,"hr" ,"lo" ,"nb" ,"bs" ,"mk" ,"gu" ,"hz" ,"mo" ,"cr" ,"iu" ,"yo" ,"pl" ,"ht" ,"id" ,"tl" ,"af" ,"wo" ,"ce" ,"fo" ,"sr" ,"th" ,"fr" ,"st" ,"nn" ,"ka" ,"rm" ,"pa" ,"en" ,"mt" ,"ko" ,"bn" ,"fa" ,"mi" ,"tg" ,"te" ,"sl" ,"uk" ,"xx" ,"be" ,"eo" ,"sw" ,"ca" ,"cs" ,"zu" ,"qu" ,"as" ,"ha" ,"sq" ,"gl" ,"az" ,"si" ,"km" ,"ba" ,"el" ,"aa" ,"sn" ,"ay" ,"ty" ,"yi" ,"so" ,"dz" ,"nl" ,"de" ,"ff" ,"fi" ,"lv" ,"tk" ,"ch" ,"kg" ,"sm" ,"la" ,"rw" ,"eu" ,"sh" ,"ne" ,"mr" ,"ta" ,"ln" ,"ru" ,"hu" ,"sk" ,"zh" ,"fy" ,"pt" ,"ja" ,"tr" ,"ml" ,"ab" ,"xh" ,"tt" ,"mn" ,"hi" ,"hy" ,"he" ,"lt" ,"ps" ,"gd" ,"da" ,"ar" ,"no" ,"ms" ,"kn" ,"ro" ,"bg" ,"ku" ,"ky" ,"my" ,"uz" ,"vi" ,"ug" ,"jv" ,"ga" ,"cy" ,"bo" ,"mg" ,"is" ,"mh" ,"cn" ,"es" ,"ti"];
+    languageCodes : Array<string> = ["kk" ,"dv" ,"or" ,"ur" ,"it" ,"sd" ,"sa" ,"et" ,"ak" ,"se" ,"bi" ,"ss" ,"bm" ,"am" ,"lb" ,"sv" ,"hr" ,"lo" ,"nb" ,"bs" ,"mk" ,"gu" ,"hz" ,"mo" ,"cr" ,"iu" ,"yo" ,"pl" ,"ht" ,"id" ,"tl" ,"af" ,"wo" ,"ce" ,"fo" ,"sr" ,"th" ,"fr" ,"st" ,"nn" ,"ka" ,"rm" ,"pa" ,"en" ,"mt" ,"ko" ,"bn" ,"fa" ,"mi" ,"tg" ,"te" ,"sl" ,"uk" ,"be" ,"eo" ,"sw" ,"ca" ,"cs" ,"zu" ,"qu" ,"as" ,"ha" ,"sq" ,"gl" ,"az" ,"si" ,"km" ,"ba" ,"el", "sn", "ay" ,"ty" ,"yi" ,"so" ,"dz" ,"nl" ,"de" ,"ff" ,"fi" ,"lv" ,"tk" ,"ch" ,"kg" ,"sm" ,"la" ,"rw" ,"eu" ,"sh" ,"ne" ,"mr" ,"ta" ,"ln" ,"ru" ,"hu" ,"sk" ,"zh" ,"fy" ,"pt" ,"ja" ,"tr" ,"ml" ,"ab" ,"xh" ,"tt" ,"mn" ,"hi" ,"hy" ,"he" ,"lt" ,"ps" ,"gd" ,"da" ,"ar" ,"no" ,"ms" ,"kn" ,"ro" ,"bg" ,"ku" ,"ky" ,"my" ,"uz" ,"vi" ,"ug" ,"jv" ,"ga" ,"cy" ,"bo" ,"mg" ,"is" ,"mh", "es" ,"ti"].sort();
     languageOptions : Array<Language> = this.languageCodes.map(code => {
         const langSubtag : Subtag | null = tags.language(code);
         return {code: code, title: langSubtag == null ? "" : langSubtag.descriptions()[0]};
     });
+    
 
     constructor(props:SearchPageProps) {
         super(props);
@@ -49,10 +50,10 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
     componentDidUpdate(prevProps : SearchPageProps) : void {
         let prevParams = prevProps.appState.searchParams;
         let currentParams = this.props.appState.searchParams;
-        if (prevParams != currentParams && prevParams.loading == currentParams.loading) {
+        if (prevParams !== currentParams && prevParams.loading === currentParams.loading) {
 
             // If the page haven't been updated, that means it should be reset to 1.
-            if (prevParams.page == currentParams.page && currentParams.page != 1) 
+            if (prevParams.page === currentParams.page && currentParams.page !== 1) 
                 store.dispatch(setPage(1));
             else
                 executeSearch(currentParams);
@@ -69,10 +70,6 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
                         <GenreList filtertype={this.filterType} filters={this.filterValues}/>
                         <RuntimeList filtertype={"Runtime Minutes"}/>
                         <LanguageList filtertype={"Language"} options={this.languageOptions}/>
-                        <div className="orderContainer">
-                            <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
-                            <OrderDirSelect orderDir={searchParams.orderDir} />
-                        </div>
                     </div>
                 }
                 <div className="searchView">
@@ -82,6 +79,10 @@ class SearchPage extends React.Component<SearchPageProps, {showFilters : boolean
                             {this.state.showFilters ? "Hide filters" : "Show filters"}
                         </Button>
                         <SearchBar />
+                        <div className="orderContainer">
+                            <OrderSelect orderValues={this.orderValues} orderLabels={this.orderLabels} defaultValue="voteCount"/>
+                            <OrderDirSelect orderDir={searchParams.orderDir} />
+                        </div>
                     </div>
                     <Pager />
                     {searchParams.loading ? <CircularProgress size={250}/> : null}

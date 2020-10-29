@@ -9,7 +9,7 @@ router.post("/register", (req : Request, res : Response, next : NextFunction) =>
     const { email, firstName, lastName, password, confirmPassword } = req.body;
 
     // Check if the password and confirm password fields match
-    if (password === confirmPassword) {
+    if (password === confirmPassword && password !== "") {
 
         // Check if user with the same email is also registered
         

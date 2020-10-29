@@ -28,11 +28,11 @@ const FavoritesPage : React.FunctionComponent = () => {
                 localStorage.setItem("user", JSON.stringify(data));
             })
         }
-    }, []);
+    }, [dispatch, user]);
 
     return (
         <div className="favorite-page">
-            {user?.favorites.length == 0 ? (
+            {user?.favorites.length === 0 ? (
                 <Typography variant="h6" style={{margin: "auto", marginTop: "20%"}}>No favorites added</Typography>
             ) : (
                 <MovieGrid data={user == null ? [] : user.favorites}/>

@@ -16,7 +16,7 @@ const RuntimeList : React.FunctionComponent<FilterRangeProps> = ({filtertype} ) 
     const dispatch : Dispatch<any> = useDispatch();
     
     // A two-valued array for runtimeMinutes filter: [minValue, maxValue]. Default set to the value in searchParams in redux
-    const [value, setValue] = React.useState<number[]>(searchParams.runtimeMinutes.length == 0 ? [0, 480] : searchParams.runtimeMinutes);
+    const [value, setValue] = React.useState<number[]>(searchParams.runtimeMinutes.length === 0 ? [0, 480] : searchParams.runtimeMinutes);
     
     // How text is displayed on slider
     function valuetext(value: number) : string {

@@ -45,7 +45,7 @@ const MoviePage : React.FunctionComponent = () => {
                 setVoteAverage(data.voteAverage);
                 setMyRating('');
             })
-    }, []);
+    }, [params.tconst]);
 
     function saveUserRating(rating : number | null) : void {
         if (rating) {

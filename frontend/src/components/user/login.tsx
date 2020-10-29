@@ -30,7 +30,7 @@ const Login : React.FunctionComponent = () => {
         postData("http://localhost:8080/api/user/login", data)
             .then(res => {
                 // If it couldn't log in error is thrown
-                if (res.status == 403) {  // Forbidden (i.e wrong username/password)
+                if (res.status === 403) {  // Forbidden (i.e wrong username/password)
                     console.log("Not Correct username and password combination");
                     setErrorTxt("Not Correct username and password combination");
                     throw Error(res.statusText);

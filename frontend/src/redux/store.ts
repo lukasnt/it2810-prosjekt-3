@@ -1,5 +1,5 @@
 import { createStore, combineReducers, Store } from "redux";
-import { Movie, SearchResult, searchResultReducer } from "./reducers/searchresult";
+import { SearchResult, searchResultReducer } from "./reducers/searchresult";
 import { SearchParams, searchParamsReducer } from "./reducers/searchparams";
 import { User, userReducer } from "./reducers/user";
 
