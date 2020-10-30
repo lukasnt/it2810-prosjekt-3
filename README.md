@@ -64,6 +64,8 @@ Brukergrensesnittet vårt er i stor grad bygget på tredjepartskomponenter fra M
 
 Andre fordeler er ikon-biblioteket vi har benyttet oss av, og det innebygde pallette-objektet som blant annet angir primary, secondary, error og andre farger. Man kan angi farger indirekte med disse navnene, som kan overstyres slik vi har gjort i App.tsx. Vi har også prøvd ut noen av MUI-bibliotekets løsninger for responsivt design, som Grid og Hidden i moviePage-komponenten og en useMediaQuery-hook i navbar, som gir en boolsk verdi tilsvarende et breakpoint.
 
+
+
 ## REST API, Backend og MongoDB
 
 ### MongoDB
@@ -92,3 +94,7 @@ Vi har valgt å bruke Cypress til å skrive end to end testene, da dette er godt
 
 ### Device testing
 Vi testet at ting så bra ut og at funksjonaliteten var lik på flere forskjellige enheter. Vi testet bl.a. i Chrome der man kan teste i størrelsen til ulike enheter, men også på Motorola g6 plus og iPad Pro.
+
+
+## Andre Opplysninger
+De warningene man får i konsollet i nettleseren kommer av at Material UI bruker React funksjonalitet som er depricated. Dette er ikke noe vi kan gjøre noe med, og er et problem med Material UI.
